@@ -29,8 +29,8 @@ public class UserRepository {
     }
 
     // to add user to database
-    public void create(User user){
-        userDB.add(user);
+    public boolean create(User user){
+        return userDB.add(user);
     }
 
     // finds user object based on userID
@@ -49,8 +49,9 @@ public class UserRepository {
         if(oldUser != null){
             userDB.remove(oldUser);
             userDB.add(newUser);
+            return newUser;
         }
-        return newUser;
+        return null;
     }
 
     // deletes user object based on userID

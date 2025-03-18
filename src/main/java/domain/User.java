@@ -11,7 +11,8 @@ import java.util.Set;
 
 public class User {
 
-    private String userID, name, age, contactNumber, email;
+    private String userID, name, contactNumber, email;
+    private int age;
     private Set<Vehicle> vehicles;
     private Set<Reservation> reservations;
 
@@ -19,7 +20,7 @@ public class User {
 
     }
 
-    public User(String userID, String name, String age,
+    public User(String userID, String name, int age,
                 String contactNumber, String email,
                 Set<Vehicle> vehicles, Set<Reservation> reservations) {
         this.userID = userID;
@@ -39,7 +40,7 @@ public class User {
         return name;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
@@ -73,7 +74,8 @@ public class User {
     }
 
     public static class Builder{
-        private String userID, name, age, contactNumber, email;
+        private String userID, name, contactNumber, email;
+        private int age;
         private Set<Vehicle> vehicles;
         private Set<Reservation> reservations;
 
@@ -87,7 +89,7 @@ public class User {
             return this;
         }
 
-        public Builder setAge(String age) {
+        public Builder setAge(int age) {
             this.age = age;
             return this;
         }
