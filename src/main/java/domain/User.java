@@ -1,19 +1,19 @@
 package domain;
 
 /*
-domain.User.
+domain.User
 User entity class
 Author: Sean Joel Bailey (230645682)
 Date: 17/03/2025
  */
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class User {
 
     private String userID, name, age, contactNumber, email;
-    private HashSet<Vehicle> vehicles;
-    private HashSet<Reservation> reservations;
+    private Set<Vehicle> vehicles;
+    private Set<Reservation> reservations;
 
     public User(){
 
@@ -21,7 +21,7 @@ public class User {
 
     public User(String userID, String name, String age,
                 String contactNumber, String email,
-                HashSet<Vehicle> vehicles, HashSet<Reservation> reservations) {
+                Set<Vehicle> vehicles, Set<Reservation> reservations) {
         this.userID = userID;
         this.name = name;
         this.age = age;
@@ -51,18 +51,31 @@ public class User {
         return email;
     }
 
-    public HashSet<Vehicle> getVehicles() {
+    public Set<Vehicle> getVehicles() {
         return vehicles;
     }
 
-    public HashSet<Reservation> getReservations() {
+    public Set<Reservation> getReservations() {
         return reservations;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID='" + userID + '\'' +
+                ", name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", vehicles=" + vehicles +
+                ", reservations=" + reservations +
+                '}';
     }
 
     public static class Builder{
         private String userID, name, age, contactNumber, email;
-        private HashSet<Vehicle> vehicles;
-        private HashSet<Reservation> reservations;
+        private Set<Vehicle> vehicles;
+        private Set<Reservation> reservations;
 
         public Builder setUserID(String userID) {
             this.userID = userID;
@@ -89,12 +102,12 @@ public class User {
             return this;
         }
 
-        public Builder setVehicles(HashSet<Vehicle> vehicles) {
+        public Builder setVehicles(Set<Vehicle> vehicles) {
             this.vehicles = vehicles;
             return this;
         }
 
-        public Builder setReservations(HashSet<Reservation> reservations) {
+        public Builder setReservations(Set<Reservation> reservations) {
             this.reservations = reservations;
             return this;
         }

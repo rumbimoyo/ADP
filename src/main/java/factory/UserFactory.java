@@ -1,7 +1,7 @@
 package factory;
 
 /*
-Factory.UserFactory
+factory.userFactory
 User Factory class
 Author: Sean Joel Bailey (230645682)
 Date: 17/03/2025
@@ -11,14 +11,14 @@ import domain.User;
 import domain.Vehicle;
 import domain.Reservation;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class UserFactory {
 
     // creates user object with all attributes
     public static User createUser(String userID, String name, String age,
                                   String contactNumber, String email,
-                                  HashSet<Vehicle> vehicles, HashSet<Reservation> reservations){
+                                  Set<Vehicle> vehicles, Set<Reservation> reservations){
 
         return new User.Builder()
                 .setUserID(userID)
@@ -34,7 +34,7 @@ public class UserFactory {
 
     // creates a user without reservations
     public static User createUser(String userID, String name, String age,
-                                  String contactNumber, HashSet<Vehicle> vehicles, String email){
+                                  String contactNumber, Set<Vehicle> vehicles, String email){
 
         return new User.Builder()
                 .setUserID(userID)
@@ -50,7 +50,7 @@ public class UserFactory {
     // creates user object without vehicles
     public static User createUser(String userID, String name, String age,
                                   String contactNumber, String email,
-                                  HashSet<Reservation> reservations){
+                                  Set<Reservation> reservations){
 
         return new User.Builder()
                 .setUserID(userID)
@@ -66,7 +66,7 @@ public class UserFactory {
     // creates user object without contactNumber
     public static User createUser(String userID, String name, String age,
                                   String email,
-                                  HashSet<Vehicle> vehicles, HashSet<Reservation> reservations){
+                                  Set<Vehicle> vehicles, Set<Reservation> reservations){
 
         return new User.Builder()
                 .setUserID(userID)
@@ -78,7 +78,5 @@ public class UserFactory {
                 .build();
 
     }
-
-
 
 }

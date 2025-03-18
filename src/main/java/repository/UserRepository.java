@@ -1,16 +1,24 @@
 package repository;
 
+/*
+repository.userRepository
+User Repository class
+Author: Sean Joel Bailey (230645682)
+Date: 17/03/2025
+ */
+
 import domain.User;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class UserRepository {
 
     private static UserRepository instance;
-    private HashSet<User> userDB;
+    private Set<User> userDB;
 
     public UserRepository(){
-        userDB = new HashSet<>();
+        userDB = new HashSet<User>();
     }
 
     public static synchronized UserRepository getInstance(){
@@ -53,7 +61,7 @@ public class UserRepository {
         }
     }
 
-    public HashSet<User> getAll(){
+    public Set<User> getAll(){
         return userDB;
     }
 
