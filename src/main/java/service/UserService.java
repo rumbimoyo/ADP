@@ -10,6 +10,7 @@ Date: 18/03/2025
 import domain.*;
 import repository.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class UserService {
@@ -29,81 +30,145 @@ public class UserService {
         return urepo.read(userID);
     }
 
+    // finds users associated with vehicle
+//    public Set<User> findVehicleUsers(Vehicle vehicle){return vehicle.getUsers();};
+
     // editing user profile
     public User editUser(User user){
         return urepo.update(user);
     }
 
-    // reservation for user
-    public void makeReservationUser(User user, Reservation reservation){
-        user.getReservations().add(reservation); // add reservation to reservation hashset
-        urepo.update(user); // updates user object
-//        rrepo.add(reservation);
+    public void deleteProfile(String userID){urepo.delete(userID);};
+
+    public void addReservation(Reservation reservation){
+
+//        User user;
+//        Vehicle vehicle;
+//
+//        // reservation for vehicle and user
+//        if(reservation.getUser() != null && reservation.getVehicle !=null){
+//
+//            String userID = reservation.getUser().getID();
+//            user = urepo.read(userID);
+//            user.getReservations().add(reservation);
+//
+//            String licencePlate = reservation.getVehicle().getLicencePlate();
+//            vehicle = vrepo.read(licencePlate);
+//            vehicle.getReservations().add(reservation);
+//
+//            urepo.update(user);
+//            vrepo.update(vehicle);
+//            rrepo.update(reservation);
+//
+//        }
+//
+//        // reservation for user
+//        else if (reservation.getUser() != null) {
+//
+//            String userID = reservation.getUser().getID();
+//            user = urepo.read(userID);
+//            user.getReservations().add(reservation);
+//
+//            urepo.update(user);
+//            rrepo.update(reservation);
+//
+//        }
+//
+//        // reservation for vehicle
+//        else if(reservation.getVehicle() != null){
+//
+//            String licencePlate = reservation.getVehicle().getLicencePlate();
+//            vehicle = vrepo.read(licencePlate);
+//            vehicle.getReservations().add(reservation);
+//
+//            vrepo.update(vehicle);
+//            rrepo.update(reservation);
+//
+//        }
+
     }
 
-    // reservation for Vehicle
-//    public void makeReservationVehicle(User user, Reservation reservation){
-//        Set<Vehicle> vehicles = user.getVehicles();
-//        vehicles.getReservations().add(reservation); // add reservation to reservation hashset
-//        urepo.update(user); // updates user object
-//        rrepo.add(reservation);
-//    }
-
-    // reservation for vehicle and user
-    public void makeReservationBoth(User user, Reservation reservation){
-        user.getReservations().add(reservation); // add reservation to reservation hashset
-//        vehicle.getReservations().add(reservation);
-        urepo.update(user); // updates user object
-//        vrepo.update(vehicle);
-//        rrepo.add(reservation);
-    }
-
-
-    // reservations for user
-    public Set<Reservation> viewReservationsUser(User user){
+    // view user specific reservation
+    public Set<Reservation> viewUserReservations(User user){
         return user.getReservations();
     }
 
-    // reservations for vehicle
-//    public Set<Reservation> viewReservationsVehicle(User user){
-//        return user.getVehicles().getReservations();
-//    }
+     // view vehicle specific reservation
+//    public Set<Reservation> viewVehicleReservations(Vehicle vehicle){return vehicle.getReservations();}
 
-    // reservations for Both user and vehicle
-//    public Set<Reservation> viewReservationsBoth(User user){
-//        return user.getReservations() + user.getVehicles().getReservations();
-//    }
+    // view reservation for both vehicle and user
+//    public Set<Reservation> viewAllReservations(User user){return user.getReservations() + user.getVehicles().getReservations();}
 
-//    public void editReservation(User user, Reservation newReservation){
-//        Set<Reservation> reservations = user.getReservations();
-//        for(Reservation oldReservation: reservations) {
-//            if (oldReservation.getReservationID().equals(newReservation.getReservationID())) {
-//                reservations.remove(oldReservation);
-//                reservations.add(newReservation);
-//                rrepo.update(newReservation);
-//            }
+    public void editReservation(Reservation reservation){
+
+//        User user;
+//        Vehicle vehicle;
+//        Reservation oldReservation = rrepo.read(reservation.getReservationID());
+//
+//        // reservation for vehicle and user
+//        if(reservation.getUser() != null && reservation.getVehicle !=null){
+//
+//            String userID = reservation.getUser().getID();
+//            user = urepo.read(userID);
+//            user.getReservations().remove(oldReservation);
+//            user.getReservations().add(reservation);
+//
+//            String licencePlate = reservation.getVehicle().getLicencePlate();
+//            vehicle = vrepo.read(licencePlate);
+//            vehicle.getReservations().remove(oldReservation);
+//            vehicle.getReservations().add(reservation);
+//
+//            urepo.update(user);
+//            vrepo.update(vehicle);
+//            rrepo.update(reservation);
+//
 //        }
-//    }
+//
+//        // reservation for user
+//        else if (reservation.getUser() != null) {
+//
+//            String userID = reservation.getUser().getID();
+//            user = urepo.read(userID);
+//            user.getReservations().remove(oldReservation);
+//            user.getReservations().add(reservation);
+//
+//            urepo.update(user);
+//            rrepo.update(reservation);
+//        }
+//
+//        // reservation for vehicle
+//        else if(reservation.getVehicle() != null){
+//
+//            String licencePlate = reservation.getVehicle().getLicencePlate();
+//            vehicle = vrepo.read(licencePlate);
+//            vehicle.getReservations().add(reservation);
+//
+//            vrepo.update(vehicle);
+//            rrepo.update(reservation);
+//
+//        }
 
-    // to add vehicles to user profile
-    public void addVehicles(User user, Vehicle vehicle){
-        user.getVehicles().add(vehicle);
     }
 
     public Set<Vehicle> viewVehicles(User user){
         return user.getVehicles();
     }
 
-//    public void editVehicles(User user, Vehicle newVehicle){
-//        Set<Vehicle> vehicles = user.getVehicles();
-//        for(Vehicle oldVehicles: vehicles) {
-//            if (oldVehicles.getReservationID().equals(newVehicle.getReservationID())) {
-//                reservations.remove(oldVehicles);
-//                reservations.add(newVehicle);
-//                vrepo.update(newVehicle);
-//            }
+    public void editVehicle(Vehicle newVehicle){
+//        // updates vehicle in repository
+//        vrepo.update(newVehicle);
+//
+//        // to replace the old user vehicle with new vehicle
+//        Vehicle oldVehicle = vrepo.read(newVehicle.getLicencePlate()); // finds old vehicle
+//        Set<User> vehicleUsers = oldVehicle.getUsers(); // gets users that have old vehicle registered
+//        for(User user: vehicleUsers){
+//            Set<Vehicle> vec = user.getVehicles();
+//            vec.remove(oldVehicle);
+//            vec.add(newVehicle);
+//            urepo.update(user);
 //        }
-//    }
+
+    }
 
 //    public Set<Ticket> viewTickets(User user){
 //        return user.getVehicles().getTickets();
