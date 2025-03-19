@@ -7,14 +7,15 @@ Author: Sean Joel Bailey (230645682)
 Date: 17/03/2025
  */
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class User {
 
     private String userID, name, contactNumber, email;
     private int age;
-    private Set<Vehicle> vehicles;
-    private Set<Reservation> reservations;
+    private Set<Vehicle> vehicles = new HashSet<>();
+    private Set<Reservation> reservations = new HashSet<>();
 
     public User(){
 
@@ -76,8 +77,8 @@ public class User {
     public static class Builder{
         private String userID, name, contactNumber, email;
         private int age;
-        private Set<Vehicle> vehicles;
-        private Set<Reservation> reservations;
+        private Set<Vehicle> vehicles = new HashSet<>();
+        private Set<Reservation> reservations = new HashSet<>();
 
         public Builder setUserID(String userID) {
             this.userID = userID;
