@@ -7,6 +7,8 @@ Author: Sean Joel Bailey (230645682)
 Date: 19/03/2025
  */
 
+import domain.ParkingLot;
+import domain.ParkingSpot;
 import domain.Reservation;
 import domain.Vehicle;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -36,5 +38,38 @@ public class Helper {
         EmailValidator validator = EmailValidator.getInstance();
         return validator.isValid(email);
     }
+    public static Boolean isNullOrEmpty(String attribute) {
+        return attribute == null || attribute.trim().isEmpty();
+    }
 
+
+    public static Boolean isNullOrZero(Integer number) {
+        return number == null || number == 0;
+    }
+
+
+    public static Boolean isNullOrEmpty(ParkingLot parkingLot) {
+        return parkingLot == null;
+    }
+
+
+    public static Boolean isValidStatus(String status) {
+        return status != null && (
+                status.equalsIgnoreCase("open") ||
+                        status.equalsIgnoreCase("reserved") ||
+                        status.equalsIgnoreCase("occupied"));
+    }
+
+
+    public static Boolean isValidType(String type) {
+        return type != null && (type.equalsIgnoreCase("compact") ||
+                type.equalsIgnoreCase("disabled"));
+    }
+
+
+    public static Boolean isNullOrEmptySet(Set<?> set) {
+        return set == null || set.isEmpty();
+    }
 }
+
+
