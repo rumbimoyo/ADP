@@ -186,8 +186,8 @@ public class UserFactory {
     }
 
     // no contact number and reservation
-    public static User createUser(String userID, String name, int age,
-                                  Set<Vehicle> vehicles,  String email){
+    public static User createUser(String userID, String name, String age,
+                                  String vehicles, String email){
 
         if(!Helper.isValidEmail(email)){
             return null; // if email is invalid
