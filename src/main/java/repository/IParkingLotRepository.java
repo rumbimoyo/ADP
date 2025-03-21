@@ -20,5 +20,5 @@ public interface IParkingLotRepository {
 
     void update(ParkingLot parkingLot);
 
-    Set<ParkingLot> findAll();
+    Set<ParkingLot> getAll();
 }

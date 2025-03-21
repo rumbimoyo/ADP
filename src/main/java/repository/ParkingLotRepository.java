@@ -52,7 +52,7 @@ public class ParkingLotRepository implements IParkingLotRepository {
     }
 
     @Override
-    public Set<ParkingLot> findAll() {
+    public Set<ParkingLot> getAll() {
         return parkingLotDatabase;
     }
 }

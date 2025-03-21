@@ -48,6 +48,6 @@ public class ParkingLotService {
 
     // Get all parking lots
     public Set<ParkingLot> getAllParkingLots() {
-        return parkingLotRepository.findAll();
+        return parkingLotRepository.getAll();
     }
 }
