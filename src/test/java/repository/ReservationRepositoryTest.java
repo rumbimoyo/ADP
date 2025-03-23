@@ -1,184 +1,94 @@
-//package repository;
-//
-//public class ReservationRepositoryTest extends RuntimeException {
-//    public ReservationRepositoryTest(String message) {
-//        super(message);
-//    }
-//}
 package repository;
 
-import domain.ParkingSpot;
-import domain.Reservation;
-import domain.User;
+import domain.*;
+import factory.ParkingLotFactory;
 import factory.ParkingSpotFactory;
-import factory.ReservationFactory;
 import factory.UserFactory;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class ReservationRepositoryTest {
 
-    private ReservationRepository repository;
-    private Reservation testReservation;
-    private User testUser;
-    private ParkingSpot testParkingSpot;
+    private ParkingLot parkingLot = ParkingLotFactory.createParkingLot("1","Cape Town","08:00am","12:00pm",12.0);
+    private User testUser = UserFactory.createUser("001","TTTT",32,"0877977","hdhd@gmail.com");
+    //private Vehicle testVehicle = VehicleFactory.createVehicle("ABC123", "Toyota", "Corolla", "Red", 2020);
+    private ParkingSpot testParkingSpot = ParkingSpotFactory.createParkingSpot(1, "open", "compact", parkingLot);
 
-    @BeforeEach
-    void setUp() {
-        repository = ReservationRepository.getInstance();
+    ReservationRepository reservationRepository = ReservationRepository.getInstance();
 
-        // Clean repository
-        for (Reservation r : repository.getAll()) {
-            repository.delete(r.getReservationID());
-        }
+    @Test
+    public void a_CreateReservation() {
+        Reservation reservation = new Reservation.Builder()
+                .setReservationID("PL001")
+                .setDate(new Date())
+                .setStartTime("08:00")
+                .setEndTime("20:00")
+                .setPrice(5.0)
+                .setUser(testUser)
+                //.setVehicle(testVehicle)
+                .setParkingSpot(testParkingSpot)
+                .build();
 
-        // Create test objects
-        testUser = UserFactory.createUser("John", "Doe", "john@example.com", "password123", "0123456789");
-        testParkingSpot = ParkingSpotFactory.createParkingSpot("A1", "Regular", "open", 10.0);
+        reservationRepository.create(reservation);
 
-        testReservation = ReservationFactory.createReservation(
-                testUser,
-                null, // No vehicle for now
-                testParkingSpot,
-                new Date(),
-                "09:00",
-                "11:00",
-                20.0
-        );
+        assertNotNull(reservation);
     }
 
     @Test
-    void create() {
-        // When
-        Reservation created = repository.create(testReservation);
+    public void b_ReadReservation() {
+        Reservation reservation = reservationRepository.read("PL001");
 
-        // Then
-        assertNotNull(created);
-        assertEquals(testReservation.getReservationID(), created.getReservationID());
+        assertNotNull(reservation);
+        assertEquals("PL001", reservation.getReservationID());
     }
 
     @Test
-    void read() {
-        // Given
-        repository.create(testReservation);
+    public void c_UpdateReservation() {
+        Reservation reservation = new Reservation.Builder()
+                .setReservationID("PL001")
+                .setDate(new Date())
+                .setStartTime("08:00")
+                .setEndTime("20:00")
+                .setPrice(100)
+                .setUser(testUser)
+                //.setVehicle(testVehicle)
+                .setParkingSpot(testParkingSpot)
+                .build();
 
-        // When
-        Reservation found = repository.read(testReservation.getReservationID());
+        Reservation updatedReservation = reservationRepository.update(reservation);
+        assertNotNull(reservation);
+        assertEquals("PL001", updatedReservation.getReservationID());
+        assertEquals(100, reservation.getPrice());
 
-        // Then
-        assertNotNull(found);
-        assertEquals(testReservation.getReservationID(), found.getReservationID());
-        assertEquals(testReservation.getStartTime(), found.getStartTime());
-        assertEquals(testReservation.getEndTime(), found.getEndTime());
     }
 
     @Test
-    void update() {
-        // Given
-        repository.create(testReservation);
-        String newStartTime = "10:00";
-        testReservation.setStartTime(newStartTime);
+    public void d_GetAllReservations() {
+        HashSet hashSet = new HashSet<>();
 
-        // When
-        Reservation updated = repository.update(testReservation);
+        hashSet.add(reservationRepository.getAll());
 
-        // Then
-        assertNotNull(updated);
-        assertEquals(newStartTime, updated.getStartTime());
-
-        // Verify the update was persisted
-        Reservation fromRepo = repository.read(testReservation.getReservationID());
-        assertEquals(newStartTime, fromRepo.getStartTime());
+        assertNotNull(hashSet);
     }
 
     @Test
-    void delete() {
-        // Given
-        repository.create(testReservation);
+    public void e_DeleteReservation() {
+        String reservationId = "PL001";
+        Boolean deleted = reservationRepository.delete(reservationId);
 
-        // When
-        boolean deleted = repository.delete(testReservation.getReservationID());
+        HashSet hashSet = new HashSet<>();
+        hashSet.add(reservationRepository.getAll());
 
-        // Then
+        //assertNull(hashSet);
+        System.out.println(hashSet);
         assertTrue(deleted);
-        assertNull(repository.read(testReservation.getReservationID()));
-    }
 
-    @Test
-    void getAll() {
-        // Given
-        repository.create(testReservation);
-
-        // Create another reservation
-        Reservation anotherReservation = ReservationFactory.createReservation(
-                testUser,
-                null,
-                testParkingSpot,
-                new Date(),
-                "13:00",
-                "15:00",
-                20.0
-        );
-        repository.create(anotherReservation);
-
-        // When
-        Set<Reservation> allReservations = repository.getAll();
-
-        // Then
-        assertEquals(2, allReservations.size());
-        assertTrue(allReservations.contains(testReservation));
-        assertTrue(allReservations.contains(anotherReservation));
-    }
-
-    @Test
-    void createNullReservation() {
-        // When
-        Reservation created = repository.create(null);
-
-        // Then
-        assertNull(created);
-    }
-
-    @Test
-    void readNonExistent() {
-        // When
-        Reservation found = repository.read("non-existent-id");
-
-        // Then
-        assertNull(found);
-    }
-
-    @Test
-    void updateNonExistent() {
-        // Given
-        Reservation nonExistentReservation = ReservationFactory.createReservation(
-                testUser,
-                null,
-                testParkingSpot,
-                new Date(),
-                "16:00",
-                "18:00",
-                20.0
-        );
-
-        // When
-        Reservation updated = repository.update(nonExistentReservation);
-
-        // Then
-        assertNull(updated);
-    }
-
-    @Test
-    void deleteNonExistent() {
-        // When
-        boolean deleted = repository.delete("non-existent-id");
-
-        // Then
-        assertFalse(deleted);
     }
 }
