@@ -8,67 +8,62 @@ Author: Avela Bonakali
 Date: 20/03/2025
  */
 
+import domain.ParkingLot;
 import domain.Reservation;
+import domain.User;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class ReservationRepository implements IReservationRepository {
-    private static ReservationRepository repository = null;
-    private Set<Reservation> reservationDB = null;
+    private static ReservationRepository instance;
+    private Set<Reservation> reservationRepositoryDB = new HashSet<>();
 
-    private ReservationRepository() {
-        reservationDB = new HashSet<Reservation>();
-    }
+    // Private constructor to prevent instantiation
+    private ReservationRepository() {}
 
-    public static ReservationRepository getRepository() {
-        if (repository == null) {
-            repository = new ReservationRepository();
+    // Singleton pattern to ensure a single instance
+    public static synchronized ReservationRepository getInstance() {
+        if (instance == null) {
+            instance = new ReservationRepository();
         }
-        return repository;
-    }
-
-    public static ReservationRepository getInstance() {
-        return null;
+        return instance;
     }
 
     @Override
     public Reservation create(Reservation reservation) {
-        boolean success = reservationDB.add(reservation);
-        return success ? reservation : null;
+        reservationRepositoryDB.add(reservation);
+        return reservation;
     }
 
     @Override
-    public Reservation read(String reservationID) {
-        for (Reservation r : reservationDB) {
-            if (r.getReservationID().equals(reservationID)) {
-                return r;
-            }
+    public Reservation read(String reservationId) {
+        return reservationRepositoryDB.stream()
+                .filter(reservation -> reservation.getReservationID().equals(reservationId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public Reservation update(Reservation newReservation) {
+        Reservation oldReservation = this.read(newReservation.getReservationID());
+        if(oldReservation != null){
+            reservationRepositoryDB.remove(oldReservation.getReservationID());
+            reservationRepositoryDB.add(newReservation);
+            return newReservation;
         }
         return null;
     }
 
     @Override
-    public Reservation update(Reservation reservation) {
-        Reservation oldReservation = read(reservation.getReservationID());
-        if (oldReservation != null) {
-            reservationDB.remove(oldReservation);
-            reservationDB.add(reservation);
-            return reservation;
-        }
-        return null;
+    public boolean delete(String reservationId) {
+       reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
+        return reservationRepositoryDB.isEmpty();
     }
 
-    @Override
-    public boolean delete(String reservationID) {
-        Reservation reservationToDelete = read(reservationID);
-        if (reservationToDelete == null) {
-            return false;
-        }
-        return reservationDB.remove(reservationToDelete);
-    }
 
     @Override
-    public Set<Reservation> getAll() {
-        return reservationDB;
+    public Set getAll() {
+        return reservationRepositoryDB;
     }
 }
