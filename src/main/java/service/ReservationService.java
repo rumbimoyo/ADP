@@ -56,7 +56,7 @@ public class ReservationService implements IReservationService {
 
         // Check if parking spot is available for this time
         if (reservation.getParkingSpot() != null) {
-            Long spotId = reservation.getParkingSpot().getSpotID();
+            String spotId = reservation.getParkingSpot().getSpotId();
             String dateStr = reservation.getDate().toString();
 
             if (!isParkingSpotAvailable(spotId, dateStr, reservation.getStartTime(), reservation.getEndTime())) {
@@ -184,7 +184,7 @@ public class ReservationService implements IReservationService {
         // Handle parking spot changes
         if (existing.getParkingSpot() != null && !existing.getParkingSpot().equals(reservation.getParkingSpot())) {
             // Free old spot
-            ParkingSpot oldSpot = parkingSpotRepository.read(existing.getParkingSpot().getSpotID());
+            ParkingSpot oldSpot = parkingSpotRepository.read(existing.getParkingSpot().getSpotId());
             if (oldSpot != null) {
                 oldSpot.setStatus("open");
                 parkingSpotRepository.update(oldSpot);
@@ -193,7 +193,7 @@ public class ReservationService implements IReservationService {
             // Reserve new spot
             if (reservation.getParkingSpot() != null) {
                 // Check availability first
-                Long spotId = reservation.getParkingSpot().getSpotID();
+                String spotId = reservation.getParkingSpot().getSpotId();
                 String dateStr = reservation.getDate().toString();
 
                 if (isParkingSpotAvailable(spotId, dateStr, reservation.getStartTime(), reservation.getEndTime())) {
@@ -245,7 +245,7 @@ public class ReservationService implements IReservationService {
 
         // Update parking spot status
         if (reservation.getParkingSpot() != null) {
-            ParkingSpot spot = parkingSpotRepository.read(reservation.getParkingSpot().getSpotID());
+            ParkingSpot spot = parkingSpotRepository.read(reservation.getParkingSpot().getSpotId());
             if (spot != null) {
                 spot.setStatus("open");
                 parkingSpotRepository.update(spot);
@@ -309,7 +309,7 @@ public class ReservationService implements IReservationService {
         Set<Reservation> spotReservations = new HashSet<>();
 
         for (Reservation r : allReservations) {
-            if (r.getParkingSpot() != null && r.getParkingSpot().getSpotID().equals(spotId)) {
+            if (r.getParkingSpot() != null && r.getParkingSpot().getSpotId().equals(spotId)) {
                 spotReservations.add(r);
             }
         }
