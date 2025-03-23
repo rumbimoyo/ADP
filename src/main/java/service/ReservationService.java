@@ -56,7 +56,7 @@ public class ReservationService implements IReservationService {
 
         // Check if parking spot is available for this time
         if (reservation.getParkingSpot() != null) {
-            String spotId = reservation.getParkingSpot().getSpotID();
+            Long spotId = reservation.getParkingSpot().getSpotID();
             String dateStr = reservation.getDate().toString();
 
             if (!isParkingSpotAvailable(spotId, dateStr, reservation.getStartTime(), reservation.getEndTime())) {
@@ -75,16 +75,28 @@ public class ReservationService implements IReservationService {
         Reservation created = reservationRepository.create(reservation);
 
         if (created != null) {
-            // Update user if assigned
-            if (reservation.getUser() != null) {
-                User user = userRepository.read(reservation.getUser().getID());
-                if (user != null) {
-                    if (user.getReservations() == null) {
-                        user.setReservations(new HashSet<>());
-                    }
-                    user.getReservations().add(created);
-                    userRepository.update(user);
-                }
+            // Fetch user from repository
+            User user = userRepository.read(reservation.getUser().getUserID());
+            if (user != null) {
+                Set<Reservation> updatedReservations =
+                        (user.getReservations() != null) ?
+                                new HashSet<>(user.getReservations()) :
+                                new HashSet<>();
+
+                updatedReservations.add(created);
+
+                User updatedUser = new User.Builder()
+                        .setUserID(user.getUserID())
+                        .setName(user.getName())
+                        .setAge(user.getAge())
+                        .setContactNumber(user.getContactNumber())
+                        .setEmail(user.getEmail())
+                        .setVehicles(user.getVehicles())
+                        .setReservations(updatedReservations)
+                        .build();
+
+                // Update the user in the repository
+                userRepository.update(updatedUser);
             }
 
             /*
@@ -124,10 +136,9 @@ public class ReservationService implements IReservationService {
             return null;
         }
 
-        // Handle user assignments (if changed)
-        if (!Helper.isNullOrEmpty(existing.getUser()) && !existing.getUser().equals(reservation.getUser())) {
+        if (!Helper.isNullOrEmpty(existing.getUser().getUserID()) && !existing.getUser().equals(reservation.getUser())) {
             // Remove from old user
-            User oldUser = userRepository.read(existing.getUser().getID());
+            User oldUser = userRepository.read(existing.getUser().getUserID());
             if (oldUser != null && oldUser.getReservations() != null) {
                 oldUser.getReservations().remove(existing);
                 userRepository.update(oldUser);
@@ -135,10 +146,10 @@ public class ReservationService implements IReservationService {
 
             // Add to new user
             if (reservation.getUser() != null) {
-                User newUser = userRepository.read(reservation.getUser().getID());
+                User newUser = userRepository.read(reservation.getUser().getUserID());
                 if (newUser != null) {
                     if (newUser.getReservations() == null) {
-                        newUser.setReservations(new HashSet<>());
+                       // newUser.setReservations(new HashSet<>());
                     }
                     newUser.getReservations().add(reservation);
                     userRepository.update(newUser);
@@ -182,7 +193,7 @@ public class ReservationService implements IReservationService {
             // Reserve new spot
             if (reservation.getParkingSpot() != null) {
                 // Check availability first
-                String spotId = reservation.getParkingSpot().getSpotID();
+                Long spotId = reservation.getParkingSpot().getSpotID();
                 String dateStr = reservation.getDate().toString();
 
                 if (isParkingSpotAvailable(spotId, dateStr, reservation.getStartTime(), reservation.getEndTime())) {
@@ -193,7 +204,7 @@ public class ReservationService implements IReservationService {
                     }
                 } else {
                     // If spot not available, keep the old spot and don't update
-                    reservation.setParkingSpot(existing.getParkingSpot());
+                    //reservation.setParkingSpot(existing.getParkingSpot());
                 }
             }
         }
@@ -214,7 +225,7 @@ public class ReservationService implements IReservationService {
 
         // Remove from user's reservations
         if (reservation.getUser() != null) {
-            User user = userRepository.read(reservation.getUser().getID());
+            User user = userRepository.read(reservation.getUser().getUserID());
             if (user != null && user.getReservations() != null) {
                 user.getReservations().remove(reservation);
                 userRepository.update(user);
@@ -263,6 +274,16 @@ public class ReservationService implements IReservationService {
         return user.getReservations();
     }
 
+    @Override
+    public Set<Reservation> getParkingSpotReservations(String spotId) {
+        return Set.of();
+    }
+
+    @Override
+    public boolean isParkingSpotAvailable(String spotId, String dateStr, String startTime, String endTime) {
+        return false;
+    }
+
     /*
     @Override
     public Set<Reservation> getVehicleReservations(String licencePlate) {
@@ -279,9 +300,8 @@ public class ReservationService implements IReservationService {
     }
     */
 
-    @Override
-    public Set<Reservation> getParkingSpotReservations(String spotId) {
-        if (Helper.isNullOrEmpty(spotId)) {
+    public Set<Reservation> getParkingSpotReservations(Long spotId) {
+        if (Helper.isNullorEmptyLong(spotId)) {
             return new HashSet<>();
         }
 
@@ -297,9 +317,8 @@ public class ReservationService implements IReservationService {
         return spotReservations;
     }
 
-    @Override
-    public boolean isParkingSpotAvailable(String spotId, String dateStr, String startTime, String endTime) {
-        if (Helper.isNullOrEmpty(spotId) || Helper.isNullOrEmpty(dateStr) ||
+    public boolean isParkingSpotAvailable(Long spotId, String dateStr, String startTime, String endTime) {
+        if (Helper.isNullorEmptyLong(spotId) || Helper.isNullOrEmpty(dateStr) ||
                 !Helper.isValidTimeFormat(startTime) || !Helper.isValidTimeFormat(endTime)) {
             return false;
         }

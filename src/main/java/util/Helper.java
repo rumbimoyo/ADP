@@ -97,6 +97,10 @@ public class Helper {
         return attribute == null || attribute.equals("null") || attribute.trim().isEmpty();
     }
 
+    public static Boolean isNullorEmptyLong(Long attribute){
+        return attribute == null;
+    }
+
     public static Boolean isNullorEmpty(Integer number){
         return number == null;
     }
