@@ -41,11 +41,11 @@ public class ParkingLot {
     public Set<Ticket> getTickets() { return tickets; }
 
     // Ticket generation logic
-    public Ticket generateTicket(ParkingSpot spot) {
-        Ticket ticket = new Ticket(spot);
-        tickets.add(ticket);
-        return ticket;
-    }
+//    public Ticket generateTicket(ParkingSpot spot) {
+//        Ticket ticket = new Ticket(spot);
+//        tickets.add(ticket);
+//        return ticket;
+//    }
 
     // ParkingSpot management methods
     public void addParkingSpot(ParkingSpot spot) {

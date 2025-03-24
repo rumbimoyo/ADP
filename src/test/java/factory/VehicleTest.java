@@ -1,15 +1,15 @@
+package factory;
+
 import za.ac.cput.domain.Vehicle;
 import za.ac.cput.factory.VehicleFactory;
 import za.ac.cput.repository.impl.VehicleRepositoryImpl;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/*VehicleTest.java
+/*factory.VehicleTest.java
 Vehicle Test class
 Author:Casey Abigail Nolte (218275161)
 Date: 21 March 2025

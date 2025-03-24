@@ -4,21 +4,18 @@ import domain.*;
 import factory.UserFactory;
 import service.UserService;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
 
-        // make your object from factory here
+        UserService userService = new UserService();
+        User user = UserFactory.createUser("2673", "John", LocalDate.of(2004,9, 9), "male", "081-234-0192", "john@gmail.com");
 
-        User user = UserFactory.createUser("2309", "Bailey", 22,
-                                     "081 888 0912", "Bailey@gmail.com");
+        userService.addUser(user);
 
-        Vehicle vehicle = new Vehicle(); // testing
-        Reservation reservation = new Reservation(); // testing
-
-        UserService us = new UserService();
 
 
     }
