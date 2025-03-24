@@ -32,7 +32,7 @@ public class Vehicle {
         this.reservations = new HashSet<>();
     }
 
-    // Getters and Setters
+
     public Long getLicensePlate() {
         return licensePlate;
     }
