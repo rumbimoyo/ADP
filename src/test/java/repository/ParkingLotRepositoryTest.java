@@ -76,7 +76,7 @@ public class ParkingLotRepositoryTest {
 
         parkingLot = new ParkingLot.Builder()
                 .setLotId("PL001")
-                .setTitle("Uptown Parking") // Updated title
+                .setTitle("Uptown Parking")
                 .setLocation("Uptown")
                 .setOpenTime("08:00")
                 .setClosingTime("20:00")
