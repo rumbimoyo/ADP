@@ -6,126 +6,105 @@ Author:Casey Abigail Nolte (218275161)
 Date: 21 March 2025
  */
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class Vehicle {
-    private String licensePlate;
+    private Long licensePlate;
     private String vehicleMake;
     private String vehicleModel;
     private String vehicleColour;
-    private String vehicleVIN;
-    private Set<String> tickets;
-    private Set<String> reservations;
+    private Long vehicleVIN;
 
-    private Vehicle(Builder builder) {
-        this.licensePlate = builder.licensePlate;
-        this.vehicleMake = builder.vehicleMake;
-        this.vehicleModel = builder.vehicleModel;
-        this.vehicleColour = builder.vehicleColour;
-        this.vehicleVIN = builder.vehicleVIN;
-        this.tickets = builder.tickets;
-        this.reservations = builder.reservations;
+    private Set<User> users;
+    private Set<Ticket> tickets;
+    private Set<Reservation> reservations;
+
+    public Vehicle(Long licensePlate, String vehicleMake, String vehicleModel, String vehicleColour, Long vehicleVIN) {
+        this.licensePlate = licensePlate;
+        this.vehicleMake = vehicleMake;
+        this.vehicleModel = vehicleModel;
+        this.vehicleColour = vehicleColour;
+        this.vehicleVIN = vehicleVIN;
+        this.users = new HashSet<>();
+        this.tickets = new HashSet<>();
+        this.reservations = new HashSet<>();
     }
 
-    public String getLicensePlate() {
+    // Getters and Setters
+    public Long getLicensePlate() {
         return licensePlate;
+    }
+
+    public void setLicensePlate(Long licensePlate) {
+        this.licensePlate = licensePlate;
     }
 
     public String getVehicleMake() {
         return vehicleMake;
     }
 
+    public void setVehicleMake(String vehicleMake) {
+        this.vehicleMake = vehicleMake;
+    }
+
     public String getVehicleModel() {
         return vehicleModel;
+    }
+
+    public void setVehicleModel(String vehicleModel) {
+        this.vehicleModel = vehicleModel;
     }
 
     public String getVehicleColour() {
         return vehicleColour;
     }
 
-    public String getVehicleVIN() {
+    public void setVehicleColour(String vehicleColour) {
+        this.vehicleColour = vehicleColour;
+    }
+
+    public Long getVehicleVIN() {
         return vehicleVIN;
     }
 
-    public Set<String> getTickets() {
+    public void setVehicleVIN(Long vehicleVIN) {
+        this.vehicleVIN = vehicleVIN;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void addUser(User user) {
+        this.users.add(user);
+    }
+
+    public Set<Ticket> getTickets() {
         return tickets;
     }
 
-    public Set<String> getReservations() {
+    public void addTicket(Ticket ticket) {
+        this.tickets.add(ticket);
+    }
+
+    public Set<Reservation> getReservations() {
         return reservations;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vehicle vehicle = (Vehicle) o;
-        return Objects.equals(licensePlate, vehicle.licensePlate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(licensePlate);
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
     }
 
     @Override
     public String toString() {
         return "Vehicle{" +
-                "licensePlate='" + licensePlate + '\'' +
+                "licensePlate=" + licensePlate +
                 ", vehicleMake='" + vehicleMake + '\'' +
                 ", vehicleModel='" + vehicleModel + '\'' +
                 ", vehicleColour='" + vehicleColour + '\'' +
-                ", vehicleVIN='" + vehicleVIN + '\'' +
+                ", vehicleVIN=" + vehicleVIN +
                 '}';
-    }
-
-    public static class Builder {
-        private String licensePlate;
-        private String vehicleMake;
-        private String vehicleModel;
-        private String vehicleColour;
-        private String vehicleVIN;
-        private Set<String> tickets;
-        private Set<String> reservations;
-
-        public Builder setLicensePlate(String licensePlate) {
-            this.licensePlate = licensePlate;
-            return this;
-        }
-
-        public Builder setVehicleMake(String vehicleMake) {
-            this.vehicleMake = vehicleMake;
-            return this;
-        }
-
-        public Builder setVehicleModel(String vehicleModel) {
-            this.vehicleModel = vehicleModel;
-            return this;
-        }
-
-        public Builder setVehicleColour(String vehicleColour) {
-            this.vehicleColour = vehicleColour;
-            return this;
-        }
-
-        public Builder setVehicleVIN(String vehicleVIN) {
-            this.vehicleVIN = vehicleVIN;
-            return this;
-        }
-
-        public Builder setTickets(Set<String> tickets) {
-            this.tickets = tickets;
-            return this;
-        }
-
-        public Builder setReservations(Set<String> reservations) {
-            this.reservations = reservations;
-            return this;
-        }
-
-        public Vehicle build() {
-            return new Vehicle(this);
-        }
     }
 }
