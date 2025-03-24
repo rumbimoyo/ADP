@@ -7,6 +7,7 @@ parkingspot repository test
  */
 
 import domain.ParkingLot;
+
 import domain.ParkingSpot;
 import factory.ParkingSpotFactory;
 import org.junit.jupiter.api.DisplayName;

@@ -113,7 +113,7 @@ public class ParkingSpot {
         }
 
         public ParkingSpot build() {
-            ParkingSpot parkingSpot = new ParkingSpot(spotNumber, status, type,parkingLot);
+            ParkingSpot parkingSpot = new ParkingSpot(spotNumber, status,type ,parkingLot);
             parkingSpot.setSpotId(spotId); // Set the spotID
             return parkingSpot;
         }
