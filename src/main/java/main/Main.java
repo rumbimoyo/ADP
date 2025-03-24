@@ -3,6 +3,7 @@ package main;
 import domain.*;
 import factory.UserFactory;
 import service.UserService;
+import factory.TicketFactory;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -15,7 +16,7 @@ public class Main {
         User user = UserFactory.createUser("2673", "John", LocalDate.of(2004,9, 9), "male", "081-234-0192", "john@gmail.com");
 
         userService.addUser(user);
-
+        // Ticket ticket = TicketFactory.createTicket(1, parkingLot, vehicle);
 
 
     }
