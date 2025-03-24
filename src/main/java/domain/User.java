@@ -7,30 +7,25 @@ Author: Sean Joel Bailey (230645682)
 Date: 17/03/2025
  */
 
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
 
 public class User {
 
-    private String userID, name, contactNumber, email;
-    private int age;
-    private Set<Vehicle> vehicles = new HashSet<>();
-    private Set<Reservation> reservations = new HashSet<>();
+    private String userID, name, contactNumber, email, gender;
+    private LocalDate dob;
 
     public User(){
 
     }
 
-    public User(String userID, String name, int age,
-                String contactNumber, String email,
-                Set<Vehicle> vehicles, Set<Reservation> reservations) {
+    public User(String userID, String name, LocalDate dob, String gender,
+                String contactNumber, String email) {
         this.userID = userID;
         this.name = name;
-        this.age = age;
+        this.dob = dob;
+        this.gender = gender;
         this.contactNumber = contactNumber;
         this.email = email;
-        this.vehicles = vehicles;
-        this.reservations = reservations;
     }
 
     public String getUserID() {
@@ -41,9 +36,11 @@ public class User {
         return name;
     }
 
-    public int getAge() {
-        return age;
+    public LocalDate getDob() {
+        return dob;
     }
+
+    public String getGender(){return gender;}
 
     public String getContactNumber() {
         return contactNumber;
@@ -53,32 +50,9 @@ public class User {
         return email;
     }
 
-    public Set<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public Set<Reservation> getReservations() {
-        return reservations;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userID='" + userID + '\'' +
-                ", name='" + name + '\'' +
-                ", age='" + age + '\'' +
-                ", contactNumber='" + contactNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", vehicles=" + vehicles +
-                ", reservations=" + reservations +
-                '}';
-    }
-
     public static class Builder{
-        private String userID, name, contactNumber, email;
-        private int age;
-        private Set<Vehicle> vehicles = new HashSet<>();
-        private Set<Reservation> reservations = new HashSet<>();
+        private String userID, name, contactNumber, email, gender;
+        private LocalDate dob;
 
         public Builder setUserID(String userID) {
             this.userID = userID;
@@ -90,8 +64,13 @@ public class User {
             return this;
         }
 
-        public Builder setAge(int age) {
-            this.age = age;
+        public Builder setDob(LocalDate dob) {
+            this.dob = dob;
+            return this;
+        }
+
+        public Builder setGender(String gender){
+            this.gender = gender;
             return this;
         }
 
@@ -105,16 +84,6 @@ public class User {
             return this;
         }
 
-        public Builder setVehicles(Set<Vehicle> vehicles) {
-            this.vehicles = vehicles;
-            return this;
-        }
-
-        public Builder setReservations(Set<Reservation> reservations) {
-            this.reservations = reservations;
-            return this;
-        }
-
-        public User build(){return new User(userID, name, age, contactNumber, email, vehicles, reservations);}
+        public User build(){return new User(userID, name, dob, gender, contactNumber, email);}
     }
 }
