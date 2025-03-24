@@ -7,8 +7,6 @@ Author: Thulani Lunyawo(222828250)
 Date: 17/03/2025
  */
 
-
-
 public class ParkingLot {
 
     private String lotId;

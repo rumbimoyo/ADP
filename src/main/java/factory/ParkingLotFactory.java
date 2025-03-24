@@ -7,11 +7,7 @@ Author: Thulani Lunyawo (222828250)
 Date: 17/03/2025
  */
 
-
-
-
 import domain.ParkingLot;
-
 
 public class ParkingLotFactory {
 
@@ -28,3 +24,4 @@ public class ParkingLotFactory {
     }
 
 }
+

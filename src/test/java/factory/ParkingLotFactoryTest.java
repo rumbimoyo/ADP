@@ -7,12 +7,9 @@ Author: Thulani Lunyawo (222828250)
 Date: 18/03/2025
  */
 
-
 import domain.ParkingLot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
