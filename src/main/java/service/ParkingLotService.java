@@ -1,5 +1,12 @@
 package service;
 
+/*
+service.ParkingLotService
+ParkingLot Service class
+Author: Thulani Lunyawo (222828250)
+Date: 20/03/2025
+ */
+
 import domain.ParkingLot;
 import repository.ParkingLotRepository;
 
@@ -18,7 +25,7 @@ public class ParkingLotService {
     public boolean saveParkingLot(ParkingLot parkingLot) {
         if (parkingLot != null && parkingLotRepository.findById(parkingLot.getLotId()) == null) {
             parkingLotRepository.save(parkingLot);
-            return true;
+            return true; // Successfully saved
         }
         return false;
     }
@@ -27,7 +34,7 @@ public class ParkingLotService {
     public boolean updateParkingLot(ParkingLot parkingLot) {
         if (parkingLot != null && parkingLotRepository.findById(parkingLot.getLotId()) != null) {
             parkingLotRepository.update(parkingLot);
-            return true;
+            return true; // Successfully updated
         }
         return false;
     }
@@ -36,9 +43,9 @@ public class ParkingLotService {
     public boolean deleteParkingLot(String lotId) {
         if (lotId != null && parkingLotRepository.findById(lotId) != null) {
             parkingLotRepository.delete(lotId);
-            return true;
+            return true; // Successfully deleted
         }
-        return false;
+        return false; 
     }
 
     // Get a parking lot by ID
@@ -48,6 +55,6 @@ public class ParkingLotService {
 
     // Get all parking lots
     public Set<ParkingLot> getAllParkingLots() {
-        return parkingLotRepository.findAll();
+        return parkingLotRepository.getAll();
     }
 }

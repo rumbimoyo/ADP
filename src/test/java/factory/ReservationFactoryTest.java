@@ -31,7 +31,7 @@ class ReservationFactoryTest {
     @BeforeEach
     void setUp() {
         parkingLot = ParkingLotFactory.createParkingLot("1","Cape Town","08:00am","12:00pm",12.0);
-        testUser = UserFactory.createUser("001","TTTT",32,"0877977","hdhd@gmail.com");
+//        testUser = UserFactory.createUser("001","TTTT",32,"0877977","hdhd@gmail.com");
         //testVehicle = VehicleFactory.createVehicle("ABC123", "Toyota", "Corolla", "Red", 2020);
         testParkingSpot = ParkingSpotFactory.createParkingSpot(1, "open", "compact", parkingLot);
         testDate = new Date();

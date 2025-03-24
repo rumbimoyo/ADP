@@ -4,7 +4,7 @@ package repository;
 repository.IParkingLotRepository
 ParkingLot Repository class
 Author: Thulani Lunyuawo(222828250)
-Date: 17/03/2025
+Date: 20/03/2025
  */
 
 import domain.ParkingLot;
@@ -20,5 +20,5 @@ public interface IParkingLotRepository {
 
     void update(ParkingLot parkingLot);
 
-    Set<ParkingLot> findAll();
+    Set<ParkingLot> getAll();
 }

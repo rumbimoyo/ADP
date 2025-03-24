@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReservationRepositoryTest {
 
     private ParkingLot parkingLot = ParkingLotFactory.createParkingLot("1","Cape Town","08:00am","12:00pm",12.0);
-    private User testUser = UserFactory.createUser("001","TTTT",32,"0877977","hdhd@gmail.com");
+//    private User testUser = UserFactory.createUser("001","TTTT",32,"0877977","hdhd@gmail.com");
     //private Vehicle testVehicle = VehicleFactory.createVehicle("ABC123", "Toyota", "Corolla", "Red", 2020);
     private ParkingSpot testParkingSpot = ParkingSpotFactory.createParkingSpot(1, "open", "compact", parkingLot);
 

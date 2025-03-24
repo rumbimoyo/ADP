@@ -8,14 +8,12 @@ Author: Avela Bonakali
 Date: 20/03/2025
  */
 
-import domain.ParkingLot;
 import domain.Reservation;
-import domain.User;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ReservationRepository implements IReservationRepository {
+public class ReservationRepository implements IRepository<Reservation, String> {
     private static ReservationRepository instance;
     private Set<Reservation> reservationRepositoryDB = new HashSet<>();
 
