@@ -1,5 +1,13 @@
 package service;
 
+/*
+parkingLot.ParkingLotService
+User Service class
+Author: Thulani Lunyawo (222828250)
+Date: 20/03/2025
+ */
+
+
 import domain.ParkingLot;
 import repository.ParkingLotRepository;
 

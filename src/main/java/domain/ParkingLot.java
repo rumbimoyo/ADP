@@ -4,7 +4,7 @@ package domain;
 domain.ParkingLot
 ParkingLot entity class
 Author: Thulani Lunyawo(222828250)
-Date: 17/03/2025
+Date: 24/03/2025
  */
 
 public class ParkingLot {

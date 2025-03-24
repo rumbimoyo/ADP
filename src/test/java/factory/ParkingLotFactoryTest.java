@@ -4,7 +4,7 @@ package factory;
 test.factory.ParkingLotFactoryTest
 ParkingLotFactoryTest class
 Author: Thulani Lunyawo (222828250)
-Date: 18/03/2025
+Date: 20/03/2025
  */
 
 import domain.ParkingLot;

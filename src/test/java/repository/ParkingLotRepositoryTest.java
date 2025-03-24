@@ -65,7 +65,7 @@ public class ParkingLotRepositoryTest {
     public void b_testUpdate() {
         ParkingLot parkingLot = new ParkingLot.Builder()
                 .setLotId("PL001")
-                .setTitle("City Center Parking") // Added title
+                .setTitle("City Center Parking")
                 .setLocation("Downtown")
                 .setOpenTime("08:00")
                 .setClosingTime("20:00")

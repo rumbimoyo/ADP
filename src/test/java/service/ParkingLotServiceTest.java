@@ -1,5 +1,12 @@
 package service;
 
+/*
+test.service.ParkingLotServiceTest
+ParkingLotServiceTest class
+Author: Thulani Lunyawo(222828250)
+Date: 17/03/2025
+ */
+
 import domain.ParkingLot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
