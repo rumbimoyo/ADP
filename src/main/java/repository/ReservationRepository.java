@@ -8,12 +8,14 @@ Author: Avela Bonakali
 Date: 20/03/2025
  */
 
+import domain.ParkingLot;
 import domain.Reservation;
+import domain.User;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ReservationRepository implements IRepository<Reservation, String> {
+public class ReservationRepository implements IReservationRepository {
     private static ReservationRepository instance;
     private Set<Reservation> reservationRepositoryDB = new HashSet<>();
 
@@ -55,7 +57,7 @@ public class ReservationRepository implements IRepository<Reservation, String> {
 
     @Override
     public boolean delete(String reservationId) {
-       reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
+        reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
         return reservationRepositoryDB.isEmpty();
     }
 
