@@ -21,23 +21,23 @@ public class ParkingLotRepositoryTest {
     ParkingLotRepository parkingLotRepository = ParkingLotRepository.getInstance();
 
     @Test
-    @DisplayName("Testing save and findById method")
-    public void a_testSaveAndFindById() {
+    @DisplayName("Testing create and read method")
+    public void a_testCreateAndRead() {
         ParkingLot parkingLot = new ParkingLot.Builder()
                 .setLotId("PL001")
-                .setTitle("City Center Parking") // Added title
+                .setTitle("City Center Parking")
                 .setLocation("Downtown")
                 .setOpenTime("08:00")
                 .setClosingTime("20:00")
                 .setPricePerHour(5.0)
                 .build();
 
-        parkingLotRepository.save(parkingLot);
-        ParkingLot foundLot = parkingLotRepository.findById("PL001");
+        parkingLotRepository.create(parkingLot); // Changed to 'create'
+        ParkingLot foundLot = parkingLotRepository.read("PL001");
 
         assertNotNull(foundLot, "Parking lot should not be null");
         assertEquals("PL001", foundLot.getLotId(), "Lot ID should match");
-        assertEquals("City Center Parking", foundLot.getTitle(), "Title should match"); // Updated test
+        assertEquals("City Center Parking", foundLot.getTitle(), "Title should match");
         assertEquals("Downtown", foundLot.getLocation(), "Location should match");
     }
 
@@ -46,17 +46,17 @@ public class ParkingLotRepositoryTest {
     public void c_testDelete() {
         ParkingLot parkingLot = new ParkingLot.Builder()
                 .setLotId("PL001")
-                .setTitle("City Center Parking") // Added title
+                .setTitle("City Center Parking")
                 .setLocation("Downtown")
                 .setOpenTime("08:00")
                 .setClosingTime("20:00")
                 .setPricePerHour(5.0)
                 .build();
 
-        parkingLotRepository.save(parkingLot);
+        parkingLotRepository.create(parkingLot); // Changed to 'create'
         parkingLotRepository.delete("PL001");
 
-        ParkingLot foundLot = parkingLotRepository.findById("PL001");
+        ParkingLot foundLot = parkingLotRepository.read("PL001"); // Changed to 'read'
         assertNull(foundLot, "Parking lot should be null after deletion");
     }
 
@@ -72,7 +72,7 @@ public class ParkingLotRepositoryTest {
                 .setPricePerHour(5.0)
                 .build();
 
-        parkingLotRepository.save(parkingLot);
+        parkingLotRepository.create(parkingLot); // Changed to 'create'
 
         parkingLot = new ParkingLot.Builder()
                 .setLotId("PL001")
@@ -83,11 +83,11 @@ public class ParkingLotRepositoryTest {
                 .setPricePerHour(6.0)
                 .build();
 
-        parkingLotRepository.update(parkingLot);
-        ParkingLot updatedLot = parkingLotRepository.findById("PL001");
+        parkingLotRepository.update(parkingLot); // Update the parking lot
+        ParkingLot updatedLot = parkingLotRepository.read("PL001"); // Changed to 'read'
 
         assertNotNull(updatedLot, "Updated parking lot should not be null");
-        assertEquals("Uptown Parking", updatedLot.getTitle(), "Title should be updated to Uptown Parking"); // Updated assertion
+        assertEquals("Uptown Parking", updatedLot.getTitle(), "Title should be updated to Uptown Parking");
         assertEquals("Uptown", updatedLot.getLocation(), "Location should be updated to Uptown");
         assertEquals(6.0, updatedLot.getPricePerHour(), "Price per hour should be updated to 6.0");
     }
