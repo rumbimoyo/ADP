@@ -12,31 +12,33 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Ticket {
-    private final long ticketID;
-    private final String entryTime;
-    private final String exitTime;
-    private final ParkingLot parkingLot;
-    private final Vehicle vehicle;
-    private final double price;
+    private  long ticketID;
+    private  String entryTime;
+    private  String exitTime;
+    private  ParkingLot parkingLot;
+    private  Vehicle vehicle;
+    private  double price;
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-    // Private constructor to enforce the use of the Builder
-    private Ticket(Builder builder) {
-        this.ticketID = builder.ticketID;
-        this.entryTime = builder.entryTime;
-        this.exitTime = builder.exitTime;
-        this.parkingLot = builder.parkingLot;
-        this.vehicle = builder.vehicle;
-        this.price = builder.price;
+    public Ticket() {
     }
 
-    public long getTicketID() {
-        return  ticketID;
+    public Ticket(long ticketID, String entryTime, String exitTime, ParkingLot parkingLot, Vehicle vehicle, double price) {
+        this.ticketID = ticketID;
+        this.entryTime = entryTime;
+        this.exitTime = exitTime;
+        this.parkingLot = parkingLot;
+        this.vehicle = vehicle;
+        this.price = price;
     }
+public long getTicketID() {
+        return ticketID;
+    }
+
     public String getEntryTime() {
         return entryTime;
     }
+
     public String getExitTime() {
         return exitTime;
     }
@@ -52,33 +54,8 @@ public class Ticket {
     public double getPrice() {
         return price;
     }
-
-
-      //This method Calculates how long the car has been in the  lot
-
-    public long calculateDuration() {
-        if (entryTime == null || exitTime == null) return 0;
-
-        LocalDateTime entry = LocalDateTime.parse(entryTime, formatter);
-        LocalDateTime exit = LocalDateTime.parse(exitTime, formatter);
-
-        long hours = Duration.between(entry, exit).toHours();
-        if (Duration.between(entry, exit).toMinutes() % 60 > 0) {
-            hours++;
-        }
-        return hours;
-    }
-
-
-      //Calculates the total price based on the total duration of the stay
-
-   /* public double calculatePrice() {
-        if (parkingLot == null || entryTime == null || exitTime == null) return 0.0;
-        return calculateDuration() * parkingLot.getPricePerHour();
-    }
-**/
     // Builder Class
-    public static class Builder {
+     public static class Builder {
         private long ticketID;
         private String entryTime;
         private String exitTime;
@@ -115,15 +92,38 @@ public class Ticket {
             this.price = price;
             return this;
         }
-
         public Ticket build() {
-            Objects.requireNonNull(entryTime, "Entry time cannot be null");
-            Objects.requireNonNull(parkingLot, "Parking lot cannot be null");
-            Objects.requireNonNull(vehicle, "Vehicle cannot be null");
-            return new Ticket(this);
+            return new Ticket(ticketID, entryTime, exitTime, parkingLot, vehicle, price);
         }
     }
+   
 
+
+      //This method Calculates how long the car has been in the  lot
+
+    public long calculateDuration() {
+        if (entryTime == null || exitTime == null) return 0;
+
+        LocalDateTime entry = LocalDateTime.parse(entryTime, formatter);
+        LocalDateTime exit = LocalDateTime.parse(exitTime, formatter);
+
+        long hours = Duration.between(entry, exit).toHours();
+        if (Duration.between(entry, exit).toMinutes() % 60 > 0) {
+            hours++;
+        }
+        return hours;
+    }
+
+
+      //Calculates the total price based on the total duration of the stay
+
+   /* public double calculatePrice() {
+        if (parkingLot == null || entryTime == null || exitTime == null) return 0.0;
+        return calculateDuration() * parkingLot.getPricePerHour();
+    }
+**/
+   
+       
     @Override
     public String toString() {
         return "Ticket{" +

@@ -8,7 +8,7 @@ Rumbidzai Moyo
 
 import domain.ParkingLot;
 import domain.ParkingSpot;
-import factory.ParkingSpotFactory;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ class ParkingSpotFactoryTest {
     void testCreateParkingSpot_WithAllAttributes() {
         // Create a ParkingLot object
         parkingLot = new ParkingLot();
-        parkingLot.setLotId(1L);
+        parkingLot.setlotId(1L);
 
 
         // Act: Create a ParkingSpot with all attributes
