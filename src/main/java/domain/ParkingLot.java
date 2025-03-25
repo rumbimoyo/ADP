@@ -9,37 +9,30 @@ Date: 24/03/2025
 
 public class ParkingLot {
 
-    private String lotId;
-    private String title;
-    private String location;
-    private String openTime;
-    private String closingTime;
+    private String lotId, title, location, openTime, closingTime;
     private double pricePerHour;
 
-    // Private constructor to be used by the Builder
-    private ParkingLot(Builder builder) {
-        this.lotId = builder.lotId;
-        this.title = builder.title; // Assign title
-        this.location = builder.location;
-        this.openTime = builder.openTime;
-        this.closingTime = builder.closingTime;
-        this.pricePerHour = builder.pricePerHour;
+    public ParkingLot() {
     }
 
-    // Getters
+    public ParkingLot(String lotId, String title, String location, String openTime, String closingTime, double pricePerHour) {
+        this.lotId = lotId;
+        this.title = title;
+        this.location = location;
+        this.openTime = openTime;
+        this.closingTime = closingTime;
+        this.pricePerHour = pricePerHour;
+    }
+
     public String getLotId() { return lotId; }
-    public String getTitle() { return title; } // Getter for title
+    public String getTitle() { return title; }
     public String getLocation() { return location; }
     public String getOpenTime() { return openTime; }
     public String getClosingTime() { return closingTime; }
     public double getPricePerHour() { return pricePerHour; }
 
     public static class Builder {
-        private String lotId;
-        private String title; // Added title in Builder
-        private String location;
-        private String openTime;
-        private String closingTime;
+        private String lotId, title, location, openTime, closingTime;
         private double pricePerHour;
 
         public Builder setLotId(String lotId) {
@@ -47,7 +40,7 @@ public class ParkingLot {
             return this;
         }
 
-        public Builder setTitle(String title) { // Setter for title
+        public Builder setTitle(String title) {
             this.title = title;
             return this;
         }
@@ -73,7 +66,7 @@ public class ParkingLot {
         }
 
         public ParkingLot build() {
-            return new ParkingLot(this);
+            return new ParkingLot(lotId, title, location, openTime, closingTime, pricePerHour);
         }
     }
 }

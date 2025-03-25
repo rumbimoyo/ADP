@@ -45,7 +45,7 @@ public class ParkingLotService {
             parkingLotRepository.delete(lotId);
             return true; // Successfully deleted
         }
-        return false; 
+        return false;
     }
 
     // Get a parking lot by ID
