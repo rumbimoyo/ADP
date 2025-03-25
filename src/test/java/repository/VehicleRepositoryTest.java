@@ -74,4 +74,4 @@ class VehicleRepositoryTest {
     void getAll_ShouldReturnVehicles() {
         assertFalse(repository.getAll().isEmpty());
     }
-}//end of class
+}
