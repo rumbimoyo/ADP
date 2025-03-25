@@ -70,7 +70,7 @@ public class ParkingSpotFactory {
 
     // Creates with spot number, status, and parking lot
     public static ParkingSpot createParkingSpotWithParkingLot(int spotNumber, String status, ParkingLot parkingLot) {
-        if (!Helper.isValidStatus(status) || isNullorEmpty(parkingLot)) {
+        if (!Helper.isValidStatus(status) || isNullorEmpty(ParkingLot)) {
             return null;
         }
 

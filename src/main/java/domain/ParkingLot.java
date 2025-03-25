@@ -4,74 +4,44 @@ package domain;
 domain.ParkingLot
 ParkingLot entity class
 Author: Thulani Lunyawo(222828250)
-Date: 17/03/2025
+Date: 24/03/2025
  */
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class ParkingLot {
 
-    private String lotId;
-    private String location;
-    private String openTime;
-    private String closingTime;
+    private String lotId, title, location, openTime, closingTime;
     private double pricePerHour;
-    private Set<ParkingSpot> parkingSpots;
-    private Set<Ticket> tickets;
 
-    // Private constructor to be used by the Builder
-    private ParkingLot(Builder builder) {
-        this.lotId = builder.lotId;
-        this.location = builder.location;
-        this.openTime = builder.openTime;
-        this.closingTime = builder.closingTime;
-        this.pricePerHour = builder.pricePerHour;
-        this.parkingSpots = builder.parkingSpots;
-        this.tickets = builder.tickets;
+    public ParkingLot() {
     }
 
-    // Getters
+    public ParkingLot(String lotId, String title, String location, String openTime, String closingTime, double pricePerHour) {
+        this.lotId = lotId;
+        this.title = title;
+        this.location = location;
+        this.openTime = openTime;
+        this.closingTime = closingTime;
+        this.pricePerHour = pricePerHour;
+    }
+
     public String getLotId() { return lotId; }
+    public String getTitle() { return title; }
     public String getLocation() { return location; }
     public String getOpenTime() { return openTime; }
     public String getClosingTime() { return closingTime; }
     public double getPricePerHour() { return pricePerHour; }
-    public Set<ParkingSpot> getParkingSpots() { return parkingSpots; }
-    public Set<Ticket> getTickets() { return tickets; }
-
-    // Ticket generation logic
-    public Ticket generateTicket(ParkingSpot spot) {
-        Ticket ticket = new Ticket(spot);
-        tickets.add(ticket);
-        return ticket;
-    }
-
-    // ParkingSpot management methods
-    public void addParkingSpot(ParkingSpot spot) {
-        parkingSpots.add(spot);
-    }
-
-    public void removeParkingSpot(ParkingSpot spot) {
-        parkingSpots.remove(spot);
-    }
-
-    public void editParkingSpot(ParkingSpot oldSpot, ParkingSpot newSpot) {
-        removeParkingSpot(oldSpot);
-        addParkingSpot(newSpot);
-    }
 
     public static class Builder {
-        private String lotId;
-        private String location;
-        private String openTime;
-        private String closingTime;
+        private String lotId, title, location, openTime, closingTime;
         private double pricePerHour;
-        private Set<ParkingSpot> parkingSpots = new HashSet<>();
-        private Set<Ticket> tickets = new HashSet<>();
 
         public Builder setLotId(String lotId) {
             this.lotId = lotId;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            this.title = title;
             return this;
         }
 
@@ -95,18 +65,8 @@ public class ParkingLot {
             return this;
         }
 
-        public Builder setParkingSpots(Set<ParkingSpot> parkingSpots) {
-            this.parkingSpots = parkingSpots;
-            return this;
-        }
-
-        public Builder setTickets(Set<Ticket> tickets) {
-            this.tickets = tickets;
-            return this;
-        }
-
         public ParkingLot build() {
-            return new ParkingLot(this);
+            return new ParkingLot(lotId, title, location, openTime, closingTime, pricePerHour);
         }
     }
 }
