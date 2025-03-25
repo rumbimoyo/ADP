@@ -16,8 +16,7 @@ public class Vehicle {
     private String vehicleVIN;
     private Set<Ticket> tickets;
     private Set<Reservation> reservations;
-    private Set<User> users;  // Added users field
-
+    private Set<User> users;
 
     private Vehicle(Builder builder) {
         this.licensePlate = builder.licensePlate;
@@ -27,9 +26,40 @@ public class Vehicle {
         this.vehicleVIN = builder.vehicleVIN;
         this.tickets = builder.tickets;
         this.reservations = builder.reservations;
-        this.users = builder.users; // Assign users from Builder
+        this.users = builder.users;
     }
 
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public String getVehicleMake() {
+        return vehicleMake;
+    }
+
+    public String getVehicleModel() {
+        return vehicleModel;
+    }
+
+    public String getVehicleColour() {
+        return vehicleColour;
+    }
+
+    public String getVehicleVIN() {
+        return vehicleVIN;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
 
     public static class Builder {
         private String licensePlate;
@@ -39,7 +69,7 @@ public class Vehicle {
         private String vehicleVIN;
         private Set<Ticket> tickets;
         private Set<Reservation> reservations;
-        private Set<User> users;  // Added users field in Builder
+        private Set<User> users;
 
         public Builder setLicensePlate(String licensePlate) {
             this.licensePlate = licensePlate;
@@ -76,17 +106,13 @@ public class Vehicle {
             return this;
         }
 
-        public Builder setUsers(Set<User> users) {  // Setter for Users
+        public Builder setUsers(Set<User> users) {
             this.users = users;
             return this;
         }
-
 
         public Vehicle build() {
             return new Vehicle(this);
         }
     }
-
-
-    
 }
