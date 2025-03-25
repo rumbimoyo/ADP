@@ -1,19 +1,15 @@
-
 package repository;
 
+import domain.Reservation;
+import java.util.HashSet;
+import java.util.Set;
 /*
 repository.ReservationRepository
 Reservation Repository Implementation
 Author: Avela Bonakali
 Date: 20/03/2025
  */
-
-import domain.Reservation;
-
-import java.util.HashSet;
-import java.util.Set;
-
-public class ReservationRepository implements IRepository<Reservation, String> {
+public class ReservationRepository {
     private static ReservationRepository instance;
     private Set<Reservation> reservationRepositoryDB = new HashSet<>();
 
@@ -28,13 +24,11 @@ public class ReservationRepository implements IRepository<Reservation, String> {
         return instance;
     }
 
-    @Override
     public Reservation create(Reservation reservation) {
         reservationRepositoryDB.add(reservation);
         return reservation;
     }
 
-    @Override
     public Reservation read(String reservationId) {
         return reservationRepositoryDB.stream()
                 .filter(reservation -> reservation.getReservationID().equals(reservationId))
@@ -42,26 +36,23 @@ public class ReservationRepository implements IRepository<Reservation, String> {
                 .orElse(null);
     }
 
-    @Override
     public Reservation update(Reservation newReservation) {
         Reservation oldReservation = this.read(newReservation.getReservationID());
-        if(oldReservation != null){
-            reservationRepositoryDB.remove(oldReservation.getReservationID());
+        if (oldReservation != null) {
+            // Remove the old reservation and add the updated one
+            reservationRepositoryDB.remove(oldReservation);
             reservationRepositoryDB.add(newReservation);
             return newReservation;
         }
         return null;
     }
 
-    @Override
     public boolean delete(String reservationId) {
-       reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
-        return reservationRepositoryDB.isEmpty();
+        // Remove reservations matching the given ID and return true if any were removed
+        return reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
     }
 
-
-    @Override
-    public Set getAll() {
+    public Set<Reservation> getAll() {
         return reservationRepositoryDB;
     }
 }
