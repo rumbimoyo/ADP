@@ -1,29 +1,39 @@
 package factory;
 
-import za.ac.cput.domain.Vehicle;
-import za.ac.cput.factory.VehicleFactory;
-import za.ac.cput.repository.impl.VehicleRepositoryImpl;
+/* VehicleFactoryTest.java
+   Vehicle Factory Test class
+   Author: Casey Abigail Nolte (218275161)
+   Date: 21 March 2025
+*/
 
+import domain.Vehicle;
 import org.junit.jupiter.api.Test;
-import java.util.HashSet;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/*factory.VehicleTest.java
-Vehicle Test class
-Author:Casey Abigail Nolte (218275161)
-Date: 21 March 2025
- */
+class VehicleFactoryTest {
 
-class VehicleTest {
     @Test
-    void testVehicleCreation() {
-        Vehicle vehicle = VehicleFactory.createVehicle("CA123456", "Toyota", "Corolla",
-                "Red", "VIN123456", new HashSet<>(), new HashSet<>());
+    void createVehicle_Success() {
+        Vehicle vehicle = VehicleFactory.createVehicle(
+                "CA123456", "Toyota", "Corolla", "White", "VIN12345"
+        );
 
         assertNotNull(vehicle);
+        assertEquals("CA123456", vehicle.getLicensePlate());
         assertEquals("Toyota", vehicle.getVehicleMake());
         assertEquals("Corolla", vehicle.getVehicleModel());
-        assertEquals("Red", vehicle.getVehicleColour());
+        assertEquals("White", vehicle.getVehicleColour());
+        assertEquals("VIN12345", vehicle.getVehicleVIN());
     }
-}//end of class
+
+    @Test
+    void createVehicle_WithNullValues_ShouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            VehicleFactory.createVehicle(null, "Toyota", "Corolla", "White", "VIN12345");
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            VehicleFactory.createVehicle("CA123456", "", "Corolla", "White", "VIN12345");
+        });
+    }
+}

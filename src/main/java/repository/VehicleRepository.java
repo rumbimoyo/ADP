@@ -1,68 +1,55 @@
 package repository;
 
 import domain.Vehicle;
-
-import java.util.Set;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /* VehicleRepository.java
    Vehicle Repository class
    Author: Casey Abigail Nolte (218275161)
    Date: 21 March 2025
 */
+
 public class VehicleRepository {
-    private static VehicleRepository instance;
-    private final Set<Vehicle> vehicles = new HashSet<>();
+    private static VehicleRepository repository = null;
+    private Map<String, Vehicle> vehicleMap;
 
-    private VehicleRepository() {} // Private constructor
+    private VehicleRepository() { // Private constructor to enforce Singleton pattern
+        vehicleMap = new HashMap<>();
+    }
 
-    public static synchronized VehicleRepository getInstance() {
-        if (instance == null) {
-            instance = new VehicleRepository();
+    public static VehicleRepository getInstance() {
+        if (repository == null) {
+            repository = new VehicleRepository();
         }
-        return instance; // Returns singleton instance
+        return repository;
     }
 
-    public boolean add(Vehicle vehicle) {
-        return vehicles.add(vehicle);
-    }
-
-    public Vehicle findByLicensePlate(String licensePlate) {
-        return vehicles.stream()
-                .filter(v -> v.getLicensePlate().equals(licensePlate))
-                .findFirst()
-                .orElse(null);
+    public boolean addVehicle(Vehicle vehicle) {
+        if (vehicle == null || vehicleMap.containsKey(vehicle.getLicensePlate())) {
+            return false;
+        }
+        vehicleMap.put(vehicle.getLicensePlate(), vehicle);
+        return true;
     }
 
     public Vehicle findVehicleByLicensePlate(String licensePlate) {
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.getLicensePlate().equals(licensePlate)) {
-                return vehicle;
-            }
-        }
-        return null;
+        return vehicleMap.get(licensePlate);
     }
 
     public boolean updateVehicle(Vehicle vehicle) {
-        Vehicle existingVehicle = findVehicleByLicensePlate(vehicle.getLicensePlate());
-        if (existingVehicle != null) {
-            vehicles.remove(existingVehicle);
-            vehicles.add(vehicle);
-            return true;
+        if (vehicle == null || !vehicleMap.containsKey(vehicle.getLicensePlate())) {
+            return false;
         }
-        return false;
+        vehicleMap.put(vehicle.getLicensePlate(), vehicle);
+        return true;
     }
 
     public boolean deleteVehicle(String licensePlate) {
-        Vehicle vehicle = findVehicleByLicensePlate(licensePlate);
-        if (vehicle != null) {
-            vehicles.remove(vehicle);
-            return true;
-        }
-        return false;
+        return vehicleMap.remove(licensePlate) != null;
     }
 
-    public Set<Vehicle> getAllVehicles() {
-        return vehicles;
+    public Map<String, Vehicle> getAllVehicles() {
+        return vehicleMap;
     }
 }

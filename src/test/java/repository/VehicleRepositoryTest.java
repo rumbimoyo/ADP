@@ -2,7 +2,7 @@ package repository;
 
 /*VehicleRepositoryTest.java
 Vehicle Repository Test class
-Author:Casey Abigail Nolte (218275161)
+Author: Casey Abigail Nolte (218275161)
 Date: 21 March 2025
  */
 
@@ -17,7 +17,7 @@ class VehicleRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        repository = VehicleRepositoryImpl.getRepository();
+        repository = VehicleRepository.getInstance(); // Use getInstance() if it's a Singleton
         vehicle = new Vehicle.Builder()
                 .setLicensePlate("CA123456")
                 .setVehicleMake("Toyota")
@@ -25,28 +25,34 @@ class VehicleRepositoryTest {
                 .setVehicleColour("White")
                 .setVehicleVIN("VIN12345")
                 .build();
-        repository.create(vehicle);
+        repository.addVehicle(vehicle); // Ensure this method exists in VehicleRepository
     }
 
     @Test
-    void create_Success() {
-        assertNotNull(repository.read("CA123456"));
+    void addVehicle_Success() {
+        assertTrue(repository.addVehicle(new Vehicle.Builder()
+                .setLicensePlate("CA654321")
+                .setVehicleMake("Honda")
+                .setVehicleModel("Civic")
+                .setVehicleColour("Black")
+                .setVehicleVIN("VIN67890")
+                .build()));
     }
 
     @Test
-    void read_ExistingVehicle_ReturnsVehicle() {
-        Vehicle found = repository.read("CA123456");
+    void findVehicleByLicensePlate_ExistingVehicle_ReturnsVehicle() {
+        Vehicle found = repository.findVehicleByLicensePlate("CA123456");
         assertNotNull(found);
         assertEquals("Toyota", found.getVehicleMake());
     }
 
     @Test
-    void read_NonExistentVehicle_ReturnsNull() {
-        assertNull(repository.read("NON_EXISTENT"));
+    void findVehicleByLicensePlate_NonExistentVehicle_ReturnsNull() {
+        assertNull(repository.findVehicleByLicensePlate("NON_EXISTENT"));
     }
 
     @Test
-    void update_Success() {
+    void updateVehicle_Success() {
         Vehicle updatedVehicle = new Vehicle.Builder()
                 .setLicensePlate("CA123456")
                 .setVehicleMake("Honda")
@@ -55,8 +61,8 @@ class VehicleRepositoryTest {
                 .setVehicleVIN("VIN54321")
                 .build();
 
-        repository.update(updatedVehicle);
-        Vehicle found = repository.read("CA123456");
+        assertTrue(repository.updateVehicle(updatedVehicle));
+        Vehicle found = repository.findVehicleByLicensePlate("CA123456");
 
         assertNotNull(found);
         assertEquals("Honda", found.getVehicleMake());
@@ -65,13 +71,13 @@ class VehicleRepositoryTest {
     }
 
     @Test
-    void delete_Success() {
-        assertTrue(repository.delete("CA123456"));
-        assertNull(repository.read("CA123456"));
+    void deleteVehicle_Success() {
+        assertTrue(repository.deleteVehicle("CA123456"));
+        assertNull(repository.findVehicleByLicensePlate("CA123456"));
     }
 
     @Test
-    void getAll_ShouldReturnVehicles() {
-        assertFalse(repository.getAll().isEmpty());
+    void getAllVehicles_ShouldReturnVehicles() {
+        assertFalse(repository.getAllVehicles().isEmpty());
     }
 }
