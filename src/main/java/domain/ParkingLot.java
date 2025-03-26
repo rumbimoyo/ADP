@@ -31,6 +31,8 @@ public class ParkingLot {
     public String getClosingTime() { return closingTime; }
     public double getPricePerHour() { return pricePerHour; }
 
+
+
     public static class Builder {
         private String lotId, title, location, openTime, closingTime;
         private double pricePerHour;

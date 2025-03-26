@@ -26,6 +26,10 @@ public class ParkingSpot {
         this.parkingLot = parkingLot;
     }
 
+    public ParkingSpot(int spotNumber, String status, String type, ParkingLot parkingLot) {
+
+    }
+
     // Getters and Setters
     public String getSpotId() {
         return spotId;

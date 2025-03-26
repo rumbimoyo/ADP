@@ -24,7 +24,7 @@ class ParkingSpotFactoryTest {
     void testCreateParkingSpot_WithAllAttributes() {
         // Create a ParkingLot object
         parkingLot = new ParkingLot();
-        parkingLot.setlotId(1L);
+        parkingLot.setlotId();
 
 
         // Act: Create a ParkingSpot with all attributes
