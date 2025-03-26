@@ -40,6 +40,8 @@ public class Helper {
         return number == null;
     }
 
+    public static Boolean isNullorEmptyParkingLot(ParkingLot parkingLot){return parkingLot == null;}
+
     public static Boolean isNullorEmptyDate(LocalDate date){
         return date == null || date.equals(LocalDate.of(1970, 1, 1));
     }

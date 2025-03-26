@@ -9,6 +9,7 @@ parkingspot repository test
 import domain.ParkingLot;
 
 import domain.ParkingSpot;
+import factory.ParkingLotFactory;
 import factory.ParkingSpotFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ParkingSpotRepositoryTest {
 
     private final ParkingSpotRepository parkingSpotRepository = ParkingSpotRepository.getInstance();
+    ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot("101L", "222","open","compact", parkingLot);
+    ParkingLot parkingLot = ParkingLotFactory.createParkingLot("1", "parking lot", "s", "1","1", 12.5);
+
 
     @Test
     @DisplayName("Testing instance method")
@@ -31,11 +35,7 @@ class ParkingSpotRepositoryTest {
     @Test
     @DisplayName("Testing create method")
     void create() {
-        ParkingLot parkingLot = new parkingLot();
-        parkingLot.setLotId(1L);
 
-
-        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
         boolean isCreated = parkingSpotRepository.create(parkingSpot);
         assertTrue(isCreated, "Parking spot creation should return true");
         boolean isDuplicate = parkingSpotRepository.create(parkingSpot);
@@ -45,9 +45,6 @@ class ParkingSpotRepositoryTest {
     @Test
     @DisplayName("Testing read method")
     void read() {
-        ParkingLot parkingLot = new ParkingLot();
-        parkingLot.setLotId(1L);
-
 
         ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot);
@@ -67,8 +64,6 @@ class ParkingSpotRepositoryTest {
     @Test
     @DisplayName("Testing update method")
     void update() {
-        ParkingLot parkingLot = new ParkingLot();
-        parkingLot.setLotId(1L);
 
         ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot);
@@ -81,8 +76,6 @@ class ParkingSpotRepositoryTest {
     @Test
     @DisplayName("Testing if update returns null")
     void updateNull() {
-        ParkingLot parkingLot = new ParkingLot();
-        parkingLot.setLotId(1L);
 
         ParkingSpot nonExistentSpot = ParkingSpotFactory.createParkingSpot(999, "open", "compact", parkingLot);
         ParkingSpot updatedSpot = parkingSpotRepository.update(nonExistentSpot);
@@ -92,8 +85,6 @@ class ParkingSpotRepositoryTest {
     @Test
     @DisplayName("Testing delete method")
     void delete() {
-        ParkingLot parkingLot = new ParkingLot();
-        parkingLot.setLotId(1L);
 
         ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot);
@@ -113,8 +104,7 @@ class ParkingSpotRepositoryTest {
     @Test
     @DisplayName("Testing getAll method")
     void getAll() {
-        ParkingLot parkingLot = new ParkingLot();
-        parkingLot.setLotId(1L);
+
         ParkingSpot parkingSpot1 = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
         ParkingSpot parkingSpot2 = ParkingSpotFactory.createParkingSpot(102, "reserved", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot1);

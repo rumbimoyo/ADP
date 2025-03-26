@@ -35,16 +35,9 @@ public class Main {
 
         // Create a ParkingSpot object using ParkingSpotFactory
         ParkingSpot spot1 = ParkingSpotFactory.createParkingSpot(
-                101, "open", "compact", lot1);
+                "101", "11", "open","compact", lot1);
         System.out.println("Parking Spot 1: " + spot1);
 
-        // Occupying the parking spot
-        if (spot1 != null) {
-            spot1.setStatus("occupied"); // Status will change to occupied
-            System.out.println("After occupying Parking Spot 1: " + spot1);
-        } else {
-            System.out.println("Failed to create Parking Spot.");
-        }
     }}
 
 

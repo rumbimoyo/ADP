@@ -13,7 +13,7 @@ import domain.Reservation;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ReservationRepository implements IRepository<Reservation, String> {
+public class ReservationRepository {
     private static ReservationRepository instance;
     private Set<Reservation> reservationRepositoryDB = new HashSet<>();
 
