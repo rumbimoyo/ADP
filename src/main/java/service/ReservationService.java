@@ -10,24 +10,26 @@ package service;
 import domain.Reservation;
 import domain.User;
 import domain.Vehicle;
+import domain.ParkingSpot;
 import factory.ReservationFactory;
+import repository.ParkingLotRepository;
 import repository.ReservationRepository;
 import repository.UserRepository;
-//import repository.VehicleRepository;
-
+import repository.VehicleRepository;
+import java.util.Date;
 import java.util.Set;
 
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
-   // private final VehicleRepository vehicleRepository;
+    private final VehicleRepository vehicleRepository;
 
     // Private constructor to enforce the singleton pattern
     private ReservationService() {
         this.reservationRepository = ReservationRepository.getInstance();
         this.userRepository = UserRepository.getInstance();
-     //   this.vehicleRepository = VehicleRepository.getInstance();
+        this.vehicleRepository = VehicleRepository.getInstance();
     }
 
     // Singleton instance
@@ -41,45 +43,29 @@ public class ReservationService {
         return instance;
     }
 
-    /**
-     * Adds a new reservation after checking that the associated user and vehicle exist.
-     * Uses the vehicle's licence plate for identification.
-     *
-     * @param reservationID Unique ID for the reservation
-     * @param startTime Start time as String
-     * @param endTime End time as String
-     * @param date Date of reservation
-     * @param price Price for the reservation
-     * @param vehicle The associated vehicle (should have a valid licence plate)
-     * @param user The associated user
-     * @return The created Reservation, or null if validation fails
-     */
+
     public Reservation addReservation(String reservationID, String startTime, String endTime,
-                                      java.util.Date date, double price, Vehicle vehicle,
-                                      User user) {
+                                      Date date, double price, Vehicle vehicle,
+                                      ParkingSpot parkingSpot, User user) {  // Added parkingSpot
 
-        // Verify user exists
-        if (userRepository.read(user.getUserID()) == null) {
-            return null;
+        // Validate user exists
+        if (userRepository.read(user.getUserID()) == null) return null;
+
+        // Validate vehicle exists
+        if (vehicleRepository.findByLicensePlate(vehicle.getLicensePlate()) == null) return null;
+
+        // Create reservation
+        Reservation reservation = ReservationFactory.createFullReservation(
+                reservationID, startTime, endTime, date, price,
+                vehicle, parkingSpot, user);  // Use correct method
+
+        if (reservation != null) {
+            reservationRepository.create(reservation);
         }
-        // Verify vehicle exists using its licence plate
-     //   if (vehicleRepository.read(vehicle.getLicencePlate()) == null) {
-     //       return null;
-      // }
-
-        // Create reservation using factory
-        Reservation reservation = ReservationFactory.createReservation(
-                reservationID, startTime, endTime, date, price, vehicle, null, user);
-        reservationRepository.create(reservation);
         return reservation;
     }
 
-    /**
-     * Edits an existing reservation.
-     *
-     * @param reservation The updated reservation
-     * @return The updated Reservation, or null if it does not exist
-     */
+
     public Reservation editReservation(Reservation reservation) {
         Reservation existingReservation = reservationRepository.read(reservation.getReservationID());
         if (existingReservation != null) {
@@ -88,12 +74,7 @@ public class ReservationService {
         return null;
     }
 
-    /**
-     * Deletes a reservation by its ID.
-     *
-     * @param reservationID The ID of the reservation to delete
-     * @return true if deleted successfully, false otherwise
-     */
+
     public boolean deleteReservation(String reservationID) {
         Reservation reservation = reservationRepository.read(reservationID);
         if (reservation != null) {
@@ -102,12 +83,11 @@ public class ReservationService {
         return false;
     }
 
-    /**
-     * Retrieves all reservations.
-     *
-     * @return A set of all reservations.
-     */
+
     public Set<Reservation> viewReservations() {
         return reservationRepository.getAll();
+    }
+
+    public void addReservation(String s, String time, String time1, User testUser) {
     }
 }

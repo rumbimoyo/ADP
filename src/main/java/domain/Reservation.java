@@ -1,15 +1,16 @@
-
 package domain;
-
-/*
-domain.Reservation
-Reservation entity class
-Author: Avela Bonakali
-Date: 20/03/2025
- */
 
 import java.util.Date;
 
+/*
+ * domain.Reservation
+ * Reservation entity class
+ * Author: Avela Bonakali
+ * Date: 20/03/2025
+ *
+ * This class represents a parking reservation and follows the Builder pattern.
+ * It contains a private no-arg constructor and a private all-arg constructor used only by the Builder.
+ */
 public class Reservation {
 
     private String reservationID;
@@ -21,12 +22,13 @@ public class Reservation {
     private ParkingSpot parkingSpot;
     private User user;
 
-    public Reservation() {
-    }
+    // Private no-argument constructor
+    private Reservation() { }
 
-    public Reservation(String reservationID, String startTime, String endTime,
-                       Date date, double price, Vehicle vehicle,
-                       ParkingSpot parkingSpot, User user) {
+    // Private constructor used by the Builder
+    private Reservation(String reservationID, String startTime, String endTime,
+                        Date date, double price, Vehicle vehicle,
+                        ParkingSpot parkingSpot, User user) {
         this.reservationID = reservationID;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -37,37 +39,15 @@ public class Reservation {
         this.user = user;
     }
 
-    public String getReservationID() {
-        return reservationID;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public ParkingSpot getParkingSpot() {
-        return parkingSpot;
-    }
-
-    public User getUser() {
-        return user;
-    }
+    // Getters (no public setters, ensuring immutability)
+    public String getReservationID() { return reservationID; }
+    public String getStartTime() { return startTime; }
+    public String getEndTime() { return endTime; }
+    public Date getDate() { return date; }
+    public double getPrice() { return price; }
+    public Vehicle getVehicle() { return vehicle; }
+    public ParkingSpot getParkingSpot() { return parkingSpot; }
+    public User getUser() { return user; }
 
     @Override
     public String toString() {
@@ -83,6 +63,7 @@ public class Reservation {
                 '}';
     }
 
+    // Nested static Builder class
     public static class Builder {
         private String reservationID;
         private String startTime;
