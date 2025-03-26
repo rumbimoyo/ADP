@@ -1,75 +1,159 @@
-//package factory;
-//
-//public class ReservationFactoryTest {
-//}
 package factory;
 
-import domain.*;
-// import domain.Vehicle;
+import domain.ParkingLot;
+import domain.ParkingSpot;
+import domain.Reservation;
+import domain.User;
+import domain.Vehicle;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ReservationFactoryTest {
+public class ReservationFactoryTest {
 
     private User testUser;
     private Vehicle testVehicle;
     private ParkingSpot testParkingSpot;
+    private ParkingLot testParkingLot;
     private Date testDate;
     private String testStartTime;
     private String testEndTime;
     private double testPrice;
-    private ParkingLot parkingLot;
-    private final Set<Reservation> reservations = new HashSet<>();
-
 
     @BeforeEach
-    void setUp() {
-        parkingLot = ParkingLotFactory.createParkingLot("1","Cape Town","08:00am","12:00pm",12.0);
-//        testUser = UserFactory.createUser("001","TTTT",32,"0877977","hdhd@gmail.com");
-        //testVehicle = VehicleFactory.createVehicle("ABC123", "Toyota", "Corolla", "Red", 2020);
-        testParkingSpot = ParkingSpotFactory.createParkingSpot(1, "open", "compact", parkingLot);
+    public void setUp() {
+        // Keep existing setup but update to match actual Builder patterns
+        testParkingLot = new ParkingLot.Builder()
+                .setLotId("PL001")
+                .setLocation("Downtown")
+                .build();  // Simplified for testing
+
+        testParkingSpot = new ParkingSpot.Builder()
+                .setSpotNumber(101)
+                .setStatus("open")
+                .setType("compact")
+                .setParkingLot(testParkingLot)
+                .build();
+
+        testUser = new User.Builder()
+                .setUserID("U001")
+                .setName("Test User")
+                .build();
+
+        testVehicle = new Vehicle.Builder()
+                .setLicensePlate("ABC123")
+                .build();
+
         testDate = new Date();
         testStartTime = "09:00";
         testEndTime = "11:00";
         testPrice = 20.0;
     }
 
+    // ===== CORE FUNCTIONALITY TESTS =====
     @Test
-    void createReservationComplete() {
-        // When
-        Reservation reservation = ReservationFactory.createReservation("01",testStartTime,testEndTime,testDate,testPrice,testParkingSpot,testUser);
+    @DisplayName("Valid full reservation creation")
+    void validFullReservation() {
+        Reservation res = ReservationFactory.createFullReservation(
+                "RES-001", testStartTime, testEndTime, testDate,
+                testPrice, testVehicle, testParkingSpot, testUser
+        );
 
-        // Then
-        System.out.println(reservation);
-        assertNotNull(reservation);
-        assertNotNull(reservation.getReservationID());
-        assertEquals(testUser, reservation.getUser());
-        // assertEquals(testVehicle, reservation.getVehicle());
-        assertEquals(testParkingSpot, reservation.getParkingSpot());
-        assertEquals(testDate, reservation.getDate());
-        assertEquals(testStartTime, reservation.getStartTime());
-        assertEquals(testEndTime, reservation.getEndTime());
-        assertEquals(testPrice, reservation.getPrice(), 0.01);
+        assertNotNull(res, "Should create valid reservation");
+        assertEquals(testVehicle, res.getVehicle());
+        assertEquals(testUser, res.getUser());
     }
 
     @Test
-    void createReservationwithTimeAndParkingSpot() {
-        // When
-        Reservation reservation = ReservationFactory.createBasicReservation("01",testStartTime,testEndTime,testDate,testParkingSpot);
+    @DisplayName("Basic reservation with default price")
+    void validBasicReservation() {
+        Reservation res = ReservationFactory.createBasicReservation(
+                "RES-002", "13:00", "15:00", testDate, testParkingSpot
+        );
 
-        // Then
-        System.out.println(reservation);
-        assertNotNull(reservation);
-        assertNotNull(reservation.getReservationID());
-        assertEquals(testDate, reservation.getDate());
-        assertEquals(testStartTime, reservation.getStartTime());
-        assertEquals(testEndTime, reservation.getEndTime());
+        assertNotNull(res, "Should create basic reservation");
+        assertEquals(0.0, res.getPrice(), "Default price should be 0.0");
+        assertNull(res.getVehicle(), "Vehicle should be null");
     }
 
+    // ===== VALIDATION FAILURE TESTS =====
+    @Test
+    @DisplayName("Full reservation requires vehicle and user")
+    void fullReservationRequiresVehicleAndUser() {
+        // Test missing vehicle
+        Reservation noVehicle = ReservationFactory.createFullReservation(
+                "RES-003", testStartTime, testEndTime, testDate,
+                testPrice, null, testParkingSpot, testUser
+        );
+        assertNull(noVehicle, "Should reject null vehicle");
+
+        // Test missing user
+        Reservation noUser = ReservationFactory.createFullReservation(
+                "RES-004", testStartTime, testEndTime, testDate,
+                testPrice, testVehicle, testParkingSpot, null
+        );
+        assertNull(noUser, "Should reject null user");
+    }
+
+    @Test
+    @DisplayName("Time format validation")
+    void timeFormatValidation() {
+        // Invalid time formats
+        Reservation invalidStart = ReservationFactory.createBasicReservation(
+                "RES-005", "25:00", testEndTime, testDate, testParkingSpot
+        );
+        assertNull(invalidStart, "Should reject invalid start time");
+
+        // Valid boundary case
+        Reservation validLate = ReservationFactory.createBasicReservation(
+                "RES-006", "23:59", "24:00", testDate, testParkingSpot
+        );
+        assertNull(validLate, "Should reject 24:00 end time");
+    }
+
+    @Test
+    @DisplayName("Price validation")
+    void priceValidation() {
+        // Negative price
+        Reservation negativePrice = ReservationFactory.createFullReservation(
+                "RES-007", testStartTime, testEndTime, testDate,
+                -10.0, testVehicle, testParkingSpot, testUser
+        );
+        assertNull(negativePrice, "Should reject negative price");
+    }
+
+    // ===== EDGE CASE TESTS =====
+    @Test
+    @DisplayName("Boundary time validation")
+    void boundaryTimeValidation() {
+        // Valid late reservation
+        Reservation lateRes = ReservationFactory.createBasicReservation(
+                "RES-008", "23:59", "23:59", testDate, testParkingSpot
+        );
+        assertNotNull(lateRes, "Should allow 23:59 times");
+
+        // Invalid time order
+        Reservation wrongOrder = ReservationFactory.createBasicReservation(
+                "RES-009", "12:00", "11:00", testDate, testParkingSpot
+        );
+        assertNull(wrongOrder, "Should reject reversed times");
+    }
+
+    @Test
+    @DisplayName("Walk-in reservation without user")
+    void validWalkInReservation() {
+        Reservation walkIn = ReservationFactory.createWalkInReservation(
+                "RES-010", testStartTime, testEndTime, testDate,
+                testPrice, testVehicle, testParkingSpot
+        );
+
+        assertNotNull(walkIn, "Should allow vehicle-only reservations");
+        assertNull(walkIn.getUser(), "Walk-in should have no user");
+    }
 }

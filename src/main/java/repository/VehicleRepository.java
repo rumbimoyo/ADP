@@ -11,14 +11,27 @@ import java.util.HashSet;
    Date: 21 March 2025
 */
 public class VehicleRepository {
-    private final Set<Vehicle> vehicles;
+    private static VehicleRepository instance;
+    private final Set<Vehicle> vehicles = new HashSet<>();
 
-    public VehicleRepository() {
-        this.vehicles = new HashSet<>();
+    private VehicleRepository() {} // Private constructor
+
+    public static synchronized VehicleRepository getInstance() {
+        if (instance == null) {
+            instance = new VehicleRepository();
+        }
+        return instance; // Returns singleton instance
     }
 
-    public boolean addVehicle(Vehicle vehicle) {
+    public boolean add(Vehicle vehicle) {
         return vehicles.add(vehicle);
+    }
+
+    public Vehicle findByLicensePlate(String licensePlate) {
+        return vehicles.stream()
+                .filter(v -> v.getLicensePlate().equals(licensePlate))
+                .findFirst()
+                .orElse(null);
     }
 
     public Vehicle findVehicleByLicensePlate(String licensePlate) {

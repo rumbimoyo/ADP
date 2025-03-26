@@ -1,94 +1,97 @@
+
 package repository;
 
-import domain.*;
+import domain.ParkingLot;
+import domain.ParkingSpot;
+import domain.Reservation;
+import domain.User;
 import factory.ParkingLotFactory;
 import factory.ParkingSpotFactory;
 import factory.UserFactory;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 import java.util.Date;
-import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class ReservationRepositoryTest {
+public class ReservationRepositoryTest {
 
-    private ParkingLot parkingLot = ParkingLotFactory.createParkingLot("1","Cape Town","08:00am","12:00pm",12.0);
-//    private User testUser = UserFactory.createUser("001","TTTT",32,"0877977","hdhd@gmail.com");
-    //private Vehicle testVehicle = VehicleFactory.createVehicle("ABC123", "Toyota", "Corolla", "Red", 2020);
-    private ParkingSpot testParkingSpot = ParkingSpotFactory.createParkingSpot(1, "open", "compact", parkingLot);
+    private static ParkingLot testParkingLot;
+    private static ParkingSpot testParkingSpot;
+    private static User testUser;
+    private static ReservationRepository reservationRepository;
 
-    ReservationRepository reservationRepository = ReservationRepository.getInstance();
+    @BeforeAll
+    public static void setUp() {
+        // Create a dummy ParkingLot using the ParkingLotFactory
+        testParkingLot = ParkingLotFactory.createParkingLot("PL001", "Test Lot", "Test Location", "08:00 AM", "06:00 PM", 10.0);
+        // Create a dummy ParkingSpot using the ParkingSpotFactory
+        testParkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", testParkingLot);
+        // Create a dummy User using the UserFactory
+        testUser = UserFactory.createUser("USER001", "Test User", java.time.LocalDate.of(2000, 1, 1), "male", "555-1234", "test@example.com");
+        // Get the singleton instance of ReservationRepository
+        reservationRepository = ReservationRepository.getInstance();
+    }
 
     @Test
-    public void a_CreateReservation() {
+    @DisplayName("A - Test Create Reservation")
+    public void testCreateReservation() {
         Reservation reservation = new Reservation.Builder()
-                .setReservationID("PL001")
+                .setReservationID("RES001")
+                .setStartTime("09:00")
+                .setEndTime("11:00")
                 .setDate(new Date())
-                .setStartTime("08:00")
-                .setEndTime("20:00")
-                .setPrice(5.0)
+                .setPrice(50.0)
                 .setUser(testUser)
-                //.setVehicle(testVehicle)
                 .setParkingSpot(testParkingSpot)
                 .build();
-
-        reservationRepository.create(reservation);
-
-        assertNotNull(reservation);
+        Reservation created = reservationRepository.create(reservation);
+        assertNotNull(created, "Created reservation should not be null");
     }
 
     @Test
-    public void b_ReadReservation() {
-        Reservation reservation = reservationRepository.read("PL001");
-
-        assertNotNull(reservation);
-        assertEquals("PL001", reservation.getReservationID());
+    @DisplayName("B - Test Read Reservation")
+    public void testReadReservation() {
+        Reservation reservation = reservationRepository.read("RES001");
+        assertNotNull(reservation, "Reservation should be found");
+        assertEquals("RES001", reservation.getReservationID(), "Reservation ID should match");
     }
 
     @Test
-    public void c_UpdateReservation() {
-        Reservation reservation = new Reservation.Builder()
-                .setReservationID("PL001")
+    @DisplayName("C - Test Update Reservation")
+    public void testUpdateReservation() {
+        // Update details of the reservation
+        Reservation updatedReservation = new Reservation.Builder()
+                .setReservationID("RES001")
+                .setStartTime("10:00")
+                .setEndTime("12:00")
                 .setDate(new Date())
-                .setStartTime("08:00")
-                .setEndTime("20:00")
-                .setPrice(100)
+                .setPrice(60.0)
                 .setUser(testUser)
-                //.setVehicle(testVehicle)
                 .setParkingSpot(testParkingSpot)
                 .build();
-
-        Reservation updatedReservation = reservationRepository.update(reservation);
-        assertNotNull(reservation);
-        assertEquals("PL001", updatedReservation.getReservationID());
-        assertEquals(100, reservation.getPrice());
-
+        Reservation updated = reservationRepository.update(updatedReservation);
+        assertNotNull(updated, "Updated reservation should not be null");
+        assertEquals("10:00", updated.getStartTime(), "Start time should be updated");
+        assertEquals(60.0, updated.getPrice(), 0.01, "Price should be updated");
     }
 
     @Test
-    public void d_GetAllReservations() {
-        HashSet hashSet = new HashSet<>();
-
-        hashSet.add(reservationRepository.getAll());
-
-        assertNotNull(hashSet);
+    @DisplayName("D - Test Get All Reservations")
+    public void testGetAllReservations() {
+        Set<Reservation> allReservations = reservationRepository.getAll();
+        assertNotNull(allReservations, "All reservations set should not be null");
+        assertTrue(allReservations.size() > 0, "There should be at least one reservation");
     }
 
     @Test
-    public void e_DeleteReservation() {
-        String reservationId = "PL001";
-        Boolean deleted = reservationRepository.delete(reservationId);
-
-        HashSet hashSet = new HashSet<>();
-        hashSet.add(reservationRepository.getAll());
-
-        //assertNull(hashSet);
-        System.out.println(hashSet);
-        assertTrue(deleted);
-
+    @DisplayName("E - Test Delete Reservation")
+    public void testDeleteReservation() {
+        boolean deleted = reservationRepository.delete("RES001");
+        assertTrue(deleted, "Reservation should be deleted");
+        Reservation res = reservationRepository.read("RES001");
+        assertNull(res, "Deleted reservation should not be found");
     }
 }

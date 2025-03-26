@@ -1,39 +1,36 @@
-//package factory;
-//
-//public class ReservationFactory {
-//}
+
 package factory;
 
-/*
-factory.ReservationFactory
-Reservation Factory class
-Author: Avela Bonakali
-Date: 20/03/2025
- */
+//factory.ReservationFactory
+//Reservation Factory class
+//Author: Avela Bonakali
+//Date: 20/03/2025
+// */
 
 import domain.Reservation;
 import domain.Vehicle;
 import domain.ParkingSpot;
 import domain.User;
 import util.Helper;
-
 import java.util.Date;
 
 public class ReservationFactory {
+    private static final String TIME_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
+    private static final double DEFAULT_PRICE = 0.0;
 
-    // creates reservation object with all attributes
-    public static Reservation createReservation(String reservationID, String startTime, String endTime,
-                                                Date date, double price, Vehicle vehicle,
-                                                ParkingSpot parkingSpot, User user) {
-
-        if(Helper.isNullorEmpty(reservationID) ||
-                Helper.isNullorEmpty(startTime) ||
-                Helper.isNullorEmpty(endTime) ||
-                date == null ||
-                price < 0 ||
-                vehicle == null ||
-                parkingSpot == null ||
-                user == null) {
+    // Main factory method with validation
+    private static Reservation create(String reservationID,
+                                      String startTime,
+                                      String endTime,
+                                      Date date,
+                                      double price,
+                                      Vehicle vehicle,
+                                      ParkingSpot parkingSpot,
+                                      User user,
+                                      boolean requireVehicle,
+                                      boolean requireUser) {
+        if (!isValid(reservationID, startTime, endTime, date, price, parkingSpot,
+                vehicle, requireVehicle, user, requireUser)) {
             return null;
         }
 
@@ -49,77 +46,53 @@ public class ReservationFactory {
                 .build();
     }
 
-    // creates reservation without user (for walk-in vehicle reservations)
-    public static Reservation createReservation(String reservationID, String startTime, String endTime,
-                                                Date date, double price, Vehicle vehicle,
-                                                ParkingSpot parkingSpot) {
-
-        if(Helper.isNullorEmpty(reservationID) ||
-                Helper.isNullorEmpty(startTime) ||
-                Helper.isNullorEmpty(endTime) ||
-                date == null ||
-                price < 0 ||
-                vehicle == null ||
-                parkingSpot == null) {
-            return null;
-        }
-
-        return new Reservation.Builder()
-                .setReservationID(reservationID)
-                .setStartTime(startTime)
-                .setEndTime(endTime)
-                .setDate(date)
-                .setPrice(price)
-                .setVehicle(vehicle)
-                .setParkingSpot(parkingSpot)
-                .build();
+    // Validation logic
+    private static boolean isValid(String reservationID,
+                                   String startTime,
+                                   String endTime,
+                                   Date date,
+                                   double price,
+                                   ParkingSpot parkingSpot,
+                                   Vehicle vehicle,
+                                   boolean requireVehicle,
+                                   User user,
+                                   boolean requireUser) {
+        return !Helper.isNullorEmpty(reservationID) &&
+                isValidTime(startTime) &&
+                isValidTime(endTime) &&
+                startTime.compareTo(endTime) < 0 &&
+                date != null &&
+                price >= 0 &&
+                parkingSpot != null &&
+                (!requireVehicle || vehicle != null) &&
+                (!requireUser || user != null);
     }
 
-    // creates reservation without vehicle (for user without a vehicle)
-    public static Reservation createReservation(String reservationID, String startTime, String endTime,
-                                                Date date, double price,
-                                                ParkingSpot parkingSpot, User user) {
-
-        if(Helper.isNullorEmpty(reservationID) ||
-                Helper.isNullorEmpty(startTime) ||
-                Helper.isNullorEmpty(endTime) ||
-                date == null ||
-                price < 0 ||
-                parkingSpot == null ||
-                user == null) {
-            return null;
-        }
-
-        return new Reservation.Builder()
-                .setReservationID(reservationID)
-                .setStartTime(startTime)
-                .setEndTime(endTime)
-                .setDate(date)
-                .setPrice(price)
-                .setParkingSpot(parkingSpot)
-                .setUser(user)
-                .build();
+    private static boolean isValidTime(String time) {
+        return time != null && time.matches(TIME_REGEX);
     }
 
-    // creates basic reservation with just time and parking spot
+    // Public creation methods
+    public static Reservation createFullReservation(String reservationID, String startTime, String endTime,
+                                                    Date date, double price, Vehicle vehicle,
+                                                    ParkingSpot parkingSpot, User user) {
+        return create(reservationID, startTime, endTime, date, price, vehicle, parkingSpot, user, true, true);
+    }
+
+    public static Reservation createWalkInReservation(String reservationID, String startTime, String endTime,
+                                                      Date date, double price, Vehicle vehicle,
+                                                      ParkingSpot parkingSpot) {
+        return create(reservationID, startTime, endTime, date, price, vehicle, parkingSpot, null, true, false);
+    }
+
+    public static Reservation createUserReservation(String reservationID, String startTime, String endTime,
+                                                    Date date, double price,
+                                                    ParkingSpot parkingSpot, User user) {
+        return create(reservationID, startTime, endTime, date, price, null, parkingSpot, user, false, true);
+    }
+
     public static Reservation createBasicReservation(String reservationID, String startTime, String endTime,
                                                      Date date, ParkingSpot parkingSpot) {
-
-        if(Helper.isNullorEmpty(reservationID) ||
-                Helper.isNullorEmpty(startTime) ||
-                Helper.isNullorEmpty(endTime) ||
-                date == null ||
-                parkingSpot == null) {
-            return null;
-        }
-
-        return new Reservation.Builder()
-                .setReservationID(reservationID)
-                .setStartTime(startTime)
-                .setEndTime(endTime)
-                .setDate(date)
-                .setParkingSpot(parkingSpot)
-                .setPrice(0.0) // Default price
-                .build();
+        return create(reservationID, startTime, endTime, date, DEFAULT_PRICE, null, parkingSpot, null, false, false);
     }
 }
