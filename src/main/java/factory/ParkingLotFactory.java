@@ -8,7 +8,6 @@ Date: 20/03/2025
  */
 
 import domain.ParkingLot;
-import util.Helper;
 import static util.Helper.*;
 
 public class ParkingLotFactory {

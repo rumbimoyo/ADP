@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ParkingSpotFactoryTest {
 
     ParkingLot parkingLot = ParkingLotFactory.createParkingLot("1", "parking lot", "s", "1","1", 12.5);
-    ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot("101", "111", "open","compact" ,parkingLot);
+    ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(111, "open","compact" ,parkingLot);
 
 
     @Test
@@ -37,8 +37,7 @@ class ParkingSpotFactoryTest {
     @DisplayName("Test creating a ParkingSpot with an invalid status")
     void testCreateParkingSpot_WithInvalidStatus() {
         ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(
-                "101", "111", "1","compact" ,parkingLot
-        );
+                111, "1","compact" ,parkingLot);
 
         assertNull(parkingSpot, "The factory should return null for invalid status");
     }
@@ -48,8 +47,7 @@ class ParkingSpotFactoryTest {
     void testCreateParkingSpot_WithNullParkingLot() {
 
         parkingSpot = ParkingSpotFactory.createParkingSpot(
-                "101", "111", "open","compact" ,null
-        );
+                111, "open","compact" ,null);
 
         assertNull(parkingSpot, "The factory should return null for a null parking lot");
     }
@@ -58,13 +56,13 @@ class ParkingSpotFactoryTest {
     @DisplayName("Test creating a ParkingSpot with basic details")
     void testCreateParkingSpotWithBasicDetails() {
         // Act: Create a ParkingSpot with basic details
-        parkingSpot = ParkingSpotFactory.createParkingSpotWithBasicDetails(
-                "101", "open"
+        parkingSpot = ParkingSpotFactory.createParkingSpot(
+                101, "open"
         );
 
 
         assertNotNull(parkingSpot, "Parking spot creation failed!");
-        assertEquals("101", parkingSpot.getSpotNumber(), "The spot number should be 101");
+        assertEquals(101, parkingSpot.getSpotNumber(), "The spot number should be 101");
         assertEquals("open", parkingSpot.getStatus(), "The status should be 'open'");
         assertNull(parkingSpot.getType(), "The type should be null");
         assertNull(parkingSpot.getParkingLot(), "The parking lot should be null");
@@ -74,13 +72,13 @@ class ParkingSpotFactoryTest {
     @DisplayName("Test creating a ParkingSpot with spot details")
     void testCreateParkingSpotWithSpotDetails() {
         // Act: Create a ParkingSpot with spot details (spot number, status, and type)
-        parkingSpot = ParkingSpotFactory.createParkingSpotWithSpotDetails(
-                "101", "open", "compact"
+        parkingSpot = ParkingSpotFactory.createParkingSpot(
+                101, "open", "compact"
         );
 
 
         assertNotNull(parkingSpot, "Parking spot creation failed!");
-        assertEquals("101", parkingSpot.getSpotNumber(), "The spot number should be 101");
+        assertEquals(101, parkingSpot.getSpotNumber(), "The spot number should be 101");
         assertEquals("open", parkingSpot.getStatus(), "The status should be 'open'");
         assertEquals("compact", parkingSpot.getType(), "The type should be 'compact'");
         assertNull(parkingSpot.getParkingLot(), "The parking lot should be null");
@@ -91,13 +89,13 @@ class ParkingSpotFactoryTest {
     void testCreateParkingSpotWithParkingLot() {
 
         // Act: Create a ParkingSpot with a parking lot
-        parkingSpot = ParkingSpotFactory.createParkingSpotWithParkingLot(
-                "101", "open", parkingLot
+        parkingSpot = ParkingSpotFactory.createParkingSpot(
+                101, "open", parkingLot
         );
 
         // Assert: Validate the created ParkingSpot
         assertNotNull(parkingSpot, "Parking spot creation failed!");
-        assertEquals("101", parkingSpot.getSpotNumber(), "The spot number should be 101");
+        assertEquals(101, parkingSpot.getSpotNumber(), "The spot number should be 101");
         assertEquals("open", parkingSpot.getStatus(), "The status should be 'open'");
         assertNotNull(parkingSpot.getParkingLot(), "The parking lot should not be null");
 

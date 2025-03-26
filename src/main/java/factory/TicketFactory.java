@@ -6,42 +6,126 @@ Ticket Factory class
 Author: Affan Ebrahim (223109878)
 Date: 20/03/2025
  */
+
 import domain.ParkingLot;
 import domain.Ticket;
 import domain.Vehicle;
+import util.Helper;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+
 public class TicketFactory {
 
-    // create a Ticket
-        private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    // object of Ticket with all attributes
+    public static Ticket createTicket(String ticketID, String entryTime, String exitTime, double price, LocalDate localDate, ParkingLot parkingLot, Vehicle vehicle) {
 
-    public static Ticket createTicket(long ticketID, ParkingLot parkingLot, Vehicle vehicle) {
-        if (ticketID <= 0 || parkingLot == null || vehicle == null) {
-            throw new IllegalArgumentException("Invalid ticket parameters.");
+        if(Helper.isNullorEmpty(ticketID) ||
+                Helper.isNullorEmpty(entryTime) ||
+                Helper.isNullorEmpty(exitTime) ||
+                Helper.isNullorEmpty(price) ||
+                Helper.isNullorEmpty(localDate) ||
+                Helper.isNullorEmpty(parkingLot) ||
+                Helper.isNullorEmpty(vehicle) ||
+                Helper.isValidTime(entryTime) ||
+                Helper.isValidTime(exitTime)){
+                return null;
         }
-
-        String entryTime = LocalDateTime.now().format(formatter);
 
         return new Ticket.Builder()
                 .ticketID(ticketID)
                 .entryTime(entryTime)
+                .exitTime(exitTime)
+                .price(price)
+                .localDate(localDate)
                 .parkingLot(parkingLot)
                 .vehicle(vehicle)
-                .price(0.0)
                 .build();
     }
 
-    /**
-     * Creates a Ticket with a custom exit time (for completed transactions).
-     */
-    public static Ticket createCompletedTicket(long ticketID, ParkingLot parkingLot, Vehicle vehicle, String exitTime) {
-        if (ticketID <= 0 || parkingLot == null || vehicle == null || exitTime == null || exitTime.isEmpty()) {
-            throw new IllegalArgumentException("Invalid ticket parameters.");
+    // object of Ticket no vehicle
+    public static Ticket createTicket(String ticketID, String entryTime, String exitTime, double price, LocalDate localDate, ParkingLot parkingLot) {
+
+        if(Helper.isNullorEmpty(ticketID) ||
+                Helper.isNullorEmpty(entryTime) ||
+                Helper.isNullorEmpty(exitTime) ||
+                Helper.isNullorEmpty(price) ||
+                Helper.isNullorEmpty(localDate) ||
+                Helper.isNullorEmpty(parkingLot) ||
+                Helper.isValidTime(entryTime) ||
+                Helper.isValidTime(exitTime)){
+            return null;
         }
 
-        String entryTime = LocalDateTime.now().format(formatter);
+        return new Ticket.Builder()
+                .ticketID(ticketID)
+                .entryTime(entryTime)
+                .exitTime(exitTime)
+                .price(price)
+                .localDate(localDate)
+                .parkingLot(parkingLot)
+                .build();
+    }
+
+    // object of Ticket with no date
+    public static Ticket createTicket(String ticketID, String entryTime, String exitTime, double price, ParkingLot parkingLot, Vehicle vehicle) {
+
+        if(Helper.isNullorEmpty(ticketID) ||
+                Helper.isNullorEmpty(entryTime) ||
+                Helper.isNullorEmpty(exitTime) ||
+                Helper.isNullorEmpty(price) ||
+                Helper.isNullorEmpty(parkingLot) ||
+                Helper.isNullorEmpty(vehicle) ||
+                Helper.isValidTime(entryTime) ||
+                Helper.isValidTime(exitTime)){
+            return null;
+        }
+
+        return new Ticket.Builder()
+                .ticketID(ticketID)
+                .entryTime(entryTime)
+                .exitTime(exitTime)
+                .price(price)
+                .parkingLot(parkingLot)
+                .vehicle(vehicle)
+                .build();
+    }
+
+    // object of Ticket with no price
+    public static Ticket createTicket(String ticketID, String entryTime, String exitTime, LocalDate localDate, ParkingLot parkingLot, Vehicle vehicle) {
+
+        if(Helper.isNullorEmpty(ticketID) ||
+                Helper.isNullorEmpty(entryTime) ||
+                Helper.isNullorEmpty(exitTime) ||
+                Helper.isNullorEmpty(localDate) ||
+                Helper.isNullorEmpty(parkingLot) ||
+                Helper.isNullorEmpty(vehicle) ||
+                Helper.isValidTime(entryTime) ||
+                Helper.isValidTime(exitTime)){
+            return null;
+        }
+
+        return new Ticket.Builder()
+                .ticketID(ticketID)
+                .entryTime(entryTime)
+                .exitTime(exitTime)
+                .localDate(localDate)
+                .parkingLot(parkingLot)
+                .vehicle(vehicle)
+                .build();
+    }
+
+    // no price and date
+    public static Ticket createTicket(String ticketID, String entryTime, String exitTime, ParkingLot parkingLot, Vehicle vehicle) {
+
+        if(Helper.isNullorEmpty(ticketID) ||
+                Helper.isNullorEmpty(entryTime) ||
+                Helper.isNullorEmpty(exitTime) ||
+                Helper.isNullorEmpty(parkingLot) ||
+                Helper.isNullorEmpty(vehicle) ||
+                Helper.isValidTime(entryTime) ||
+                Helper.isValidTime(exitTime)){
+            return null;
+        }
 
         return new Ticket.Builder()
                 .ticketID(ticketID)
@@ -49,9 +133,11 @@ public class TicketFactory {
                 .exitTime(exitTime)
                 .parkingLot(parkingLot)
                 .vehicle(vehicle)
-                .price(0.0)
                 .build();
     }
+
+
+
 
 }
 

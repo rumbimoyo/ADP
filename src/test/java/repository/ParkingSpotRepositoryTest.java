@@ -13,15 +13,14 @@ import factory.ParkingLotFactory;
 import factory.ParkingSpotFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.ParkingSpotRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParkingSpotRepositoryTest {
 
     private final ParkingSpotRepository parkingSpotRepository = ParkingSpotRepository.getInstance();
-    ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot("101L", "222","open","compact", parkingLot);
     ParkingLot parkingLot = ParkingLotFactory.createParkingLot("1", "parking lot", "s", "1","1", 12.5);
+    ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
 
 
     @Test
@@ -49,7 +48,7 @@ class ParkingSpotRepositoryTest {
         ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot);
 
-        ParkingSpot foundSpot = parkingSpotRepository.read(101L);
+        ParkingSpot foundSpot = parkingSpotRepository.read(101);
         assertNotNull(foundSpot, "Parking spot should not be null");
         assertEquals(101, foundSpot.getSpotNumber(), "Spot number should match");
     }
@@ -57,7 +56,7 @@ class ParkingSpotRepositoryTest {
     @Test
     @DisplayName("Testing if read returns null")
     void readNull() {
-        ParkingSpot foundSpot = parkingSpotRepository.read(999L);
+        ParkingSpot foundSpot = parkingSpotRepository.read(999);
         assertNull(foundSpot, "Non-existent parking spot should return null");
     }
 
@@ -86,18 +85,18 @@ class ParkingSpotRepositoryTest {
     @DisplayName("Testing delete method")
     void delete() {
 
-        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot("101", "open", "compact", parkingLot);
+        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot);
-        parkingSpotRepository.delete("101");
-        ParkingSpot deletedSpot = parkingSpotRepository.read("101");
+        parkingSpotRepository.delete(101);
+        ParkingSpot deletedSpot = parkingSpotRepository.read(101);
         assertNull(deletedSpot, "Deleted parking spot should return null");
     }
 
     @Test
     @DisplayName("Testing if delete works for non-existent object")
     void deleteNull() {
-        parkingSpotRepository.delete("101");
-        ParkingSpot deletedSpot = parkingSpotRepository.read("101");
+        parkingSpotRepository.delete(101);
+        ParkingSpot deletedSpot = parkingSpotRepository.read(101);
         assertNull(deletedSpot, "Non-existent parking spot should remain null");
     }
 
@@ -105,8 +104,8 @@ class ParkingSpotRepositoryTest {
     @DisplayName("Testing getAll method")
     void getAll() {
 
-        ParkingSpot parkingSpot1 = ParkingSpotFactory.createParkingSpot("101", "open", "compact", parkingLot);
-        ParkingSpot parkingSpot2 = ParkingSpotFactory.createParkingSpot("102", "reserved", "compact", parkingLot);
+        ParkingSpot parkingSpot1 = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
+        ParkingSpot parkingSpot2 = ParkingSpotFactory.createParkingSpot(101, "reserved", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot1);
         parkingSpotRepository.create(parkingSpot2);
         var allSpots = parkingSpotRepository.getAll();

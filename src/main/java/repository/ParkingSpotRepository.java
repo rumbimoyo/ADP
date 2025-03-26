@@ -41,9 +41,9 @@ public class ParkingSpotRepository {
     }
 
     //find a parking spot by using its ID
-    public ParkingSpot read(String spotId) {
+    public ParkingSpot read(int spotNumber) {
         for (ParkingSpot parkingSpot : parkingSpotDB) {
-            if (parkingSpot.getSpotId().equals(spotId)) {
+            if (parkingSpot.getSpotNumber() == spotNumber) {
                 return parkingSpot;
             }
         }
@@ -52,7 +52,7 @@ public class ParkingSpotRepository {
 
     //update
     public ParkingSpot update(ParkingSpot updatedParkingSpot) {
-        ParkingSpot existingParkingSpot = this.read(updatedParkingSpot.getSpotId());
+        ParkingSpot existingParkingSpot = this.read(updatedParkingSpot.getSpotNumber());
         if (existingParkingSpot != null) {
             parkingSpotDB.remove(existingParkingSpot); //remove the old object
             parkingSpotDB.add(updatedParkingSpot); //add the updated object
@@ -62,8 +62,8 @@ public class ParkingSpotRepository {
     }
 
     // Delete
-    public void delete(String spotId) {
-        ParkingSpot parkingSpot = this.read(spotId);
+    public void delete(int spotNumber) {
+        ParkingSpot parkingSpot = this.read(spotNumber);
         if (parkingSpot != null) {
             parkingSpotDB.remove(parkingSpot);
         }

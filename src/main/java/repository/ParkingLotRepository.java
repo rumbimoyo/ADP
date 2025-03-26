@@ -8,6 +8,8 @@ Date: 23/03/2025
  */
 
 import domain.ParkingLot;
+import domain.User;
+
 import java.util.HashSet;
 import java.util.Set;
 

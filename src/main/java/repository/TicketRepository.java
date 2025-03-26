@@ -31,15 +31,15 @@ public class TicketRepository {
         return ticket;
     }
 
-    public Ticket read(Integer ticketID) {
+    public Ticket read(String ticketID) {
         return ticketDB.stream()
-                .filter(ticket -> ticket.getTicketID() == ticketID)
+                .filter(ticket -> ticket.getTicketID() .equals(ticketID))
                 .findFirst()
                 .orElse(null);
     }
 
     public Ticket update(Ticket updatedTicket) {
-        Ticket existingTicket = read(Math.toIntExact(updatedTicket.getTicketID()));
+        Ticket existingTicket = read(updatedTicket.getTicketID());
         if (existingTicket != null) {
             ticketDB.remove(existingTicket);
             ticketDB.add(updatedTicket);
@@ -48,7 +48,7 @@ public class TicketRepository {
         return null;
     }
 
-    public boolean delete(Integer ticketID) {
+    public boolean delete(String ticketID) {
         Ticket ticket = read(ticketID);
         if (ticket != null) {
             ticketDB.remove(ticket);

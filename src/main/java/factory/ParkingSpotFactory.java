@@ -9,24 +9,23 @@ import domain.ParkingLot;
 import domain.ParkingSpot;
 import util.Helper;
 
-import static util.Helper.isNullorEmpty;
-import static util.Helper.isNullOrZero;
-
-
 public class ParkingSpotFactory {
 
     // Creates a spot with all attributes
-    public static ParkingSpot createParkingSpot(String spotID, String spotNumber, String status, String type, ParkingLot parkingLot) {
-        if(Helper.isNullorEmpty(spotID)|| Helper.isNullorEmpty(spotNumber) || Helper.isNullorEmpty(status) || Helper.isNullorEmpty(type) || Helper.isNullorEmptyParkingLot(parkingLot)) {
+    public static ParkingSpot createParkingSpot(int spotNumber, String status, String type, ParkingLot parkingLot) {
+
+        if(Helper.isNullorEmpty(spotNumber) ||
+                Helper.isNullorEmpty(status) ||
+                Helper.isNullorEmpty(type) ||
+                Helper.isNullorEmpty(parkingLot) ||
+                !Helper.isValidStatus(status) ||
+                !Helper.isValidType(type)||
+                !Helper.isValidSpotNumber(spotNumber)) {
             return null;
 
-        }
-        if (!Helper.isValidStatus(status) || !Helper.isValidType(type)) {
-            return null;
         }
 
         return new ParkingSpot.Builder()
-                .setSpotID(spotID)
                 .setSpotNumber(spotNumber)
                 .setStatus(status)
                 .setType(type)
@@ -35,8 +34,12 @@ public class ParkingSpotFactory {
     }
 
     // Creates a spot with only spot number and status
-    public static ParkingSpot createParkingSpotWithBasicDetails(String spotNumber, String status) {
-        if(Helper.isNullorEmpty(spotNumber) || Helper.isNullorEmpty(status) || !Helper.isValidStatus(status)) {
+    public static ParkingSpot createParkingSpot(int spotNumber, String status) {
+
+        if(Helper.isNullorEmpty(spotNumber) ||
+                Helper.isNullorEmpty(status)
+                || !Helper.isValidStatus(status) ||
+                !Helper.isValidSpotNumber(spotNumber)) {
             return null;
 
         }
@@ -48,13 +51,16 @@ public class ParkingSpotFactory {
     }
 
     // Creates with spot number, status, and type
-    public static ParkingSpot createParkingSpotWithSpotDetails(String spotNumber, String status, String type) {
-        if( Helper.isNullorEmpty(spotNumber) || Helper.isNullorEmpty(status) || Helper.isNullorEmpty(type)) {
+    public static ParkingSpot createParkingSpot(int spotNumber, String status, String type) {
+
+        if( Helper.isNullorEmpty(spotNumber) ||
+                Helper.isNullorEmpty(status) ||
+                Helper.isNullorEmpty(type) ||
+                !Helper.isValidStatus(status) ||
+                !Helper.isValidType(type) ||
+                !Helper.isValidSpotNumber(spotNumber)) {
             return null;
 
-        }
-        if (!Helper.isValidStatus(status) || !Helper.isValidType(type)) {
-            return null;
         }
 
         return new ParkingSpot.Builder()
@@ -64,11 +70,17 @@ public class ParkingSpotFactory {
     }
 
     // Creates with spot number, status, and parking lot
-    public static ParkingSpot createParkingSpotWithParkingLot(String spotNumber, String status, ParkingLot parkingLot) {
-        if(Helper.isNullorEmpty(spotNumber) || Helper.isNullorEmpty(status) || Helper.isNullorEmptyParkingLot(parkingLot)) {
+    public static ParkingSpot createParkingSpot(int spotNumber, String status, ParkingLot parkingLot) {
+
+        if(Helper.isNullorEmpty(spotNumber) ||
+                Helper.isNullorEmpty(status) ||
+                Helper.isNullorEmpty(parkingLot) ||
+                !Helper.isValidStatus(status) ||
+                !Helper.isValidSpotNumber(spotNumber)) {
             return null;
 
         }
+
         return new ParkingSpot.Builder()
                 .setSpotNumber(spotNumber)
                 .setStatus(status)

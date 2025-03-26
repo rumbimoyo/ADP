@@ -35,7 +35,7 @@ public class Main {
 
         // Create a ParkingSpot object using ParkingSpotFactory
         ParkingSpot spot1 = ParkingSpotFactory.createParkingSpot(
-                "101", "11", "open","compact", lot1);
+                111, "open","compact", lot1);
         System.out.println("Parking Spot 1: " + spot1);
 
     }}

@@ -23,18 +23,12 @@ public class VehicleRepository {
         return instance; // Returns singleton instance
     }
 
-    public boolean add(Vehicle vehicle) {
+    public boolean create(Vehicle vehicle) {
         return vehicles.add(vehicle);
     }
 
-    public Vehicle findByLicensePlate(String licensePlate) {
-        return vehicles.stream()
-                .filter(v -> v.getLicensePlate().equals(licensePlate))
-                .findFirst()
-                .orElse(null);
-    }
 
-    public Vehicle findVehicleByLicensePlate(String licensePlate) {
+    public Vehicle read(String licensePlate) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getLicensePlate().equals(licensePlate)) {
                 return vehicle;
@@ -43,8 +37,8 @@ public class VehicleRepository {
         return null;
     }
 
-    public boolean updateVehicle(Vehicle vehicle) {
-        Vehicle existingVehicle = findVehicleByLicensePlate(vehicle.getLicensePlate());
+    public boolean update(Vehicle vehicle) {
+        Vehicle existingVehicle = read(vehicle.getLicensePlate());
         if (existingVehicle != null) {
             vehicles.remove(existingVehicle);
             vehicles.add(vehicle);
@@ -53,8 +47,8 @@ public class VehicleRepository {
         return false;
     }
 
-    public boolean deleteVehicle(String licensePlate) {
-        Vehicle vehicle = findVehicleByLicensePlate(licensePlate);
+    public boolean delete(String licensePlate) {
+        Vehicle vehicle = read(licensePlate);
         if (vehicle != null) {
             vehicles.remove(vehicle);
             return true;
@@ -62,7 +56,7 @@ public class VehicleRepository {
         return false;
     }
 
-    public Set<Vehicle> getAllVehicles() {
+    public Set<Vehicle> getAll() {
         return vehicles;
     }
 }
