@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TicketRepositoryTest {
 
-    TicketRepository repository = TicketRepository.getRepository();
+    TicketRepository repository = TicketRepository.getInstance();
     ParkingLot parkingLot = ParkingLotFactory.createParkingLot("PL001", "Test Lot", "Test Location", "08:00 AM", "06:00 AM", 10.0);
     Vehicle vehicle = VehicleFactory.createVehicle("001211", "Honda", "Civic", "black", "1F87A123456789000");
 

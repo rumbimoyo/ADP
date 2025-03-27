@@ -46,7 +46,7 @@ class ParkingSpotFactoryTest {
     @DisplayName("Test creating a ParkingSpot with a null ParkingLot")
     void testCreateParkingSpot_WithNullParkingLot() {
 
-        parkingSpot = ParkingSpotFactory.createParkingSpot(
+       ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(
                 111, "open","compact" ,null);
 
         assertNull(parkingSpot, "The factory should return null for a null parking lot");
@@ -56,7 +56,7 @@ class ParkingSpotFactoryTest {
     @DisplayName("Test creating a ParkingSpot with basic details")
     void testCreateParkingSpotWithBasicDetails() {
         // Act: Create a ParkingSpot with basic details
-        parkingSpot = ParkingSpotFactory.createParkingSpot(
+       ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(
                 101, "open"
         );
 
