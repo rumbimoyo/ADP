@@ -25,17 +25,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TicketRepositoryTest {
 
-    Set<User> users = new HashSet<>();
-    ParkingLot parkingLot = ParkingLotFactory.createParkingLot("PL001", "Test Lot", "Test Location", "08:00 AM", "06:00 PM", 10.0);
-    Vehicle vehicle = VehicleFactory.createVehicle("001211", "Honda", "Civic", "black", "1F87A123456789000", users);
     TicketRepository repository = TicketRepository.getRepository();
+    ParkingLot parkingLot = ParkingLotFactory.createParkingLot("PL001", "Test Lot", "Test Location", "08:00 AM", "06:00 AM", 10.0);
+    Vehicle vehicle = VehicleFactory.createVehicle("001211", "Honda", "Civic", "black", "1F87A123456789000");
 
     @Test
     @DisplayName("Test   reading a ticket from the repository")
     public void testCreateAndRead() {
-        // Arrange
 
-        Ticket ticket = TicketFactory.createTicket("12345", "10:10", "11:31",50.00, LocalDate.of(2025,02,02), parkingLot, vehicle);
+        Ticket ticket = TicketFactory.createTicket("12345", "10:10 AM", "11:31 PM",50.00, LocalDate.of(2025,02,02), parkingLot, vehicle);
 
         repository.create(ticket);
         Ticket retrievedTicket = repository.read("12345");
@@ -48,8 +46,10 @@ public class TicketRepositoryTest {
     @DisplayName("Test updating a ticket in the repository")
     public void testUpdate() {
 
-        Ticket updatedTicket = TicketFactory.createTicket("12345", "11:11", "12:12",50.00, LocalDate.of(2025,02,02), parkingLot, vehicle);
+        Ticket ticket = TicketFactory.createTicket("12345", "10:10 AM", "11:31 PM",30.00, LocalDate.of(2025,02,02), parkingLot, vehicle);
+        Ticket updatedTicket = TicketFactory.createTicket("12345", "11:11 PM", "12:12 AM",50.00, LocalDate.of(2025,02,02), parkingLot, vehicle);
 
+        repository.create(ticket);
         repository.update(updatedTicket);
         Ticket retrievedTicket = repository.read("12345");
 
@@ -62,10 +62,9 @@ public class TicketRepositoryTest {
     @DisplayName("Test deleting a ticket from the repository")
     public void testDelete() {
 
-        boolean isDeleted = repository.delete("12345");
+        repository.delete("12345");
         Ticket retrievedTicket = repository.read("12345");
 
-        assertTrue(isDeleted);
         assertNull(retrievedTicket);
     }
 
@@ -74,8 +73,8 @@ public class TicketRepositoryTest {
     public void testGetAll() {
 
 
-        Ticket ticket1 = TicketFactory.createTicket("16666", "13:10", "11:31",40.00, LocalDate.of(2025,02,02), parkingLot, vehicle);
-        Ticket ticket2 = TicketFactory.createTicket("11111", "11:00", "10:31",50.00, LocalDate.of(2024,01,04), parkingLot, vehicle);
+        Ticket ticket1 = TicketFactory.createTicket("16666", "13:10 AM", "11:31 AM",40.00, LocalDate.of(2025,02,02), parkingLot, vehicle);
+        Ticket ticket2 = TicketFactory.createTicket("11111", "11:00 AM", "10:31 AM",50.00, LocalDate.of(2024,01,04), parkingLot, vehicle);
 
         repository.create(ticket1);
         repository.create(ticket2);

@@ -13,8 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class ParkingSpotRepository {
-
+public class ParkingSpotRepository implements IRepository<ParkingSpot, Integer>{
 
     private static ParkingSpotRepository instance;
     private Set<ParkingSpot> parkingSpotDB;
@@ -41,7 +40,7 @@ public class ParkingSpotRepository {
     }
 
     //find a parking spot by using its ID
-    public ParkingSpot read(int spotNumber) {
+    public ParkingSpot read(Integer spotNumber) {
         for (ParkingSpot parkingSpot : parkingSpotDB) {
             if (parkingSpot.getSpotNumber() == spotNumber) {
                 return parkingSpot;
@@ -62,7 +61,7 @@ public class ParkingSpotRepository {
     }
 
     // Delete
-    public void delete(int spotNumber) {
+    public void delete(Integer spotNumber) {
         ParkingSpot parkingSpot = this.read(spotNumber);
         if (parkingSpot != null) {
             parkingSpotDB.remove(parkingSpot);

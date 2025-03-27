@@ -45,12 +45,12 @@ class ParkingSpotRepositoryTest {
     @DisplayName("Testing read method")
     void read() {
 
-        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
+        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(102, "open", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot);
 
-        ParkingSpot foundSpot = parkingSpotRepository.read(101);
+        ParkingSpot foundSpot = parkingSpotRepository.read(102);
         assertNotNull(foundSpot, "Parking spot should not be null");
-        assertEquals(101, foundSpot.getSpotNumber(), "Spot number should match");
+        assertEquals(102, foundSpot.getSpotNumber(), "Spot number should match");
     }
 
     @Test
@@ -63,11 +63,14 @@ class ParkingSpotRepositoryTest {
     @Test
     @DisplayName("Testing update method")
     void update() {
-
-        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
+        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(110, "open","disabled", parkingLot);
         parkingSpotRepository.create(parkingSpot);
-        ParkingSpot updatedSpot = ParkingSpotFactory.createParkingSpot(101, "reserved", "compact", parkingLot);
-        updatedSpot = parkingSpotRepository.update(updatedSpot);
+
+        ParkingSpot spot = ParkingSpotFactory.createParkingSpot(110, "reserved", "disabled", parkingLot);
+        assert spot != null;
+        ParkingSpot updatedSpot = parkingSpotRepository.update(spot);
+        System.out.println(updatedSpot);
+
         assertNotNull(updatedSpot, "Updated parking spot should not be null");
         assertEquals("reserved", updatedSpot.getStatus(), "Status should be updated to 'reserved'");
     }
@@ -85,11 +88,11 @@ class ParkingSpotRepositoryTest {
     @DisplayName("Testing delete method")
     void delete() {
 
-        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
+        ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(102, "open", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot);
-        parkingSpotRepository.delete(101);
-        ParkingSpot deletedSpot = parkingSpotRepository.read(101);
-        assertNull(deletedSpot, "Deleted parking spot should return null");
+        parkingSpotRepository.delete(102);
+
+        assertNull( parkingSpotRepository.read(102), "Deleted parking spot should return null");
     }
 
     @Test
@@ -104,11 +107,10 @@ class ParkingSpotRepositoryTest {
     @DisplayName("Testing getAll method")
     void getAll() {
 
-        ParkingSpot parkingSpot1 = ParkingSpotFactory.createParkingSpot(101, "open", "compact", parkingLot);
-        ParkingSpot parkingSpot2 = ParkingSpotFactory.createParkingSpot(101, "reserved", "compact", parkingLot);
-        parkingSpotRepository.create(parkingSpot1);
+        ParkingSpot parkingSpot2 = ParkingSpotFactory.createParkingSpot(103, "reserved", "compact", parkingLot);
         parkingSpotRepository.create(parkingSpot2);
         var allSpots = parkingSpotRepository.getAll();
+
         assertNotNull(allSpots, "All parking spots should not be null");
         assertEquals(2, allSpots.size(), "There should be two parking spots in the repository");
         for (var spot : allSpots) {

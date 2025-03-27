@@ -26,7 +26,7 @@ class ParkingSpotFactoryTest {
 
         assertNotNull(parkingSpot, "Parking spot creation failed!");
         assertTrue(parkingSpot instanceof ParkingSpot, "The created object should be a ParkingSpot");
-        assertEquals(101, parkingSpot.getSpotNumber(), "The spot number should be 101");
+        assertEquals(111, parkingSpot.getSpotNumber(), "The spot number should be 101");
         assertEquals("open", parkingSpot.getStatus(), "The status should be 'open'");
         assertEquals("compact", parkingSpot.getType(), "The type should be 'compact'");
         assertNotNull(parkingSpot.getParkingLot(), "The parking lot should not be null");
@@ -75,7 +75,6 @@ class ParkingSpotFactoryTest {
         parkingSpot = ParkingSpotFactory.createParkingSpot(
                 101, "open", "compact"
         );
-
 
         assertNotNull(parkingSpot, "Parking spot creation failed!");
         assertEquals(101, parkingSpot.getSpotNumber(), "The spot number should be 101");

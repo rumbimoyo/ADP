@@ -10,8 +10,8 @@ Date: 20/03/2025
 import domain.Ticket;
 import java.util.HashSet;
 import java.util.Set;
-public class TicketRepository {
-    private static TicketRepository repository = null;
+public class TicketRepository implements IRepository<Ticket, String>{
+    private static TicketRepository instance;
     private Set<Ticket> ticketDB;
 
     private TicketRepository() {
@@ -19,23 +19,24 @@ public class TicketRepository {
     }
 
 
-    public static TicketRepository getRepository() {
-        if (repository == null) {
-            repository = new TicketRepository();
+    public static TicketRepository getInstance() {
+        if (instance == null) {
+            instance = new TicketRepository();
         }
-        return repository;
+        return instance;
     }
 
-    public Ticket create(Ticket ticket) {
-        ticketDB.add(ticket);
-        return ticket;
+    public boolean create(Ticket ticket) {
+        return ticketDB.add(ticket);
     }
 
     public Ticket read(String ticketID) {
-        return ticketDB.stream()
-                .filter(ticket -> ticket.getTicketID() .equals(ticketID))
-                .findFirst()
-                .orElse(null);
+        for(Ticket ticket : ticketDB){
+            if(ticket.getTicketID().equals(ticketID)){
+                return ticket;
+            }
+        }
+        return null;
     }
 
     public Ticket update(Ticket updatedTicket) {
@@ -48,13 +49,11 @@ public class TicketRepository {
         return null;
     }
 
-    public boolean delete(String ticketID) {
+    public void delete(String ticketID) {
         Ticket ticket = read(ticketID);
         if (ticket != null) {
             ticketDB.remove(ticket);
-            return true;
         }
-        return false;
     }
 
     public Set<Ticket> getAll() {

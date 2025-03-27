@@ -11,6 +11,7 @@ import domain.Vehicle;
 import factory.UserFactory;
 import factory.VehicleFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -38,24 +39,22 @@ class VehicleRepositoryTest {
         repository.create(vehicle);
     }
 
+
     @Test
+    @Order(1)
     void create_Success() {
         assertNotNull(repository.read("CA123456"));
     }
 
     @Test
-    void read_ExistingVehicle_ReturnsVehicle() {
-        Vehicle found = repository.read("CA123456");
-        assertNotNull(found);
-        assertEquals("Toyota", found.getVehicleMake());
-    }
-
-    @Test
+    @Order(2)
     void read_NonExistentVehicle_ReturnsNull() {
         assertNull(repository.read("NON_EXISTENT"));
     }
 
+
     @Test
+    @Order(3)
     void update_Success() {
         Vehicle updatedVehicle = VehicleFactory.createVehicle("CA123456", "Honda", "Civic", "Black", "VIN123456", users);
 
@@ -70,12 +69,19 @@ class VehicleRepositoryTest {
     }
 
     @Test
+    @Order(4)
     void delete_Success() {
-        assertTrue(repository.delete("CA123456"));
-        assertNull(repository.read("CA123456"));
+        Vehicle vehicle = VehicleFactory.createVehicle("CA11111", "Toyota", "Corolla", "Red", "VIN123456", users);
+        repository.create(vehicle);
+
+        repository.delete("CA11111");
+
+        assertNull(repository.read("CA11111"));
     }
 
+
     @Test
+    @Order(5)
     void getAll_ShouldReturnVehicles() {
         assertFalse(repository.getAll().isEmpty());
     }

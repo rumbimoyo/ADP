@@ -27,7 +27,8 @@ public class TicketFactory {
                 Helper.isNullorEmpty(parkingLot) ||
                 Helper.isNullorEmpty(vehicle) ||
                 Helper.isValidTime(entryTime) ||
-                Helper.isValidTime(exitTime)){
+                Helper.isValidTime(exitTime)
+                 ){
                 return null;
         }
 

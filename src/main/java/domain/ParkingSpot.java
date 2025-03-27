@@ -19,7 +19,7 @@ public class ParkingSpot {
 
     }
 
-    public ParkingSpot(int spotNumber, String type, String status, ParkingLot parkingLot) {
+    public ParkingSpot(int spotNumber, String status, String type, ParkingLot parkingLot) {
         this.spotNumber = spotNumber;
         this.type = type;
         this.status = status;

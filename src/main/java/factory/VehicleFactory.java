@@ -37,6 +37,25 @@ public class VehicleFactory {
                 .build();
     }
 
+    public static Vehicle createVehicle(String licensePlate, String vehicleMake, String vehicleModel, String vehicleColour, String vehicleVIN) {
+        if (Helper.isNullorEmpty(licensePlate) ||
+                Helper.isNullorEmpty(vehicleMake) ||
+                Helper.isNullorEmpty(vehicleModel) ||
+                Helper.isNullorEmpty(vehicleColour) ||
+                Helper.isNullorEmpty(vehicleVIN)) {
+            return null;
+        }
+
+        // Create the Vehicle without reservations
+        return new Vehicle.Builder()
+                .setLicensePlate(licensePlate)
+                .setVehicleMake(vehicleMake)
+                .setVehicleModel(vehicleModel)
+                .setVehicleColour(vehicleColour)
+                .setVehicleVIN(vehicleVIN)
+                .build();
+    }
+
     // vehicle with no make
     public static Vehicle createVehicle(String licensePlate, String vehicleModel, String vehicleColour, Set<User> users, String vehicleVIN) {
         if (Helper.isNullorEmpty(licensePlate) ||

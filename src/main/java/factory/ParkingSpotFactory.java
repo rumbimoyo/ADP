@@ -64,6 +64,7 @@ public class ParkingSpotFactory {
         }
 
         return new ParkingSpot.Builder()
+                .setSpotNumber(spotNumber)
                 .setStatus(status)
                 .setType(type)
                 .build();

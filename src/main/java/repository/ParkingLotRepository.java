@@ -13,7 +13,7 @@ import domain.User;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ParkingLotRepository {
+public class ParkingLotRepository implements IRepository<ParkingLot, String>{
 
     private static ParkingLotRepository instance;
     private final Set<ParkingLot> parkingLotDB;
@@ -32,9 +32,8 @@ public class ParkingLotRepository {
     }
 
 
-    public ParkingLot create(ParkingLot parkingLot) {
-        parkingLotDB.add(parkingLot);
-        return parkingLot;
+    public boolean create(ParkingLot parkingLot) {
+       return parkingLotDB.add(parkingLot);
     }
 
 
@@ -57,8 +56,8 @@ public class ParkingLotRepository {
     }
 
 
-    public boolean delete(String lotId) {
-        return parkingLotDB.removeIf(parkingLot -> parkingLot.getLotId().equals(lotId));
+    public void delete(String lotId) {
+        parkingLotDB.removeIf(parkingLot -> parkingLot.getLotId().equals(lotId));
     }
 
 

@@ -12,7 +12,7 @@ import domain.Reservation;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ReservationRepository {
+public class ReservationRepository implements IRepository<Reservation, String> {
     private static ReservationRepository instance;
     private Set<Reservation> reservationRepositoryDB = new HashSet<>();
 
@@ -28,9 +28,8 @@ public class ReservationRepository {
     }
 
     // Create a new reservation
-    public Reservation create(Reservation reservation) {
-        reservationRepositoryDB.add(reservation);
-        return reservation;
+    public boolean create(Reservation reservation) {
+        return reservationRepositoryDB.add(reservation);
     }
 
     // Read a reservation by its ID
@@ -53,8 +52,8 @@ public class ReservationRepository {
     }
 
     // Delete a reservation by its ID
-    public boolean delete(String reservationId) {
-        return reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
+    public void delete(String reservationId) {
+        reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
     }
 
     // Retrieve all reservations

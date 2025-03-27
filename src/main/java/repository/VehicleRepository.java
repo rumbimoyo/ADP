@@ -10,7 +10,7 @@ import java.util.HashSet;
    Author: Casey Abigail Nolte (218275161)
    Date: 21 March 2025
 */
-public class VehicleRepository {
+public class VehicleRepository implements IRepository<Vehicle, String>{
     private static VehicleRepository instance;
     private final Set<Vehicle> vehicles = new HashSet<>();
 
@@ -37,23 +37,21 @@ public class VehicleRepository {
         return null;
     }
 
-    public boolean update(Vehicle vehicle) {
+    public Vehicle update(Vehicle vehicle) {
         Vehicle existingVehicle = read(vehicle.getLicensePlate());
         if (existingVehicle != null) {
             vehicles.remove(existingVehicle);
             vehicles.add(vehicle);
-            return true;
+            return existingVehicle;
         }
-        return false;
+        return null;
     }
 
-    public boolean delete(String licensePlate) {
+    public void delete(String licensePlate) {
         Vehicle vehicle = read(licensePlate);
         if (vehicle != null) {
             vehicles.remove(vehicle);
-            return true;
         }
-        return false;
     }
 
     public Set<Vehicle> getAll() {
