@@ -1,64 +1,28 @@
 package repository;
 
 import domain.Vehicle;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.Set;
+import java.util.HashSet;
 
 /* VehicleRepository.java
    Vehicle Repository class
    Author: Casey Abigail Nolte (218275161)
    Date: 21 March 2025
 */
-<<<<<<< HEAD
-
-public class VehicleRepository {
-    private static VehicleRepository repository = null;
-    private Map<String, Vehicle> vehicleMap;
-=======
 public class VehicleRepository implements IRepository<Vehicle, String>{
     private static VehicleRepository instance;
     private final Set<Vehicle> vehicles = new HashSet<>();
->>>>>>> 15432b20a5645b31a81de9ece588a84dcc9628cb
 
-    private VehicleRepository() { // Private constructor to enforce Singleton pattern
-        vehicleMap = new HashMap<>();
-    }
+    private VehicleRepository() {} // Private constructor
 
-    public static VehicleRepository getInstance() {
-        if (repository == null) {
-            repository = new VehicleRepository();
+    public static synchronized VehicleRepository getInstance() {
+        if (instance == null) {
+            instance = new VehicleRepository();
         }
-        return repository;
+        return instance; // Returns singleton instance
     }
 
-<<<<<<< HEAD
-    public boolean addVehicle(Vehicle vehicle) {
-        if (vehicle == null || vehicleMap.containsKey(vehicle.getLicensePlate())) {
-            return false;
-        }
-        vehicleMap.put(vehicle.getLicensePlate(), vehicle);
-        return true;
-    }
-
-    public Vehicle findVehicleByLicensePlate(String licensePlate) {
-        return vehicleMap.get(licensePlate);
-    }
-
-    public boolean updateVehicle(Vehicle vehicle) {
-        if (vehicle == null || !vehicleMap.containsKey(vehicle.getLicensePlate())) {
-            return false;
-        }
-        vehicleMap.put(vehicle.getLicensePlate(), vehicle);
-        return true;
-    }
-
-    public boolean deleteVehicle(String licensePlate) {
-        return vehicleMap.remove(licensePlate) != null;
-    }
-
-    public Map<String, Vehicle> getAllVehicles() {
-        return vehicleMap;
-=======
     public boolean create(Vehicle vehicle) {
         return vehicles.add(vehicle);
     }
@@ -92,6 +56,5 @@ public class VehicleRepository implements IRepository<Vehicle, String>{
 
     public Set<Vehicle> getAll() {
         return vehicles;
->>>>>>> 15432b20a5645b31a81de9ece588a84dcc9628cb
     }
 }

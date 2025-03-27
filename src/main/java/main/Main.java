@@ -58,12 +58,6 @@ public class Main {
         Reservation reservation1 = ReservationFactory.createReservation("81922", "09:00 AM", "10:00 PM", LocalDate.of(2025, 04,01), 10.50, testParkingSpot, testUser);
         Reservation reservation2 = ReservationFactory.createReservation("12039", "09:00 PM", "10:00 AM", LocalDate.of(2025, 04,01), 10.50, testVehicle, testParkingSpot);
 
-
-
-
-
-
-
         rrepo.create(reservation);
         rrepo.read(reservation1.getReservationID());
         rrepo.update(reservation1);
