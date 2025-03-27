@@ -14,7 +14,7 @@ public class User {
     private String userID, name, contactNumber, email, gender;
     private LocalDate dob;
 
-    public User(String s, String johnDoe){
+    public User(){
 
     }
 

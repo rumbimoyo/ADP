@@ -6,32 +6,32 @@ Author: Affan Ebrahim(223109878)
 Date: 19/03/2025
  */
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.time.LocalDate;
 
 public class Ticket {
-    private  long ticketID;
+    private  String ticketID;
     private  String entryTime;
     private  String exitTime;
+    private  double price;
+    private  LocalDate localDate;
     private  ParkingLot parkingLot;
     private  Vehicle vehicle;
-    private  double price;
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     public Ticket() {
+
     }
 
-    public Ticket(long ticketID, String entryTime, String exitTime, ParkingLot parkingLot, Vehicle vehicle, double price) {
+    public Ticket(String ticketID, String entryTime, String exitTime,  double price, LocalDate localDate, ParkingLot parkingLot, Vehicle vehicle) {
         this.ticketID = ticketID;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
+        this.price = price;
+        this.localDate = localDate;
         this.parkingLot = parkingLot;
         this.vehicle = vehicle;
-        this.price = price;
     }
-public long getTicketID() {
+
+    public String getTicketID() {
         return ticketID;
     }
 
@@ -43,6 +43,12 @@ public long getTicketID() {
         return exitTime;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public LocalDate getDate() {return localDate;}
+
     public ParkingLot getParkingLot() {
         return parkingLot;
     }
@@ -51,19 +57,31 @@ public long getTicketID() {
         return vehicle;
     }
 
-    public double getPrice() {
-        return price;
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketID=" + ticketID +
+                ", entryTime='" + entryTime + '\'' +
+                ", exitTime='" + exitTime + '\'' +
+                ", price=" + price +
+                ", localDate=" + localDate +
+                ", parkingLot=" + parkingLot +
+                ", vehicle=" + vehicle +
+                '}';
     }
+
     // Builder Class
      public static class Builder {
-        private long ticketID;
+
+        private String ticketID;
         private String entryTime;
         private String exitTime;
+        private double price;
+        private LocalDate localDate;
         private ParkingLot parkingLot;
         private Vehicle vehicle;
-        private double price;
 
-        public Builder ticketID(long ticketID) {
+        public Builder ticketID(String ticketID) {
             this.ticketID = ticketID;
             return this;
         }
@@ -78,6 +96,16 @@ public long getTicketID() {
             return this;
         }
 
+        public Builder localDate(LocalDate localDate){
+            this.localDate = localDate;
+            return this;
+        }
+
+        public Builder price(double price) {
+            this.price = price;
+            return this;
+        }
+
         public Builder parkingLot(ParkingLot parkingLot) {
             this.parkingLot = parkingLot;
             return this;
@@ -88,69 +116,10 @@ public long getTicketID() {
             return this;
         }
 
-        public Builder price(double price) {
-            this.price = price;
-            return this;
-        }
+
         public Ticket build() {
-            return new Ticket(ticketID, entryTime, exitTime, parkingLot, vehicle, price);
+            return new Ticket(ticketID, entryTime, exitTime, price, localDate, parkingLot, vehicle);
         }
-    }
-   
-
-
-      //This method Calculates how long the car has been in the  lot
-
-    public long calculateDuration() {
-        if (entryTime == null || exitTime == null) return 0;
-
-        LocalDateTime entry = LocalDateTime.parse(entryTime, formatter);
-        LocalDateTime exit = LocalDateTime.parse(exitTime, formatter);
-
-        long hours = Duration.between(entry, exit).toHours();
-        if (Duration.between(entry, exit).toMinutes() % 60 > 0) {
-            hours++;
-        }
-        return hours;
-    }
-
-
-      //Calculates the total price based on the total duration of the stay
-
-   /* public double calculatePrice() {
-        if (parkingLot == null || entryTime == null || exitTime == null) return 0.0;
-        return calculateDuration() * parkingLot.getPricePerHour();
-    }
-**/
-   
-       
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "ticketID=" + ticketID +
-                ", entryTime='" + entryTime + '\'' +
-                ", exitTime='" + exitTime + '\'' +
-                ", parkingLot=" + parkingLot +
-                ", vehicle=" + vehicle +
-                ", price=" + price +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ticket ticket = (Ticket) o;
-        return ticketID == ticket.ticketID && Double.compare(ticket.price, price) == 0 &&
-                Objects.equals(entryTime, ticket.entryTime) &&
-                Objects.equals(exitTime, ticket.exitTime) &&
-                Objects.equals(parkingLot, ticket.parkingLot) &&
-                Objects.equals(vehicle, ticket.vehicle);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ticketID, entryTime, exitTime, parkingLot, vehicle, price);
     }
 
 }

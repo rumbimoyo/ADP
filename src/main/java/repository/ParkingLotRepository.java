@@ -4,17 +4,19 @@ package repository;
 repository.ParkingLotRepository
 ParkingLot Repository class
 Author: Thulani Lunyawo (222828250)
-Date: 20/03/2025
+Date: 23/03/2025
  */
 
 import domain.ParkingLot;
+import domain.User;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class ParkingLotRepository implements IParkingLotRepository<ParkingLot, String> {
+public class ParkingLotRepository implements IRepository<ParkingLot, String>{
 
     private static ParkingLotRepository instance;
-    private Set<ParkingLot> parkingLotDB;
+    private final Set<ParkingLot> parkingLotDB;
 
     // Private constructor to prevent instantiation
     private ParkingLotRepository() {
@@ -29,13 +31,12 @@ public class ParkingLotRepository implements IParkingLotRepository<ParkingLot, S
         return instance;
     }
 
-    @Override
-    public ParkingLot create(ParkingLot parkingLot) {
-        parkingLotDB.add(parkingLot);
-        return parkingLot;
+
+    public boolean create(ParkingLot parkingLot) {
+       return parkingLotDB.add(parkingLot);
     }
 
-    @Override
+
     public ParkingLot read(String lotId) {
         return parkingLotDB.stream()
                 .filter(parkingLot -> parkingLot.getLotId().equals(lotId))
@@ -43,7 +44,7 @@ public class ParkingLotRepository implements IParkingLotRepository<ParkingLot, S
                 .orElse(null); // if no parking lot is found
     }
 
-    @Override
+
     public ParkingLot update(ParkingLot newParkingLot) {
         ParkingLot oldParkingLot = this.read(newParkingLot.getLotId());
         if (oldParkingLot != null) {
@@ -54,12 +55,12 @@ public class ParkingLotRepository implements IParkingLotRepository<ParkingLot, S
         return null;
     }
 
-    @Override
-    public boolean delete(String lotId) {
-        return parkingLotDB.removeIf(parkingLot -> parkingLot.getLotId().equals(lotId));
+
+    public void delete(String lotId) {
+        parkingLotDB.removeIf(parkingLot -> parkingLot.getLotId().equals(lotId));
     }
 
-    @Override
+
     public Set<ParkingLot> getAll() {
         return parkingLotDB;
     }

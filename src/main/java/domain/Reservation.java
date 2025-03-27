@@ -1,5 +1,6 @@
 package domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /*
@@ -16,7 +17,7 @@ public class Reservation {
     private String reservationID;
     private String startTime;
     private String endTime;
-    private Date date;
+    private LocalDate localDate;
     private double price;
     private Vehicle vehicle;
     private ParkingSpot parkingSpot;
@@ -27,12 +28,12 @@ public class Reservation {
 
     // Private constructor used by the Builder
     private Reservation(String reservationID, String startTime, String endTime,
-                        Date date, double price, Vehicle vehicle,
+                        LocalDate localDate, double price, Vehicle vehicle,
                         ParkingSpot parkingSpot, User user) {
         this.reservationID = reservationID;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.date = date;
+        this.localDate =localDate;
         this.price = price;
         this.vehicle = vehicle;
         this.parkingSpot = parkingSpot;
@@ -43,7 +44,7 @@ public class Reservation {
     public String getReservationID() { return reservationID; }
     public String getStartTime() { return startTime; }
     public String getEndTime() { return endTime; }
-    public Date getDate() { return date; }
+    public LocalDate getDate() { return localDate; }
     public double getPrice() { return price; }
     public Vehicle getVehicle() { return vehicle; }
     public ParkingSpot getParkingSpot() { return parkingSpot; }
@@ -55,7 +56,7 @@ public class Reservation {
                 "reservationID='" + reservationID + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
-                ", date=" + date +
+                ", localDate=" + localDate +
                 ", price=" + price +
                 ", vehicle=" + vehicle +
                 ", parkingSpot=" + parkingSpot +
@@ -68,7 +69,7 @@ public class Reservation {
         private String reservationID;
         private String startTime;
         private String endTime;
-        private Date date;
+        private LocalDate localDate;
         private double price;
         private Vehicle vehicle;
         private ParkingSpot parkingSpot;
@@ -89,8 +90,8 @@ public class Reservation {
             return this;
         }
 
-        public Builder setDate(Date date) {
-            this.date = date;
+        public Builder setLocalDate(LocalDate localDate) {
+            this.localDate = localDate;
             return this;
         }
 
@@ -115,7 +116,7 @@ public class Reservation {
         }
 
         public Reservation build() {
-            return new Reservation(reservationID, startTime, endTime, date, price, vehicle, parkingSpot, user);
+            return new Reservation(reservationID, startTime, endTime, localDate, price, vehicle, parkingSpot, user);
         }
     }
 }

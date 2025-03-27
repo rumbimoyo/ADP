@@ -24,7 +24,7 @@ public class UserFactory {
 
         if(isNullorEmpty(userID) ||
                isNullorEmpty(name) ||
-               isNullorEmptyDate(dob) ||
+               isNullorEmpty(dob) ||
                isNullorEmpty(gender) ||
                isNullorEmpty(contactNumber) ||
                isNullorEmpty(email)) {
@@ -51,7 +51,7 @@ public class UserFactory {
 
         if(isNullorEmpty(userID) ||
                 isNullorEmpty(name) ||
-                isNullorEmptyDate(dob) ||
+                isNullorEmpty(dob) ||
                 isNullorEmpty(gender) ||
                 isNullorEmpty(email)) {
             return null;
@@ -77,7 +77,7 @@ public class UserFactory {
 
         if(isNullorEmpty(userID) ||
                 isNullorEmpty(name) ||
-                isNullorEmptyDate(dob) ||
+                isNullorEmpty(dob) ||
                 isNullorEmpty(contactNumber) ||
                 isNullorEmpty(email)) {
             return null;
@@ -102,7 +102,7 @@ public class UserFactory {
 
         if(isNullorEmpty(userID) ||
                 isNullorEmpty(name) ||
-                isNullorEmptyDate(dob) ||
+                isNullorEmpty(dob) ||
                 isNullorEmpty(email)) {
             return null;
         }
@@ -122,7 +122,7 @@ public class UserFactory {
 
         if(isNullorEmpty(userID) ||
                 isNullorEmpty(name) ||
-                isNullorEmptyDate(dob) ||
+                isNullorEmpty(dob) ||
                 isNullorEmpty(gender) ||
                 isNullorEmpty(contactNumber)) {
             return null;

@@ -14,19 +14,19 @@ public class Vehicle {
     private String vehicleModel;
     private String vehicleColour;
     private String vehicleVIN;
-    private Set<Ticket> tickets;
-    private Set<Reservation> reservations;
     private Set<User> users;
 
-    private Vehicle(Builder builder) {
-        this.licensePlate = builder.licensePlate;
-        this.vehicleMake = builder.vehicleMake;
-        this.vehicleModel = builder.vehicleModel;
-        this.vehicleColour = builder.vehicleColour;
-        this.vehicleVIN = builder.vehicleVIN;
-        this.tickets = builder.tickets;
-        this.reservations = builder.reservations;
-        this.users = builder.users;
+    public Vehicle(){
+
+    }
+
+    public Vehicle(String licensePlate, String vehicleMake, String vehicleModel, String vehicleColour, String vehicleVIN, Set<User> users) {
+        this.licensePlate = licensePlate;
+        this.vehicleMake = vehicleMake;
+        this.vehicleModel = vehicleModel;
+        this.vehicleColour = vehicleColour;
+        this.vehicleVIN = vehicleVIN;
+        this.users = users;
     }
 
     public String getLicensePlate() {
@@ -49,14 +49,6 @@ public class Vehicle {
         return vehicleVIN;
     }
 
-    public Set<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public Set<Reservation> getReservations() {
-        return reservations;
-    }
-
     public Set<User> getUsers() {
         return users;
     }
@@ -67,8 +59,6 @@ public class Vehicle {
         private String vehicleModel;
         private String vehicleColour;
         private String vehicleVIN;
-        private Set<Ticket> tickets;
-        private Set<Reservation> reservations;
         private Set<User> users;
 
         public Builder setLicensePlate(String licensePlate) {
@@ -96,15 +86,6 @@ public class Vehicle {
             return this;
         }
 
-        public Builder setTickets(Set<Ticket> tickets) {
-            this.tickets = tickets;
-            return this;
-        }
-
-        public Builder setReservations(Set<Reservation> reservations) {
-            this.reservations = reservations;
-            return this;
-        }
 
         public Builder setUsers(Set<User> users) {
             this.users = users;
@@ -112,7 +93,7 @@ public class Vehicle {
         }
 
         public Vehicle build() {
-            return new Vehicle(this);
+            return new Vehicle(licensePlate, vehicleMake, vehicleModel, vehicleColour, vehicleVIN, users);
         }
     }
 }

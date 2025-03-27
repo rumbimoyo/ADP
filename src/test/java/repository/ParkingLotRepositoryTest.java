@@ -24,7 +24,7 @@ public class ParkingLotRepositoryTest {
     @DisplayName("Testing create and read method")
     public void a_testCreateAndRead() {
         ParkingLot parkingLot = new ParkingLot.Builder()
-                .setLotId("PL001")
+                .setLotId("PL002")
                 .setTitle("City Center Parking")
                 .setLocation("Downtown")
                 .setOpenTime("08:00")
@@ -33,10 +33,10 @@ public class ParkingLotRepositoryTest {
                 .build();
 
         parkingLotRepository.create(parkingLot); // Changed to 'create'
-        ParkingLot foundLot = parkingLotRepository.read("PL001");
+        ParkingLot foundLot = parkingLotRepository.read("PL002");
 
         assertNotNull(foundLot, "Parking lot should not be null");
-        assertEquals("PL001", foundLot.getLotId(), "Lot ID should match");
+        assertEquals("PL002", foundLot.getLotId(), "Lot ID should match");
         assertEquals("City Center Parking", foundLot.getTitle(), "Title should match");
         assertEquals("Downtown", foundLot.getLocation(), "Location should match");
     }
@@ -45,7 +45,7 @@ public class ParkingLotRepositoryTest {
     @DisplayName("Testing delete method")
     public void c_testDelete() {
         ParkingLot parkingLot = new ParkingLot.Builder()
-                .setLotId("PL001")
+                .setLotId("PL003")
                 .setTitle("City Center Parking")
                 .setLocation("Downtown")
                 .setOpenTime("08:00")
@@ -54,9 +54,9 @@ public class ParkingLotRepositoryTest {
                 .build();
 
         parkingLotRepository.create(parkingLot); // Changed to 'create'
-        parkingLotRepository.delete("PL001");
+        parkingLotRepository.delete("PL003");
 
-        ParkingLot foundLot = parkingLotRepository.read("PL001"); // Changed to 'read'
+        ParkingLot foundLot = parkingLotRepository.read("PL003"); // Changed to 'read'
         assertNull(foundLot, "Parking lot should be null after deletion");
     }
 
@@ -74,7 +74,7 @@ public class ParkingLotRepositoryTest {
 
         parkingLotRepository.create(parkingLot); // Changed to 'create'
 
-        parkingLot = new ParkingLot.Builder()
+        ParkingLot newParkingLot = new ParkingLot.Builder()
                 .setLotId("PL001")
                 .setTitle("Uptown Parking")
                 .setLocation("Uptown")
@@ -83,7 +83,7 @@ public class ParkingLotRepositoryTest {
                 .setPricePerHour(6.0)
                 .build();
 
-        parkingLotRepository.update(parkingLot); // Update the parking lot
+        parkingLotRepository.update(newParkingLot); // Update the parking lot
         ParkingLot updatedLot = parkingLotRepository.read("PL001"); // Changed to 'read'
 
         assertNotNull(updatedLot, "Updated parking lot should not be null");

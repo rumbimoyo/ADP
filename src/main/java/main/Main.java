@@ -1,84 +1,79 @@
 package main;
 
 import domain.*;
+import domain.ParkingLot;
 import factory.*;
-import service.*;
+
+import repository.*;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
 
-        // Initialize services
-        UserService userService = new UserService();
-        ReservationService reservationService = ReservationService.getInstance();
+        UserRepository urepo = UserRepository.getInstance();
+        ParkingLotRepository plrepo = ParkingLotRepository.getInstance();
+        ReservationRepository rrepo = ReservationRepository.getInstance();
+        VehicleRepository vrepo = VehicleRepository.getInstance();
+        TicketRepository trepo = TicketRepository.getInstance();
+        ParkingSpotRepository prepo = ParkingSpotRepository.getInstance();
 
-        // Create a User
-        User user = UserFactory.createUser("2673", "John", LocalDate.of(2004, 9, 9),
-                "male", "081-234-0192", "john@gmail.com");
-        userService.addUser(user);
+        // User
+        User user = UserFactory.createUser("2673", "John", LocalDate.of(2004, 9, 9), "male", "081-234-0192", "john@gmail.com");
+        User user1 = UserFactory.createUser("2673","patric", LocalDate.of(2005,2,1), "female","patrick@gmail.com");
+        User user2 = UserFactory.createUser("2001","james", "james@gmail.com", LocalDate.of(1999,1,2), "081-201-2990");
 
-        // Create ParkingLot objects
-        ParkingLot lot1 = ParkingLotFactory.createParkingLot("PL001", "Downtown Lot", "City Center",
-                "06:00 AM", "10:00 PM", 5.50);
-        ParkingLot lot2 = ParkingLotFactory.createParkingLot("PL002", "Airport Parking", "International Terminal",
-                "24/7", "24/7", 10.00);
+        urepo.create(user);
+        urepo.read(user.getUserID());
+        urepo.update(user1);
 
-        // Print parking lot details
-        System.out.println("Parking Lot 1: " + lot1);
-        System.out.println("Parking Lot 2: " + lot2);
+        urepo.create(user2);
+        urepo.delete(user2.getUserID());
 
-        // Create a ParkingSpot object
-        ParkingSpot spot1 = ParkingSpotFactory.createParkingSpot(101, "open", "compact", lot1);
-        System.out.println("Parking Spot 1: " + spot1);
+        Set<User> users = urepo.getAll();
 
-        // Occupy the parking spot
-        if (spot1 != null) {
-            spot1.setStatus("occupied");
-            System.out.println("After occupying Parking Spot 1: " + spot1);
-        } else {
-            System.out.println("Failed to create Parking Spot.");
-        }
-    }
+        // ParkingLot
+        ParkingLot parkingLot = ParkingLotFactory.createParkingLot("PL001", "City Center Parking", "Downtown", "08:00", "20:00", 5.0);
+        ParkingLot parkingLot1 = ParkingLotFactory.createParkingLot("PL002", "Mall Parking", "Uptown", "09:00", 4.0);
+        ParkingLot parkingLot2 = ParkingLotFactory.createParkingLot("PL003", "Garage Parking", "Midtown", 3.5);
 
-}
-//        // Create a Vehicle using the Builder pattern
-//        Vehicle vehicle = new Vehicle.Builder("ABC123")
-//                .make("Toyota")
-//                .model("Corolla")
-//                .year(2020)
-//                .color("Blue")
-//                .build();
-//
-//        // Create Reservation objects using the ReservationFactory
-//        Reservation res1 = ReservationFactory.createReservation("R001", "08:00", "10:00", new Date(),
-//                100.0, vehicle, spot1, user);
-//        Reservation res2 = ReservationFactory.createReservation("R002", "10:30", "12:30", new Date(),
-//                120.0, vehicle, spot1, user);
-//        Reservation res3 = ReservationFactory.createReservation("R003", "13:00", "15:00", new Date(),
-//                150.0, vehicle, spot1, user);
-//
-//        // Add reservations
-//        reservationService.addReservation(res1);
-//        reservationService.addReservation(res2);
-//        reservationService.addReservation(res3);
-//
-//        // Delete one reservation
-//        reservationService.deleteReservation("R001");
-//
-//        // View and print all remaining reservations
-//        Set<Reservation> remainingReservations = reservationService.viewUserReservations(user);
-//        System.out.println("Remaining Reservations:");
-//        for (Reservation res : remainingReservations) {
-//            System.out.println(res);
-//        }
-//
-//        if (remainingReservations.size() >= 2) {
-//            System.out.println("Success: At least 2 reservations remain in the repository.");
-//        } else {
-//            System.out.println("Error: Less than 2 reservations remain in the repository.");
-//        }
-//    }
-//}
+        plrepo.create(parkingLot);
+        plrepo.read(parkingLot.getLotId());
+        plrepo.update(parkingLot1);
+
+        plrepo.create(parkingLot2);
+        plrepo.delete(parkingLot2.getLotId());
+
+
+        Set<ParkingLot> parkinglot = plrepo.getAll();
+
+        //Reservation
+        Reservation reservation = ReservationFactory.createReservation("12345", "09:00 AM", "10:00 AM", LocalDate.of(2025, 04,01), 10.50, testVehicle, testParkingSpot, testUser);
+        Reservation reservation1 = ReservationFactory.createReservation("81922", "09:00 AM", "10:00 PM", LocalDate.of(2025, 04,01), 10.50, testParkingSpot, testUser);
+        Reservation reservation2 = ReservationFactory.createReservation("12039", "09:00 PM", "10:00 AM", LocalDate.of(2025, 04,01), 10.50, testVehicle, testParkingSpot);
+
+
+        rrepo.create(reservation);
+        rrepo.read(reservation1.getReservationID());
+        rrepo.update(reservation1);
+
+        rrepo.create
+
+
+
+
+
+        Set<User> users = new HashSet<>();
+
+
+
+
+    }}
+
+
+
+
+
+
