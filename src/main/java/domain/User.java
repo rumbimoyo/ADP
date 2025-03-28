@@ -50,6 +50,18 @@ public class User {
         return email;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID='" + userID + '\'' +
+                ", name='" + name + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                ", dob=" + dob +
+                '}';
+    }
+
     public static class Builder{
         private String userID, name, contactNumber, email, gender;
         private LocalDate dob;
