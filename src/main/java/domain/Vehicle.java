@@ -53,6 +53,18 @@ public class Vehicle {
         return users;
     }
 
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "licensePlate='" + licensePlate + '\'' +
+                ", vehicleMake='" + vehicleMake + '\'' +
+                ", vehicleModel='" + vehicleModel + '\'' +
+                ", vehicleColour='" + vehicleColour + '\'' +
+                ", vehicleVIN='" + vehicleVIN + '\'' +
+                ", users=" + users +
+                '}';
+    }
+
     public static class Builder {
         private String licensePlate;
         private String vehicleMake;

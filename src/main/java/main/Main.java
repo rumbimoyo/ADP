@@ -32,6 +32,11 @@ public class Main {
 
         Set<User> users = urepo.getAll();
 
+        System.out.println("--User--");
+        for(User u: users){
+            System.out.println(u.toString());
+        }
+
         // ParkingLot
         ParkingLot parkingLot = ParkingLotFactory.createParkingLot("PL001", "City Center Parking", "Downtown", "08:00 AM", "20:00 PM", 5.0);
         ParkingLot parkingLot1 = ParkingLotFactory.createParkingLot("PL002", "Mall Parking", "Uptown", "09:00 AM", 4.0);
@@ -44,8 +49,12 @@ public class Main {
         plrepo.create(parkingLot2);
         plrepo.delete(parkingLot2.getLotId());
 
-
         Set<ParkingLot> parkingLots = plrepo.getAll();
+
+        System.out.println("--Parking Lots--");
+        for(ParkingLot l: parkingLots){
+            System.out.println(l.toString());
+        }
 
         //Reservation
         Vehicle testVehicle = VehicleFactory.createVehicle("001211", "Honda", "Civic", "black", "1F87A123456789000");
@@ -67,6 +76,11 @@ public class Main {
 
         Set<Reservation> reservations = rrepo.getAll();
 
+        System.out.println("--Reservation--");
+        for(Reservation r: reservations){
+            System.out.println(r.toString());
+        }
+
         //Vehicle
         Vehicle vehicle = VehicleFactory.createVehicle("CA123456", "Toyota", "Corolla", "Red", "VIN123456", users);
         Vehicle vehicle1 = VehicleFactory.createVehicle("CA123456", "Corolla", "Red", users, "VIN123456");
@@ -81,9 +95,14 @@ public class Main {
 
         Set<Vehicle> vehicles = vrepo.getAll();
 
+        System.out.println("--Vehicle--");
+        for(Vehicle v: vehicles){
+            System.out.println(v.toString());
+        }
+
         //Ticket
         Ticket ticket = TicketFactory.createTicket("12345", "10:10 AM", "11:31 AM",50.00, LocalDate.of(2025,02,02), parkingLot, vehicle);
-        Ticket ticket1 = TicketFactory.createTicket("12345", "10:10 AM", "11:31 AM",50.00, LocalDate.of(2025,02,02), parkingLot);
+        Ticket ticket1 = TicketFactory.createTicket("12345", "11:01 AM", "10:31 PM",25.00, LocalDate.of(2025,03,02), parkingLot, vehicle);
         Ticket ticket2 = TicketFactory.createTicket("12345", "10:10 AM", "11:31 AM",50.00, parkingLot, vehicle);
 
 
@@ -91,45 +110,37 @@ public class Main {
         trepo.read(ticket.getTicketID());
         trepo.update(ticket1);
 
-        trepo.update(ticket2);
+        trepo.create(ticket2);
         trepo.delete(ticket2.getTicketID());
 
         Set<Ticket> tickets = trepo.getAll();
 
+        System.out.println("--Ticket--");
+        for(Ticket t : tickets){
+            System.out.println(t.toString());
+        }
+
         //ParkingSpot
         ParkingSpot parkingSpot = ParkingSpotFactory.createParkingSpot(
-                111, "1","compact" ,parkingLot);
+                111, "occupied","disabled" ,parkingLot);
         ParkingSpot parkingSpot1 = ParkingSpotFactory.createParkingSpot(
-                111, "open","compact" ,null);
+                112, "open","compact");
         ParkingSpot parkingSpot2 = ParkingSpotFactory.createParkingSpot(
                 101, "open");
-
-
 
         prepo.create(parkingSpot);
         prepo.read(parkingSpot1.getSpotNumber());
         prepo.update(parkingSpot1);
-
 
         prepo.update(parkingSpot2);
         prepo.delete(parkingSpot2.getSpotNumber());
 
         Set<ParkingSpot> parkingSpots = prepo.getAll();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        System.out.println("--ParkingSpots--");
+        for(ParkingSpot s: parkingSpots){
+            System.out.println(s.toString());
+        }
 
     }}
 

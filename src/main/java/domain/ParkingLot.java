@@ -31,6 +31,18 @@ public class ParkingLot {
     public String getClosingTime() { return closingTime; }
     public double getPricePerHour() { return pricePerHour; }
 
+    @Override
+    public String toString() {
+        return "ParkingLot{" +
+                "lotId='" + lotId + '\'' +
+                ", title='" + title + '\'' +
+                ", location='" + location + '\'' +
+                ", openTime='" + openTime + '\'' +
+                ", closingTime='" + closingTime + '\'' +
+                ", pricePerHour=" + pricePerHour +
+                '}';
+    }
+
     public static class Builder {
         private String lotId, title, location, openTime, closingTime;
         private double pricePerHour;
