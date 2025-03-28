@@ -1,5 +1,5 @@
 package factory;
-
+//Author: Avela Bonakali Sean helped with fixing many of bugs and reworking some methods
 import domain.ParkingLot;
 import domain.ParkingSpot;
 import domain.Reservation;
