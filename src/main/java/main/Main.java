@@ -33,8 +33,8 @@ public class Main {
         Set<User> users = urepo.getAll();
 
         // ParkingLot
-        ParkingLot parkingLot = ParkingLotFactory.createParkingLot("PL001", "City Center Parking", "Downtown", "08:00", "20:00", 5.0);
-        ParkingLot parkingLot1 = ParkingLotFactory.createParkingLot("PL002", "Mall Parking", "Uptown", "09:00", 4.0);
+        ParkingLot parkingLot = ParkingLotFactory.createParkingLot("PL001", "City Center Parking", "Downtown", "08:00 AM", "20:00 PM", 5.0);
+        ParkingLot parkingLot1 = ParkingLotFactory.createParkingLot("PL002", "Mall Parking", "Uptown", "09:00 AM", 4.0);
         ParkingLot parkingLot2 = ParkingLotFactory.createParkingLot("PL003", "Garage Parking", "Midtown", 3.5);
 
         plrepo.create(parkingLot);
