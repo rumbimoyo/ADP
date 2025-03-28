@@ -1,73 +1,54 @@
-
 package domain;
 
-/*
-domain.Reservation
-Reservation entity class
-Author: Avela Bonakali
-Date: 20/03/2025
- */
-
+import java.time.LocalDate;
 import java.util.Date;
 
+/*
+ * domain.Reservation
+ * Reservation entity class
+ * Author: Avela Bonakali
+ * Date: 20/03/2025
+ *
+ * This class represents a parking reservation and follows the Builder pattern.
+ * It contains a private no-arg constructor and a private all-arg constructor used only by the Builder.
+ */
 public class Reservation {
 
     private String reservationID;
     private String startTime;
     private String endTime;
-    private Date date;
+    private LocalDate localDate;
     private double price;
     private Vehicle vehicle;
     private ParkingSpot parkingSpot;
     private User user;
 
-    public Reservation() {
-    }
+    // Private no-argument constructor
+    private Reservation() { }
 
-    public Reservation(String reservationID, String startTime, String endTime,
-                       Date date, double price, Vehicle vehicle,
-                       ParkingSpot parkingSpot, User user) {
+    // Private constructor used by the Builder
+    private Reservation(String reservationID, String startTime, String endTime,
+                        LocalDate localDate, double price, Vehicle vehicle,
+                        ParkingSpot parkingSpot, User user) {
         this.reservationID = reservationID;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.date = date;
+        this.localDate =localDate;
         this.price = price;
         this.vehicle = vehicle;
         this.parkingSpot = parkingSpot;
         this.user = user;
     }
 
-    public String getReservationID() {
-        return reservationID;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public ParkingSpot getParkingSpot() {
-        return parkingSpot;
-    }
-
-    public User getUser() {
-        return user;
-    }
+    // Getters (no public setters, ensuring immutability)
+    public String getReservationID() { return reservationID; }
+    public String getStartTime() { return startTime; }
+    public String getEndTime() { return endTime; }
+    public LocalDate getDate() { return localDate; }
+    public double getPrice() { return price; }
+    public Vehicle getVehicle() { return vehicle; }
+    public ParkingSpot getParkingSpot() { return parkingSpot; }
+    public User getUser() { return user; }
 
     @Override
     public String toString() {
@@ -75,7 +56,7 @@ public class Reservation {
                 "reservationID='" + reservationID + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
-                ", date=" + date +
+                ", localDate=" + localDate +
                 ", price=" + price +
                 ", vehicle=" + vehicle +
                 ", parkingSpot=" + parkingSpot +
@@ -83,11 +64,12 @@ public class Reservation {
                 '}';
     }
 
+    // Nested static Builder class
     public static class Builder {
         private String reservationID;
         private String startTime;
         private String endTime;
-        private Date date;
+        private LocalDate localDate;
         private double price;
         private Vehicle vehicle;
         private ParkingSpot parkingSpot;
@@ -108,8 +90,8 @@ public class Reservation {
             return this;
         }
 
-        public Builder setDate(Date date) {
-            this.date = date;
+        public Builder setLocalDate(LocalDate localDate) {
+            this.localDate = localDate;
             return this;
         }
 
@@ -134,7 +116,7 @@ public class Reservation {
         }
 
         public Reservation build() {
-            return new Reservation(reservationID, startTime, endTime, date, price, vehicle, parkingSpot, user);
+            return new Reservation(reservationID, startTime, endTime, localDate, price, vehicle, parkingSpot, user);
         }
     }
 }

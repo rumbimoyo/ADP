@@ -6,40 +6,48 @@ Author: Affan Ebrahim(223109878)
 Date: 19/03/2025
  */
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.time.LocalDate;
 
 public class Ticket {
-    private final long ticketID;
-    private final String entryTime;
-    private final String exitTime;
-    private final ParkingLot parkingLot;
-    private final Vehicle vehicle;
-    private final double price;
+    private  String ticketID;
+    private  String entryTime;
+    private  String exitTime;
+    private  double price;
+    private  LocalDate localDate;
+    private  ParkingLot parkingLot;
+    private  Vehicle vehicle;
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    public Ticket() {
 
-    // Private constructor to enforce the use of the Builder
-    private Ticket(Builder builder) {
-        this.ticketID = builder.ticketID;
-        this.entryTime = builder.entryTime;
-        this.exitTime = builder.exitTime;
-        this.parkingLot = builder.parkingLot;
-        this.vehicle = builder.vehicle;
-        this.price = builder.price;
     }
 
-    public long getTicketID() {
-        return  ticketID;
+    public Ticket(String ticketID, String entryTime, String exitTime,  double price, LocalDate localDate, ParkingLot parkingLot, Vehicle vehicle) {
+        this.ticketID = ticketID;
+        this.entryTime = entryTime;
+        this.exitTime = exitTime;
+        this.price = price;
+        this.localDate = localDate;
+        this.parkingLot = parkingLot;
+        this.vehicle = vehicle;
     }
+
+    public String getTicketID() {
+        return ticketID;
+    }
+
     public String getEntryTime() {
         return entryTime;
     }
+
     public String getExitTime() {
         return exitTime;
     }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public LocalDate getDate() {return localDate;}
 
     public ParkingLot getParkingLot() {
         return parkingLot;
@@ -49,44 +57,31 @@ public class Ticket {
         return vehicle;
     }
 
-    public double getPrice() {
-        return price;
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketID=" + ticketID +
+                ", entryTime='" + entryTime + '\'' +
+                ", exitTime='" + exitTime + '\'' +
+                ", price=" + price +
+                ", localDate=" + localDate +
+                ", parkingLot=" + parkingLot +
+                ", vehicle=" + vehicle +
+                '}';
     }
 
-
-      //This method Calculates how long the car has been in the  lot
-
-    public long calculateDuration() {
-        if (entryTime == null || exitTime == null) return 0;
-
-        LocalDateTime entry = LocalDateTime.parse(entryTime, formatter);
-        LocalDateTime exit = LocalDateTime.parse(exitTime, formatter);
-
-        long hours = Duration.between(entry, exit).toHours();
-        if (Duration.between(entry, exit).toMinutes() % 60 > 0) {
-            hours++;
-        }
-        return hours;
-    }
-
-
-      //Calculates the total price based on the total duration of the stay
-
-   /* public double calculatePrice() {
-        if (parkingLot == null || entryTime == null || exitTime == null) return 0.0;
-        return calculateDuration() * parkingLot.getPricePerHour();
-    }
-**/
     // Builder Class
-    public static class Builder {
-        private long ticketID;
+     public static class Builder {
+
+        private String ticketID;
         private String entryTime;
         private String exitTime;
+        private double price;
+        private LocalDate localDate;
         private ParkingLot parkingLot;
         private Vehicle vehicle;
-        private double price;
 
-        public Builder ticketID(long ticketID) {
+        public Builder ticketID(String ticketID) {
             this.ticketID = ticketID;
             return this;
         }
@@ -101,6 +96,16 @@ public class Ticket {
             return this;
         }
 
+        public Builder localDate(LocalDate localDate){
+            this.localDate = localDate;
+            return this;
+        }
+
+        public Builder price(double price) {
+            this.price = price;
+            return this;
+        }
+
         public Builder parkingLot(ParkingLot parkingLot) {
             this.parkingLot = parkingLot;
             return this;
@@ -111,46 +116,10 @@ public class Ticket {
             return this;
         }
 
-        public Builder price(double price) {
-            this.price = price;
-            return this;
-        }
 
         public Ticket build() {
-            Objects.requireNonNull(entryTime, "Entry time cannot be null");
-            Objects.requireNonNull(parkingLot, "Parking lot cannot be null");
-            Objects.requireNonNull(vehicle, "Vehicle cannot be null");
-            return new Ticket(this);
+            return new Ticket(ticketID, entryTime, exitTime, price, localDate, parkingLot, vehicle);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "ticketID=" + ticketID +
-                ", entryTime='" + entryTime + '\'' +
-                ", exitTime='" + exitTime + '\'' +
-                ", parkingLot=" + parkingLot +
-                ", vehicle=" + vehicle +
-                ", price=" + price +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ticket ticket = (Ticket) o;
-        return ticketID == ticket.ticketID && Double.compare(ticket.price, price) == 0 &&
-                Objects.equals(entryTime, ticket.entryTime) &&
-                Objects.equals(exitTime, ticket.exitTime) &&
-                Objects.equals(parkingLot, ticket.parkingLot) &&
-                Objects.equals(vehicle, ticket.vehicle);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ticketID, entryTime, exitTime, parkingLot, vehicle, price);
     }
 
 }

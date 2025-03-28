@@ -1,75 +1,53 @@
-//package factory;
-//
-//public class ReservationFactoryTest {
-//}
 package factory;
 
-import domain.*;
-// import domain.Vehicle;
-import org.junit.jupiter.api.BeforeEach;
+import domain.ParkingLot;
+import domain.ParkingSpot;
+import domain.Reservation;
+import domain.User;
+import domain.Vehicle;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ReservationFactoryTest {
+public class ReservationFactoryTest {
 
-    private User testUser;
-    private Vehicle testVehicle;
-    private ParkingSpot testParkingSpot;
-    private Date testDate;
-    private String testStartTime;
-    private String testEndTime;
-    private double testPrice;
-    private ParkingLot parkingLot;
-    private final Set<Reservation> reservations = new HashSet<>();
+    private User testUser = UserFactory.createUser("811", "Sean Bailey", LocalDate.of(2001, 9,9), "male", "081-222-1111", "sean@gmail.com");
+    private Vehicle testVehicle = VehicleFactory.createVehicle("001211", "Honda", "Civic", "black", "1F87A123456789000");
+    private ParkingLot testParkingLot = ParkingLotFactory.createParkingLot("201", "OpenSeason", "12 Avenue CPUT", 12.25);
+    private ParkingSpot testParkingSpot = ParkingSpotFactory.createParkingSpot(111, "open", "compact", testParkingLot);
 
 
-    @BeforeEach
-    void setUp() {
-        parkingLot = ParkingLotFactory.createParkingLot("1","Cape Town","08:00am","12:00pm",12.0);
-//        testUser = UserFactory.createUser("001","TTTT",32,"0877977","hdhd@gmail.com");
-        //testVehicle = VehicleFactory.createVehicle("ABC123", "Toyota", "Corolla", "Red", 2020);
-        testParkingSpot = ParkingSpotFactory.createParkingSpot(1, "open", "compact", parkingLot);
-        testDate = new Date();
-        testStartTime = "09:00";
-        testEndTime = "11:00";
-        testPrice = 20.0;
+    @Test
+    @DisplayName("Reservation Object with all attributes")
+    void createReservation() {
+        Reservation reservation = ReservationFactory.createReservation("12345", "09:00 AM", "10:00 AM", LocalDate.of(2025, 04,01), 10.50, testVehicle, testParkingSpot, testUser);
+        assertNotNull(reservation, "should not be null");
+        assertInstanceOf(Reservation.class, reservation, "should be an instance of reservation class");
+        assertEquals("12345", reservation.getReservationID());
     }
 
     @Test
-    void createReservationComplete() {
-        // When
-        Reservation reservation = ReservationFactory.createReservation("01",testStartTime,testEndTime,testDate,testPrice,testParkingSpot,testUser);
-
-        // Then
-        System.out.println(reservation);
-        assertNotNull(reservation);
-        assertNotNull(reservation.getReservationID());
-        assertEquals(testUser, reservation.getUser());
-        // assertEquals(testVehicle, reservation.getVehicle());
-        assertEquals(testParkingSpot, reservation.getParkingSpot());
-        assertEquals(testDate, reservation.getDate());
-        assertEquals(testStartTime, reservation.getStartTime());
-        assertEquals(testEndTime, reservation.getEndTime());
-        assertEquals(testPrice, reservation.getPrice(), 0.01);
+    @DisplayName("Reservation Object, no Vehicle")
+    void testCreateReservation() {
+        Reservation reservation = ReservationFactory.createReservation("81922", "09:00 AM", "10:00 PM", LocalDate.of(2025, 04,01), 10.50, testParkingSpot, testUser);
+        assertNotNull(reservation, "should not be null");
+        assertInstanceOf(Reservation.class, reservation, "should be an instance of reservation class");
+        assertEquals("81922", reservation.getReservationID());
+        assertNull(reservation.getVehicle(), "should be null");
     }
 
     @Test
-    void createReservationwithTimeAndParkingSpot() {
-        // When
-        Reservation reservation = ReservationFactory.createBasicReservation("01",testStartTime,testEndTime,testDate,testParkingSpot);
-
-        // Then
-        System.out.println(reservation);
-        assertNotNull(reservation);
-        assertNotNull(reservation.getReservationID());
-        assertEquals(testDate, reservation.getDate());
-        assertEquals(testStartTime, reservation.getStartTime());
-        assertEquals(testEndTime, reservation.getEndTime());
+    @DisplayName("Reservation Object, no user")
+    void testCreateReservation1() {
+        Reservation reservation = ReservationFactory.createReservation("12039", "09:00 PM", "10:00 AM", LocalDate.of(2025, 04,01), 10.50, testVehicle, testParkingSpot);
+        assertNotNull(reservation, "should not be null");
+        assertInstanceOf(Reservation.class, reservation, "should be an instance of reservation class");
+        assertEquals("12039", reservation.getReservationID());
+        assertNull(reservation.getUser(), "should be null");
     }
-
 }

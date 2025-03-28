@@ -14,22 +14,44 @@ public class Vehicle {
     private String vehicleModel;
     private String vehicleColour;
     private String vehicleVIN;
-    private Set<Ticket> tickets;
-    private Set<Reservation> reservations;
-    private Set<User> users;  // Added users field
+    private Set<User> users;
 
+    public Vehicle(){
 
-    private Vehicle(Builder builder) {
-        this.licensePlate = builder.licensePlate;
-        this.vehicleMake = builder.vehicleMake;
-        this.vehicleModel = builder.vehicleModel;
-        this.vehicleColour = builder.vehicleColour;
-        this.vehicleVIN = builder.vehicleVIN;
-        this.tickets = builder.tickets;
-        this.reservations = builder.reservations;
-        this.users = builder.users; // Assign users from Builder
     }
 
+    public Vehicle(String licensePlate, String vehicleMake, String vehicleModel, String vehicleColour, String vehicleVIN, Set<User> users) {
+        this.licensePlate = licensePlate;
+        this.vehicleMake = vehicleMake;
+        this.vehicleModel = vehicleModel;
+        this.vehicleColour = vehicleColour;
+        this.vehicleVIN = vehicleVIN;
+        this.users = users;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public String getVehicleMake() {
+        return vehicleMake;
+    }
+
+    public String getVehicleModel() {
+        return vehicleModel;
+    }
+
+    public String getVehicleColour() {
+        return vehicleColour;
+    }
+
+    public String getVehicleVIN() {
+        return vehicleVIN;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
 
     public static class Builder {
         private String licensePlate;
@@ -37,9 +59,7 @@ public class Vehicle {
         private String vehicleModel;
         private String vehicleColour;
         private String vehicleVIN;
-        private Set<Ticket> tickets;
-        private Set<Reservation> reservations;
-        private Set<User> users;  // Added users field in Builder
+        private Set<User> users;
 
         public Builder setLicensePlate(String licensePlate) {
             this.licensePlate = licensePlate;
@@ -66,39 +86,14 @@ public class Vehicle {
             return this;
         }
 
-        public Builder setTickets(Set<Ticket> tickets) {
-            this.tickets = tickets;
-            return this;
-        }
 
-        public Builder setReservations(Set<Reservation> reservations) {
-            this.reservations = reservations;
-            return this;
-        }
-
-        public Builder setUsers(Set<User> users) {  // Setter for Users
+        public Builder setUsers(Set<User> users) {
             this.users = users;
             return this;
         }
 
-
         public Vehicle build() {
-            return new Vehicle(this);
+            return new Vehicle(licensePlate, vehicleMake, vehicleModel, vehicleColour, vehicleVIN, users);
         }
-    }
-
-
-    @Override
-    public String toString() {
-        return "Vehicle{" +
-                "licensePlate='" + licensePlate + '\'' +
-                ", vehicleMake='" + vehicleMake + '\'' +
-                ", vehicleModel='" + vehicleModel + '\'' +
-                ", vehicleColour='" + vehicleColour + '\'' +
-                ", vehicleVIN='" + vehicleVIN + '\'' +
-                ", tickets=" + tickets +
-                ", reservations=" + reservations +
-                ", users=" + users +
-                '}';
     }
 }

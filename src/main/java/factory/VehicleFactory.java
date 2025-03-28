@@ -1,15 +1,11 @@
 package factory;
+import domain.User;
 import domain.Vehicle;
-import domain.Ticket;
-import domain.Reservation;
-import domain.ParkingLot;
-import domain.ParkingSpot;
 import util.Helper;
 
 import java.util.Set;
-import java.util.HashSet;
 
-/* Vehicle.java
+/* VehicleFactory.java
    Vehicle Factory class
    Author: Casey Abigail Nolte (218275161)
    Date: 21 March 2025
@@ -17,42 +13,84 @@ import java.util.HashSet;
 
 public class VehicleFactory {
 
-    public static Vehicle createVehicle(String licensePlate, String vehicleMake, String vehicleModel,
-                                        String vehicleColour, String vehicleVIN, ParkingLot parkingLot,
-                                        ParkingSpot parkingSpot) {
-        if (Helper.isNullorEmpty(licensePlate) || Helper.isNullorEmpty(vehicleMake) ||
-                Helper.isNullorEmpty(vehicleModel) || Helper.isNullorEmpty(vehicleColour) ||
-                Helper.isNullorEmpty(vehicleVIN) || parkingLot == null || parkingSpot == null) {
-            throw new IllegalArgumentException("Invalid vehicle parameters.");
+    // vehicle with all attributes
+    public static Vehicle createVehicle(String licensePlate, String vehicleMake, String vehicleModel, String vehicleColour, String vehicleVIN, Set<User> users) {
+        if (Helper.isNullorEmpty(licensePlate) ||
+                Helper.isNullorEmpty(vehicleMake) ||
+                Helper.isNullorEmpty(vehicleModel) ||
+                Helper.isNullorEmpty(vehicleColour) ||
+                Helper.isNullorEmpty(vehicleVIN) ||
+                Helper.isNullorEmpty(users)) {
+            return null;
         }
 
-        // Create an empty set of tickets and reservations
-        Set<Ticket> tickets = new HashSet<>();
-        Set<Reservation> reservations = new HashSet<>();
-
-        // Generate a ticket for this vehicle
-        Ticket ticket = TicketFactory.createTicket(System.currentTimeMillis(), parkingLot, new Vehicle.Builder()
-                .setLicensePlate(licensePlate)
-                .setVehicleMake(vehicleMake)
-                .setVehicleModel(vehicleModel)
-                .setVehicleColour(vehicleColour)
-                .setVehicleVIN(vehicleVIN)
-                .build());
-        tickets.add(ticket);
-
-        // Generate a reservation for this vehicle
-        Reservation reservation = ReservationFactory.createBasicReservation(
-                "RES-" + System.currentTimeMillis(), "08:00", "18:00", new java.util.Date(), parkingSpot);
-        reservations.add(reservation);
-
+        // Create the Vehicle without reservations
         return new Vehicle.Builder()
                 .setLicensePlate(licensePlate)
                 .setVehicleMake(vehicleMake)
                 .setVehicleModel(vehicleModel)
                 .setVehicleColour(vehicleColour)
                 .setVehicleVIN(vehicleVIN)
-                .setTickets(tickets)
-                .setReservations(reservations)
+                .setUsers(users)
+                .build();
+    }
+
+    public static Vehicle createVehicle(String licensePlate, String vehicleMake, String vehicleModel, String vehicleColour, String vehicleVIN) {
+        if (Helper.isNullorEmpty(licensePlate) ||
+                Helper.isNullorEmpty(vehicleMake) ||
+                Helper.isNullorEmpty(vehicleModel) ||
+                Helper.isNullorEmpty(vehicleColour) ||
+                Helper.isNullorEmpty(vehicleVIN)) {
+            return null;
+        }
+
+        // Create the Vehicle without reservations
+        return new Vehicle.Builder()
+                .setLicensePlate(licensePlate)
+                .setVehicleMake(vehicleMake)
+                .setVehicleModel(vehicleModel)
+                .setVehicleColour(vehicleColour)
+                .setVehicleVIN(vehicleVIN)
+                .build();
+    }
+
+    // vehicle with no make
+    public static Vehicle createVehicle(String licensePlate, String vehicleModel, String vehicleColour, Set<User> users, String vehicleVIN) {
+        if (Helper.isNullorEmpty(licensePlate) ||
+                Helper.isNullorEmpty(vehicleModel) ||
+                Helper.isNullorEmpty(vehicleColour) ||
+                Helper.isNullorEmpty(vehicleVIN) ||
+                Helper.isNullorEmpty(users)) {
+            return null;
+        }
+
+        // Create the Vehicle without reservations
+        return new Vehicle.Builder()
+                .setLicensePlate(licensePlate)
+                .setVehicleModel(vehicleModel)
+                .setVehicleColour(vehicleColour)
+                .setVehicleVIN(vehicleVIN)
+                .setUsers(users)
+                .build();
+    }
+
+    // vehicle with no colour
+    public static Vehicle createVehicle(String licensePlate, String vehicleMake, String vehicleModel, String vehicleVIN, Set<User> users) {
+        if (Helper.isNullorEmpty(licensePlate) ||
+                Helper.isNullorEmpty(vehicleMake) ||
+                Helper.isNullorEmpty(vehicleModel) ||
+                Helper.isNullorEmpty(vehicleVIN) ||
+                Helper.isNullorEmpty(users)) {
+            return null;
+        }
+
+        // Create the Vehicle without reservations
+        return new Vehicle.Builder()
+                .setLicensePlate(licensePlate)
+                .setVehicleMake(vehicleMake)
+                .setVehicleModel(vehicleModel)
+                .setVehicleVIN(vehicleVIN)
+                .setUsers(users)
                 .build();
     }
 }

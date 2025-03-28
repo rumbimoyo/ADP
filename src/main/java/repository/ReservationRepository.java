@@ -1,11 +1,10 @@
-
 package repository;
 
 /*
-repository.ReservationRepository
-Reservation Repository Implementation
-Author: Avela Bonakali
-Date: 20/03/2025
+ * repository.ReservationRepository
+ * Reservation Repository Implementation
+ * Author: Avela Bonakali
+ * Date: 20/03/2025
  */
 
 import domain.Reservation;
@@ -28,13 +27,12 @@ public class ReservationRepository implements IRepository<Reservation, String> {
         return instance;
     }
 
-    @Override
-    public Reservation create(Reservation reservation) {
-        reservationRepositoryDB.add(reservation);
-        return reservation;
+    // Create a new reservation
+    public boolean create(Reservation reservation) {
+        return reservationRepositoryDB.add(reservation);
     }
 
-    @Override
+    // Read a reservation by its ID
     public Reservation read(String reservationId) {
         return reservationRepositoryDB.stream()
                 .filter(reservation -> reservation.getReservationID().equals(reservationId))
@@ -42,26 +40,24 @@ public class ReservationRepository implements IRepository<Reservation, String> {
                 .orElse(null);
     }
 
-    @Override
+    // Update an existing reservation
     public Reservation update(Reservation newReservation) {
         Reservation oldReservation = this.read(newReservation.getReservationID());
-        if(oldReservation != null){
-            reservationRepositoryDB.remove(oldReservation.getReservationID());
+        if (oldReservation != null) {
+            reservationRepositoryDB.remove(oldReservation);
             reservationRepositoryDB.add(newReservation);
             return newReservation;
         }
         return null;
     }
 
-    @Override
-    public boolean delete(String reservationId) {
-       reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
-        return reservationRepositoryDB.isEmpty();
+    // Delete a reservation by its ID
+    public void delete(String reservationId) {
+        reservationRepositoryDB.removeIf(reservation -> reservation.getReservationID().equals(reservationId));
     }
 
-
-    @Override
-    public Set getAll() {
-        return reservationRepositoryDB;
+    // Retrieve all reservations
+    public Set<Reservation> getAll() {
+        return new HashSet<>(reservationRepositoryDB);
     }
 }

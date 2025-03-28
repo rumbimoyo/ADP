@@ -12,7 +12,7 @@ import domain.User;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserRepository {
+public class UserRepository implements IRepository<User, String> {
 
     private static UserRepository instance;
     private Set<User> userDB;
