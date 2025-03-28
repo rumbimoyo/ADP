@@ -66,7 +66,7 @@ public class Main {
             System.out.println(l.toString());
         }
 
-        // Creating Reservation dependencies (Vehicle, User, ParkingSpot)
+
         Vehicle testVehicle = VehicleFactory.createVehicle("001211", "Honda", "Civic", "black", "1F87A123456789000");
 
         User testUser = UserFactory.createUser("811", "Sean Bailey", LocalDate.of(2001, 9,9), "male", "081-222-1111", "sean@gmail.com");
